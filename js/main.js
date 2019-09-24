@@ -8,9 +8,10 @@
     'Идеальный завтрак',
     'Зацените свежий look!',
     'Две загорелые коленки на фоне моря',
-    'Королева спортзала'
+    'Королева спортзала',
+    'Потратила на ногти ползарплаты'
   ];
-  var MIN_lIKES = 15;
+  var MIN_LIKES = 15;
   var MAX_LIKES = 200;
   var MOCK_COMMENTS = [
     'Всё отлично!',
@@ -22,16 +23,24 @@
   ];
   var COMMENTATORS = ['Каролина', 'Димон', 'Звезда Кестаграмма', 'Безымянный Качок', 'Эстет'];
 
+  var generateLikes = function () {
+    return Math.floor(Math.random() * (MAX_LIKES - MIN_LIKES + 1)) + MIN_LIKES;
+  };
+
+  var generateComment = function () {
+
+  };
+
   var randomComment = {
     avatar: 'img/avatar-6.svg',
     message: MOCK_COMMENTS[0],
-    name: COMMENTATORS[0];
+    name: COMMENTATORS[0]
   };
 
   var post = {
     url: 'photos/25.jpg',
     description: MOCK_PICTURE_TITLES[0],
-    likes: MIN_lIKES,
-    comments = [randomComment, randomComment]
+    likes: generateLikes(),
+    comments: [randomComment, randomComment]
   }
 })();
