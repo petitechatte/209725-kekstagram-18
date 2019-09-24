@@ -55,7 +55,7 @@
   };
 
   // Создаем массив моковых аватарок
-  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg'); // перенести в приличное место
+  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg');
 
   // Создаем массив моковых фотографий
   var userPhotos = generateUrlArray(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
@@ -111,6 +111,27 @@
       currentPost = generatePost(i);
       postsArray.push(currentPost);
     }
+
     return postsArray;
+  };
+
+  var postsArray = generatePostsArray();
+
+  // Создаем разметку для поста с фотографией
+
+  var createElement = function (index) {
+    var currentPost = postsArray[index];
+    var template = document.querySelector('#picture');
+    var element = template.content.querySelector('.picture');
+    var picture = element.querySelector('.picture__img');
+    var pictureLikes = element.querySelector('.picture__likes');
+    var pictureComments = element.querySelector('.picture__comments');
+
+    picture.src = currentPost.url;
+    picture.alt = currentPost.description;
+    pictureLikes.textContent = currentPost.likes;
+    pictureComments.textContent = currentPost.comments.length;
+
+    return element;
   };
 })();
