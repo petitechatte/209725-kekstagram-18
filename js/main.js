@@ -25,7 +25,7 @@
   ];
   var COMMENTATORS = ['Каролина', 'Димон', 'Звезда Кестаграмма', 'Безымянный Качок', 'Эстет', 'Нелюбитель'];
   var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
-  var MOCK_PHOTOS_NUMBER = 5; // Число моковых объектов-фотографий
+  var MOCK_PHOTOS_NUMBER = 25; // Число моковых объектов-фотографий
 
   // Выбираем случайное значение из массива
 
@@ -87,7 +87,7 @@
     return commentsList;
   };
 
-  // Собираем пост с комментариями
+  // Собираем пост со случайными комментариями
 
   var generatePost = function (index) {
 
@@ -122,7 +122,7 @@
   var createElement = function (index) {
     var currentPost = postsArray[index];
     var template = document.querySelector('#picture');
-    var element = template.content.querySelector('.picture');
+    var element = template.content.cloneNode(true);
     var picture = element.querySelector('.picture__img');
     var pictureLikes = element.querySelector('.picture__likes');
     var pictureComments = element.querySelector('.picture__comments');
@@ -134,4 +134,21 @@
 
     return element;
   };
+
+  // Добавляем фотографии на страницу
+
+  var renderPhotos = function () {
+    var picturesBlock = document.querySelector('.pictures');
+    var fragment = document.createDocumentFragment();
+    var currentElement;
+
+    for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
+      currentElement = createElement(i);
+      fragment.appendChild(currentElement);
+    }
+
+    picturesBlock.appendChild(fragment);
+  };
+
+  renderPhotos();
 })();
