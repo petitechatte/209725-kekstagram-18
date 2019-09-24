@@ -66,9 +66,23 @@
     return randomComment;
   };
 
-  var generatePost = function (index) {
+  // Создаем список комментариев к посту
+
+  var generateCommentsList = function () {
     // Получаем случайное количество комментариев к посту
     var commentsNumber = getRandomNumber(MIN_COMMENTS, MAX_COMMENTS);
+    var commentsList = [];
+    var currentComment;
+
+    for (var i = 0; i < commentsNumber; i++) {
+      currentComment = generateComment();
+      commentsList.push(currentComment);
+    }
+    return commentsList;
+  };
+
+  var generatePost = function (index) {
+
     var post = {
       url: userPhotos[index],
       description: getRandomValue(MOCK_PICTURE_TITLES),
@@ -79,18 +93,11 @@
     return post;
   };
 
-  var post = {
-    url: 'photos/25.jpg',
-    description: MOCK_PICTURE_TITLES[0],
-    likes: generateLikes(),
-    comments: [generateComment(), generateComment()]
-  }
-
   // Создаем массив моковых аватарок
   var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg'); // перенести в приличное место
 
   // Создаем массив моковых фотографий
-  var userPhotos = generatePhotos(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
+  var userPhotos = generateUrlArray(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
 
-  console.log(post);
+  console.log(generateCommentsList());
 })();
