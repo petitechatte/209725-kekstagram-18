@@ -23,6 +23,13 @@
   ];
   var COMMENTATORS = ['Каролина', 'Димон', 'Звезда Кестаграмма', 'Безымянный Качок', 'Эстет'];
   var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
+  var MOCK_PHOTOS_NUMBER = 5; // Число моковых объектов-фотографий
+
+  // Создаем массив моковых аватарок
+  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg');
+
+  // Создаем массив моковых фотографий
+  var userPhotos = generatePhotos(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
 
   // Выбираем случайное значение из массива
 
@@ -37,32 +44,41 @@
     return Math.floor(Math.random() * (MAX_LIKES - MIN_LIKES + 1)) + MIN_LIKES;
   };
 
-  // Создаем массив моковых аватарок
+  // Создаем массив URL для картинок
 
-  var generateAvatars = function () {
-    var avatarsArray = [];
-    var avatarUrl = '';
+  var generateUrlArray = function (arrayLength, fileName, fileExtension) {
+    var array = [];
+    var url = '';
 
-    for (var i = 1; i <= MOCK_AVATARS_NUMBER; i++) {
-      avatarUrl = 'img/avatar-' + i + '.svg';
-      avatarsArray.push(avatarUrl);
+    for (var i = 1; i <= arrayLength; i++) {
+      url = fileName + String(i) + fileExtension;
+      array.push(url);
     }
 
-    return avatarsArray;
+    return array;
   };
 
   // Создаем случайный моковый комментарий
 
   var generateComment = function () {
-    var avatars = generateAvatars(MOCK_COMMENTS); // Вызов функции перенести в приличное место
-
     var randomComment = {
       avatar: getRandomValue(avatars),
       message: getRandomValue(MOCK_COMMENTS),
       name: getRandomValue(COMMENTATORS)
     };
 
-    return randomComment
+    return randomComment;
+  };
+
+  var generatePost = function (index) {
+    var post = {
+      url: userPhotos[index],
+      description: MOCK_PICTURE_TITLES[0],
+      likes: generateLikes(),
+      comments: [generateComment(), generateComment()]
+    };
+
+    return post;
   };
 
   var post = {
