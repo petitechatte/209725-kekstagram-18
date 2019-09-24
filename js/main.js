@@ -22,9 +22,26 @@
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
   var COMMENTATORS = ['Каролина', 'Димон', 'Звезда Кестаграмма', 'Безымянный Качок', 'Эстет'];
+  var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
+
+  // Получаем случайное количество лайков к посту
 
   var generateLikes = function () {
     return Math.floor(Math.random() * (MAX_LIKES - MIN_LIKES + 1)) + MIN_LIKES;
+  };
+
+  // Создаем массив моковых аватарок
+
+  var generateAvatars = function () {
+    var avatars = [];
+    var avatarUrl = '';
+
+    for (var i = 1; i <= MOCK_AVATARS_NUMBER; i++) {
+      avatarUrl = 'img/avatar-' + i + '.svg';
+      avatars.push(avatarUrl);
+    }
+
+    return avatars;
   };
 
   var generateComment = function () {
@@ -37,10 +54,14 @@
     name: COMMENTATORS[0]
   };
 
+  console.log(randomComment);
+
   var post = {
     url: 'photos/25.jpg',
     description: MOCK_PICTURE_TITLES[0],
     likes: generateLikes(),
     comments: [randomComment, randomComment]
   }
+
+  console.log(post);
 })();
