@@ -32,7 +32,7 @@
   var getRandomValue = function (array) {
     var index = Math.floor(Math.random() * array.length);
     return array[index];
-  }
+  };
 
   // Получаем случайное значение из диапазона
 
