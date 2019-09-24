@@ -13,6 +13,8 @@
   ];
   var MIN_LIKES = 15;
   var MAX_LIKES = 200;
+  var MIN_COMMENTS = 1;
+  var MAX_COMMENTS = 10;
   var MOCK_COMMENTS = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -25,12 +27,6 @@
   var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
   var MOCK_PHOTOS_NUMBER = 5; // Число моковых объектов-фотографий
 
-  // Создаем массив моковых аватарок
-  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg');
-
-  // Создаем массив моковых фотографий
-  var userPhotos = generatePhotos(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
-
   // Выбираем случайное значение из массива
 
   var getRandomValue = function (array) {
@@ -38,10 +34,10 @@
     return array[index];
   }
 
-  // Получаем случайное количество лайков к посту
+  // Получаем случайное значение из диапазона
 
-  var generateLikes = function () {
-    return Math.floor(Math.random() * (MAX_LIKES - MIN_LIKES + 1)) + MIN_LIKES;
+  var getRandomNumber = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
   // Создаем массив URL для картинок
@@ -71,10 +67,12 @@
   };
 
   var generatePost = function (index) {
+    // Получаем случайное количество комментариев к посту
+    var commentsNumber = getRandomNumber(MIN_COMMENTS, MAX_COMMENTS);
     var post = {
       url: userPhotos[index],
-      description: MOCK_PICTURE_TITLES[0],
-      likes: generateLikes(),
+      description: getRandomValue(MOCK_PICTURE_TITLES),
+      likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
       comments: [generateComment(), generateComment()]
     };
 
@@ -87,6 +85,12 @@
     likes: generateLikes(),
     comments: [generateComment(), generateComment()]
   }
+
+  // Создаем массив моковых аватарок
+  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg'); // перенести в приличное место
+
+  // Создаем массив моковых фотографий
+  var userPhotos = generatePhotos(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
 
   console.log(post);
 })();
