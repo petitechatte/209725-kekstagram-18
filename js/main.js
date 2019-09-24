@@ -23,7 +23,7 @@
     'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
-  var COMMENTATORS = ['Каролина', 'Димон', 'Звезда Кестаграмма', 'Безымянный Качок', 'Эстет'];
+  var COMMENTATORS = ['Каролина', 'Димон', 'Звезда Кестаграмма', 'Безымянный Качок', 'Эстет', 'Нелюбитель'];
   var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
   var MOCK_PHOTOS_NUMBER = 5; // Число моковых объектов-фотографий
 
@@ -54,6 +54,12 @@
     return array;
   };
 
+  // Создаем массив моковых аватарок
+  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg'); // перенести в приличное место
+
+  // Создаем массив моковых фотографий
+  var userPhotos = generateUrlArray(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
+
   // Создаем случайный моковый комментарий
 
   var generateComment = function () {
@@ -81,23 +87,30 @@
     return commentsList;
   };
 
+  // Собираем пост с комментариями
+
   var generatePost = function (index) {
 
     var post = {
       url: userPhotos[index],
       description: getRandomValue(MOCK_PICTURE_TITLES),
       likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
-      comments: [generateComment(), generateComment()]
+      comments: generateCommentsList()
     };
 
     return post;
   };
 
-  // Создаем массив моковых аватарок
-  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg'); // перенести в приличное место
+  // Собираем массив постов
 
-  // Создаем массив моковых фотографий
-  var userPhotos = generateUrlArray(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
+  var generatePostsArray = function () {
+    var postsArray = [];
+    var currentPost;
 
-  console.log(generateCommentsList());
+    for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
+      currentPost = generatePost(i);
+      postsArray.push(currentPost);
+    }
+    return postsArray;
+  };
 })();
