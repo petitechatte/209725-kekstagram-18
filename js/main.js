@@ -14,7 +14,7 @@
   var MIN_LIKES = 15;
   var MAX_LIKES = 200;
   var MIN_COMMENTS = 1;
-  var MAX_COMMENTS = 10;
+  var MAX_COMMENTS = 15;
   var MOCK_COMMENTS = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -43,15 +43,15 @@
   // Создаем массив URL для картинок
 
   var generateUrlArray = function (arrayLength, fileName, fileExtension) {
-    var array = [];
+    var pictures = [];
     var url = '';
 
     for (var i = 1; i <= arrayLength; i++) {
       url = fileName + String(i) + fileExtension;
-      array.push(url);
+      pictures.push(url);
     }
 
-    return array;
+    return pictures;
   };
 
   // Создаем массив моковых аватарок
@@ -77,14 +77,14 @@
   var generateCommentsList = function () {
     // Получаем случайное количество комментариев к посту
     var commentsNumber = getRandomNumber(MIN_COMMENTS, MAX_COMMENTS);
-    var commentsList = [];
+    var photoComments = [];
     var currentComment;
 
     for (var i = 0; i < commentsNumber; i++) {
       currentComment = generateComment();
-      commentsList.push(currentComment);
+      photoComments.push(currentComment);
     }
-    return commentsList;
+    return photoComments;
   };
 
   // Собираем пост со случайными комментариями
@@ -104,33 +104,33 @@
   // Собираем массив постов
 
   var generatePostsArray = function () {
-    var postsArray = [];
+    var posts = [];
     var currentPost;
 
     for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
       currentPost = generatePost(i);
-      postsArray.push(currentPost);
+      posts.push(currentPost);
     }
 
-    return postsArray;
+    return posts;
   };
 
-  var postsArray = generatePostsArray();
+  var photoPosts = generatePostsArray();
 
   // Создаем разметку для поста с фотографией
 
   var createElement = function (index) {
-    var currentPost = postsArray[index];
+    var currentPost = photoPosts[index];
     var template = document.querySelector('#picture');
     var element = template.content.cloneNode(true);
     var picture = element.querySelector('.picture__img');
-    var pictureLikes = element.querySelector('.picture__likes');
-    var pictureComments = element.querySelector('.picture__comments');
+    var pictureLikesNumber = element.querySelector('.picture__likes');
+    var pictureCommentsNumber = element.querySelector('.picture__comments');
 
     picture.src = currentPost.url;
     picture.alt = currentPost.description;
-    pictureLikes.textContent = currentPost.likes;
-    pictureComments.textContent = currentPost.comments.length;
+    pictureLikesNumber.textContent = currentPost.likes;
+    pictureCommentsNumber.textContent = currentPost.comments.length;
 
     return element;
   };
