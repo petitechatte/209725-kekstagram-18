@@ -119,20 +119,20 @@
 
   // Создаем разметку для поста с фотографией
 
-  var createElement = function (index) {
+  var createPhotoCard = function (index) {
     var currentPost = photoPosts[index];
     var template = document.querySelector('#picture');
-    var element = template.content.cloneNode(true);
-    var picture = element.querySelector('.picture__img');
-    var pictureLikesNumber = element.querySelector('.picture__likes');
-    var pictureCommentsNumber = element.querySelector('.picture__comments');
+    var photoCard = template.content.cloneNode(true);
+    var picture = photoCard.querySelector('.picture__img');
+    var pictureLikesNumber = photoCard.querySelector('.picture__likes');
+    var pictureCommentsNumber = photoCard.querySelector('.picture__comments');
 
     picture.src = currentPost.url;
     picture.alt = currentPost.description;
     pictureLikesNumber.textContent = currentPost.likes;
     pictureCommentsNumber.textContent = currentPost.comments.length;
 
-    return element;
+    return photoCard;
   };
 
   // Добавляем фотографии на страницу
@@ -140,11 +140,11 @@
   var renderPhotos = function () {
     var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
-    var currentElement;
+    var currentCard;
 
     for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
-      currentElement = createElement(i);
-      fragment.appendChild(currentElement);
+      currentCard = createPhotoCard(i);
+      fragment.appendChild(currentCard);
     }
 
     picturesBlock.appendChild(fragment);
