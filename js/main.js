@@ -27,6 +27,10 @@
   var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
   var MOCK_PHOTOS_NUMBER = 25; // Число моковых объектов-фотографий
 
+  // Находим в разметке шаблон для оформления фотографий пользователей
+
+  var template = document.querySelector('#picture').content;
+
   // Выбираем случайное значение из массива
 
   var getRandomValue = function (valuesList) {
@@ -78,7 +82,7 @@
     // Получаем случайное количество комментариев к посту
     var commentsNumber = getRandomNumber(MIN_COMMENTS, MAX_COMMENTS);
     var photoComments = [];
-    var currentComment;
+    var currentComment = {};
 
     for (var i = 0; i < commentsNumber; i++) {
       currentComment = generateComment();
@@ -105,7 +109,7 @@
 
   var generatePostsList = function () {
     var posts = [];
-    var currentPost;
+    var currentPost = {};
 
     for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
       currentPost = generatePost(i);
@@ -121,8 +125,7 @@
 
   var createPhotoCard = function (index) {
     var currentPost = photoPosts[index];
-    var template = document.querySelector('#picture');
-    var photoCard = template.content.cloneNode(true);
+    var photoCard = template.cloneNode(true);
     var picture = photoCard.querySelector('.picture__img');
     var pictureLikesNumber = photoCard.querySelector('.picture__likes');
     var pictureCommentsNumber = photoCard.querySelector('.picture__comments');
