@@ -82,11 +82,9 @@
     // Получаем случайное количество комментариев к посту
     var commentsNumber = getRandomNumber(MIN_COMMENTS, MAX_COMMENTS);
     var photoComments = [];
-    var currentComment = {};
 
     for (var i = 0; i < commentsNumber; i++) {
-      currentComment = generateComment();
-      photoComments.push(currentComment);
+      photoComments.push(generateComment());
     }
     return photoComments;
   };
@@ -94,7 +92,6 @@
   // Собираем пост со случайными комментариями
 
   var generatePost = function (index) {
-
     var post = {
       url: userPhotos[index],
       description: getRandomValue(MOCK_PICTURE_TITLES),
@@ -109,11 +106,9 @@
 
   var generatePostsList = function () {
     var posts = [];
-    var currentPost = {};
 
     for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
-      currentPost = generatePost(i);
-      posts.push(currentPost);
+      posts.push(generatePost(i));
     }
 
     return posts;
@@ -143,11 +138,9 @@
   var renderPhotos = function () {
     var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
-    var currentCard;
 
     for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
-      currentCard = createPhotoCard(i);
-      fragment.appendChild(currentCard);
+      fragment.appendChild(createPhotoCard(i));
     }
 
     picturesBlock.appendChild(fragment);
