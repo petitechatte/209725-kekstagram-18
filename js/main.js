@@ -29,9 +29,9 @@
 
   // Выбираем случайное значение из массива
 
-  var getRandomValue = function (array) {
-    var index = Math.floor(Math.random() * array.length);
-    return array[index];
+  var getRandomValue = function (valuesList) {
+    var randomIndex = Math.floor(Math.random() * valuesList.length);
+    return valuesList[randomIndex];
   };
 
   // Получаем случайное значение из диапазона
@@ -42,11 +42,11 @@
 
   // Создаем массив URL для картинок
 
-  var generateUrlArray = function (arrayLength, fileName, fileExtension) {
+  var generatePicturesUrl = function (picturesNumber, fileName, fileExtension) {
     var pictures = [];
     var url = '';
 
-    for (var i = 1; i <= arrayLength; i++) {
+    for (var i = 1; i <= picturesNumber; i++) {
       url = fileName + String(i) + fileExtension;
       pictures.push(url);
     }
@@ -55,10 +55,10 @@
   };
 
   // Создаем массив моковых аватарок
-  var avatars = generateUrlArray(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg');
+  var avatars = generatePicturesUrl(MOCK_AVATARS_NUMBER, 'img/avatar-', '.svg');
 
   // Создаем массив моковых фотографий
-  var userPhotos = generateUrlArray(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
+  var userPhotos = generatePicturesUrl(MOCK_PHOTOS_NUMBER, 'photos/', '.jpg');
 
   // Создаем случайный моковый комментарий
 
@@ -103,7 +103,7 @@
 
   // Собираем массив постов
 
-  var generatePostsArray = function () {
+  var generatePostsList = function () {
     var posts = [];
     var currentPost;
 
@@ -115,7 +115,7 @@
     return posts;
   };
 
-  var photoPosts = generatePostsArray();
+  var photoPosts = generatePostsList();
 
   // Создаем разметку для поста с фотографией
 
