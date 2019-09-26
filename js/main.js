@@ -132,8 +132,8 @@
 
     picture.src = currentPost.url;
     picture.alt = currentPost.description;
-    pictureLikesNumber.textContent = currentPost.likes;
-    pictureCommentsNumber.textContent = currentPost.comments.length;
+    pictureLikesNumber.textContent = String(currentPost.likes);
+    pictureCommentsNumber.textContent = String(currentPost.comments.length);
 
     return photoCard;
   };
