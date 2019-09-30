@@ -32,12 +32,18 @@
   var fileUpload = document.querySelector('#upload-file');
   var imageEditForm = document.querySelector('.img-upload__overlay');
   var uploadCloseButton = imageEditForm.querySelector('.img-upload__cancel');
+  var photoPreview = imageEditForm.querySelector('.img-upload__preview');
+  var effectController = imageEditForm.querySelector('.img-upload__effect-level');
+  var filters = imageEditForm.querySelectorAll('.effects__radio');
+  var checkedFilter;
 
   // Открытие формы обработки фотографии
 
   var fileUploadHandler = function () {
     imageEditForm.classList.remove('hidden');
     document.addEventListener('keydown', escPressHandler);
+    // Прячем ползунок эффекта по умолчанию (отсутствие фильтра)
+    effectController.classList.add('hidden');
   };
 
   // Закрытие формы обработки фотографии
@@ -61,6 +67,29 @@
 
   fileUpload.addEventListener('change', fileUploadHandler);
   uploadCloseButton.addEventListener('click', closeButtonClickHandler);
+
+  // Отображение ползунка для регуляции эффекта
+
+  var toggleEffectController = function (filter) {
+    if (filter.value === 'none') {
+      // Прячем ползунок эффекта при отсутствии фильтра
+      effectController.classList.add('hidden');
+    } else {
+      // Показываем ползунок при выборе фильтра
+      effectController.classList.remove('hidden');
+    }
+  };
+
+  var toggleFilterHandler = function () {
+    checkedFilter = imageEditForm.querySelector('.effects__radio:checked');
+    toggleEffectController(checkedFilter);
+  };
+
+  // Добавляем обработчики на каждый фильтр
+
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].addEventListener('input', toggleFilterHandler);
+  }
 
   // Находим в разметке шаблон для оформления фотографий пользователей
 
