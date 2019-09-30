@@ -27,6 +27,19 @@
   var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
   var MOCK_PHOTOS_NUMBER = 25; // Число моковых объектов-фотографий
 
+  var fileUpload = document.querySelector('#upload-file');
+  var imageEditForm = document.querySelector('.img-upload__overlay');
+
+  // Открытие формы обработки фотографии
+
+  var fileUploadHandler = function () {
+    imageEditForm.classList.remove('hidden');
+  };
+
+  // Добавляем обработчики для открытия и закрытия формы
+
+  fileUpload.addEventListener('change', fileUploadHandler);
+
   // Находим в разметке шаблон для оформления фотографий пользователей
 
   var template = document.querySelector('#picture').content;
