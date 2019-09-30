@@ -3,6 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
   var DEFAULT_SCALE = 100; // масштаб фотографии по умолчанию
+  var DEFAULT_EFFECT_LEVEL = 100;
 
   // Моковые данные для фотографий и комментариев
   var MOCK_PICTURE_TITLES = [
@@ -117,6 +118,18 @@
     }
   };
 
+  // Настройка эффектов
+
+  var effectLevelInput = imageEditForm.querySelector('.effect-level__value');
+  var effectLevelBar = imageEditForm.querySelector('.effect-level__depth');
+  var effectLevelPin = imageEditForm.querySelector('.effect-level__pin');
+
+  var setDefaultLevel = function () {
+    effectLevelInput.value = String(DEFAULT_EFFECT_LEVEL);
+    effectLevelBar.style.width = String(DEFAULT_EFFECT_LEVEL) + '%';
+    effectLevelPin.style.left = String(DEFAULT_EFFECT_LEVEL) + '%';
+  };
+
   // Переключаем фильтры
 
   var applyFilter = function (filter) {
@@ -130,6 +143,7 @@
     checkedFilter = imageEditForm.querySelector('.effects__radio:checked');
     toggleEffectController(checkedFilter);
     applyFilter(checkedFilter);
+    setDefaultLevel();
   };
 
   // Добавляем обработчики на каждый фильтр
