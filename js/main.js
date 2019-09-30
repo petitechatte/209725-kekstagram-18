@@ -135,6 +135,10 @@
   var applyFilter = function (filter) {
     // Сбрасываем все фильтры
     photoPreview.className = 'img-upload__preview';
+    // Приводим яркость в соответствие с ТЗ
+    if (filter.value === 'phobos') {
+      photoPreview.style.filter = 'blur(3px)';
+    }
     // Накладываем новый фильтр
     photoPreview.classList.add('effects__preview--' + filter.value);
   };
