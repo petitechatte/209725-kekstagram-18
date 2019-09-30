@@ -80,9 +80,19 @@
     }
   };
 
+  // Переключаем фильтры
+
+  var applyFilter = function (filter) {
+    // Сбрасываем все фильтры
+    photoPreview.className = 'img-upload__preview';
+    // Накладываем новый фильтр
+    photoPreview.classList.add('effects__preview--' + filter.value);
+  };
+
   var toggleFilterHandler = function () {
     checkedFilter = imageEditForm.querySelector('.effects__radio:checked');
     toggleEffectController(checkedFilter);
+    applyFilter(checkedFilter);
   };
 
   // Добавляем обработчики на каждый фильтр
