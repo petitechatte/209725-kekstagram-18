@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
+
   // Моковые данные для фотографий и комментариев
   var MOCK_PICTURE_TITLES = [
     'Мое рабочее место',
@@ -29,16 +31,36 @@
 
   var fileUpload = document.querySelector('#upload-file');
   var imageEditForm = document.querySelector('.img-upload__overlay');
+  var uploadCloseButton = imageEditForm.querySelector('.img-upload__cancel');
 
   // Открытие формы обработки фотографии
 
   var fileUploadHandler = function () {
     imageEditForm.classList.remove('hidden');
+    document.addEventListener('keydown', escPressHandler);
+  };
+
+  // Закрытие формы обработки фотографии
+
+  var closeButtonClickHandler = function () {
+    imageEditForm.classList.add('hidden');
+    document.removeEventListener('keydown', escPressHandler);
+  };
+
+  // Закрытие формы нажатием ESC
+
+  var escPressHandler = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeButtonClickHandler();
+      // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
+      fileUpload.value = '';
+    }
   };
 
   // Добавляем обработчики для открытия и закрытия формы
 
   fileUpload.addEventListener('change', fileUploadHandler);
+  uploadCloseButton.addEventListener('click', closeButtonClickHandler);
 
   // Находим в разметке шаблон для оформления фотографий пользователей
 
