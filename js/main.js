@@ -2,6 +2,7 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+  var DEFAULT_SCALE = 100; // масштаб фотографии по умолчанию
 
   // Моковые данные для фотографий и комментариев
   var MOCK_PICTURE_TITLES = [
@@ -44,6 +45,8 @@
     document.addEventListener('keydown', escPressHandler);
     // Прячем ползунок эффекта по умолчанию (отсутствие фильтра)
     effectController.classList.add('hidden');
+    // Устанавливаем масштаб по умолчанию
+    setScale();
   };
 
   // Закрытие формы обработки фотографии
@@ -67,6 +70,40 @@
 
   fileUpload.addEventListener('change', fileUploadHandler);
   uploadCloseButton.addEventListener('click', closeButtonClickHandler);
+
+  // Работа с размерами фотографии
+
+  var scaleValue = imageEditForm.querySelector('.scale__control--value');
+  var scaleSmallerButton = imageEditForm.querySelector('.scale__control--smaller');
+  var scaleBiggerButton = imageEditForm.querySelector('.scale__control--bigger');
+  var currentScale = DEFAULT_SCALE;
+
+  // Устанавливаем масштаб
+
+  var setScale = function () {
+    if (currentScale >= 0 && currentScale <= 100) {
+      scaleValue.value = String(currentScale) + '%';
+      photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
+    } else if (currentScale < 0) {
+      currentScale = 0;
+    } else {
+      currentScale = 100;
+    }
+  };
+
+  // Уменьшаем масштаб
+
+  scaleSmallerButton.addEventListener('click', function () {
+    currentScale -= 25;
+    setScale();
+  });
+
+  // Увеличиваем масштаб
+
+  scaleBiggerButton.addEventListener('click', function () {
+    currentScale += 25;
+    setScale();
+  });
 
   // Отображение ползунка для регуляции эффекта
 
