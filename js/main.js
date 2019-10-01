@@ -3,7 +3,10 @@
 (function () {
   var ESC_KEYCODE = 27;
   var DEFAULT_SCALE = 100; // масштаб фотографии по умолчанию
-  var DEFAULT_EFFECT_LEVEL = 100;
+  var DEFAULT_EFFECT_LEVEL = 100; // уровень эффекта при переключении фильтра
+  var MAX_BLUR = 3; // максимальный эффект размытия в пикселях
+  var MAX_BRIGHTNESS = 3; // максимальная яркость фотографии
+  var MIN_BRIGHTNESS = 1; // минимальная яркость фотографии
 
   // Моковые данные для фотографий и комментариев
   var MOCK_PICTURE_TITLES = [
@@ -120,34 +123,49 @@
 
   // Настройка эффектов
 
-  var effectLevelInput = imageEditForm.querySelector('.effect-level__value');
-  var effectLevelBar = imageEditForm.querySelector('.effect-level__depth');
-  var effectLevelPin = imageEditForm.querySelector('.effect-level__pin');
+  var effectLevelInput = effectController.querySelector('.effect-level__value');
+  var effectLevelLine = effectController.querySelector('.effect-level__line');
+  var effectLevelBar = effectController.querySelector('.effect-level__depth');
+  var effectLevelPin = effectController.querySelector('.effect-level__pin');
 
-  var setDefaultLevel = function () {
-    effectLevelInput.value = String(DEFAULT_EFFECT_LEVEL);
-    effectLevelBar.style.width = String(DEFAULT_EFFECT_LEVEL) + '%';
-    effectLevelPin.style.left = String(DEFAULT_EFFECT_LEVEL) + '%';
+  // Устанавливаем уровень эффекта
+
+  var setEffectLevel = function (level) {
+    effectLevelInput.value = String(level);
+    effectLevelBar.style.width = String(level) + '%';
+    effectLevelPin.style.left = String(level) + '%';
   };
 
-  // Переключаем фильтры
+  // Определяем текущий фильтр
 
-  var applyFilter = function (filter) {
-    // Сбрасываем все фильтры
-    photoPreview.className = 'img-upload__preview';
-    // Приводим яркость в соответствие с ТЗ
-    if (filter.value === 'phobos') {
-      photoPreview.style.filter = 'blur(3px)';
+  var getCurrentFilter = function () {
+    return imageEditForm.querySelector('.effects__radio:checked');
+  };
+
+  // Настраиваем интенсивность фильтра в соответсвии с выбранным уровнем
+
+  var tuneEffect = function (filter, level) {
+    if (filter.value === 'chrome') {
+      photoPreview.style.filter = 'grayscale(' + String(level / 100) + ')';
+    } else if (filter.value === 'sepia') {
+      photoPreview.style.filter = 'sepia(' + String(level / 100) + ')';
+    } else if (filter.value === 'marvin') {
+      photoPreview.style.filter = 'invert(' + String(level) + '%)';
+    } else if (filter.value === 'phobos') {
+      photoPreview.style.filter = 'blur(' + String(level / 100 * MAX_BLUR) + 'px)';
+    } else if (filter.value === 'heat') {
+      photoPreview.style.filter = 'brightness(' + String(MIN_BRIGHTNESS + level / 100 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS)) + ')';
+    } else {
+      photoPreview.style.filter = 'none';
     }
-    // Накладываем новый фильтр
-    photoPreview.classList.add('effects__preview--' + filter.value);
   };
+
+  // Реализуем переключение фильтров по клику
 
   var toggleFilterHandler = function () {
-    checkedFilter = imageEditForm.querySelector('.effects__radio:checked');
-    toggleEffectController(checkedFilter);
-    applyFilter(checkedFilter);
-    setDefaultLevel();
+    toggleEffectController(getCurrentFilter());
+    setEffectLevel(DEFAULT_EFFECT_LEVEL);
+    tuneEffect(getCurrentFilter(), 100);
   };
 
   // Добавляем обработчики на каждый фильтр
@@ -155,6 +173,18 @@
   for (var i = 0; i < filters.length; i++) {
     filters[i].addEventListener('input', toggleFilterHandler);
   }
+
+  // Применяем эффект после установки ползунка
+
+  var effectPinMouseUpHandler = function () {
+    // Рассчитываем положение ползунка в процентах
+    var effectLevel = Math.round((effectLevelPin.offsetLeft / effectLevelLine.offsetWidth) * 100);
+    checkedFilter = imageEditForm.querySelector('.effects__radio:checked');
+    setEffectLevel(effectLevel);
+    tuneEffect(checkedFilter, effectLevel);
+  };
+
+  effectLevelPin.addEventListener('mouseup', effectPinMouseUpHandler);
 
   // Находим в разметке шаблон для оформления фотографий пользователей
 
