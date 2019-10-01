@@ -189,6 +189,13 @@
 
   effectLevelPin.addEventListener('mouseup', effectPinMouseUpHandler);
 
+  // Валидация хэштегов
+
+  var hashtagInput = imageEditForm.querySelector('.text__hashtags');
+  hashtagInput.addEventListener('input', function () {
+    var hashtags = hashtagInput.value.split(' ');
+  })
+
   // Находим в разметке шаблон для оформления фотографий пользователей
 
   var template = document.querySelector('#picture').content;
