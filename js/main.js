@@ -2,6 +2,8 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+
+  // Параметры настройки фотографии
   var MIN_SCALE = 0; // минимальный масштаб фотографии
   var MAX_SCALE = 100; // максимальный масштаб фотогрфии
   var DEFAULT_SCALE = 100; // масштаб фотографии по умолчанию
@@ -10,6 +12,11 @@
   var MAX_BLUR = 3; // максимальный эффект размытия в пикселях
   var MAX_BRIGHTNESS = 3; // максимальная яркость фотографии
   var MIN_BRIGHTNESS = 1; // минимальная яркость фотографии
+
+  // Параметры валидации хештегов
+  var MIN_HASHTAG_LENGTH = 2; // хеш-тег не может состоять только из одной решётки
+  var MAX_HASHTAG_LENGTH = 20; // максимальная длина одного хэш-тега 20 символов, включая решётку
+  var HASHTAGS_LIMIT = 5; // нельзя указать больше пяти хэш-тегов
 
   // Моковые данные для фотографий и комментариев
   var MOCK_PICTURE_TITLES = [
@@ -37,8 +44,9 @@
   var MOCK_AVATARS_NUMBER = 6; // Число аватар-заглушек в папке
   var MOCK_PHOTOS_NUMBER = 25; // Число моковых объектов-фотографий
 
-  var fileUpload = document.querySelector('#upload-file');
-  var imageEditForm = document.querySelector('.img-upload__overlay');
+  var uploadForm = document.querySelector('#upload-select-image');
+  var fileUpload = uploadForm.querySelector('#upload-file');
+  var imageEditForm = uploadForm.querySelector('.img-upload__overlay');
   var uploadCloseButton = imageEditForm.querySelector('.img-upload__cancel');
   var photoPreview = imageEditForm.querySelector('.img-upload__preview');
   var effectController = imageEditForm.querySelector('.img-upload__effect-level');
@@ -189,12 +197,39 @@
 
   effectLevelPin.addEventListener('mouseup', effectPinMouseUpHandler);
 
-  // Валидация хэштегов
+  // Валидация формы
 
   var hashtagInput = imageEditForm.querySelector('.text__hashtags');
-  hashtagInput.addEventListener('input', function () {
+  var descriptionInput = imageEditForm.querySelector('.text__description');
+
+  var inputEscPressHandler = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      evt.stopPropagation();
+      var target = evt.target;
+      target.blur();
+    }
+  };
+
+  hashtagInput.addEventListener('keydown', inputEscPressHandler);
+  descriptionInput.addEventListener('keydown', inputEscPressHandler);
+
+  var validateHashtags = function () {
     var hashtags = hashtagInput.value.split(' ');
-  })
+    var hashtag = '';
+
+    if (hashtags.length > HASHTAGS_LIMIT) {
+      hashtagInput.setCustomValidity = 'Нельзя указать больше пяти хэш-тегов';
+    }
+
+    for (var i = 0; i < hashtags.length; i++) {
+      hashtag = hashtags[i].toLowerCase(); // теги нечувствительны к регистру
+    }
+  };
+
+  uploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    validateHashtags();
+  });
 
   // Находим в разметке шаблон для оформления фотографий пользователей
 
