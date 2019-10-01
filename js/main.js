@@ -202,6 +202,8 @@
   var hashtagInput = imageEditForm.querySelector('.text__hashtags');
   var descriptionInput = imageEditForm.querySelector('.text__description');
 
+  // Потеря фокуса полем при нажатии ESC
+
   var inputEscPressHandler = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       evt.stopPropagation();
@@ -213,22 +215,42 @@
   hashtagInput.addEventListener('keydown', inputEscPressHandler);
   descriptionInput.addEventListener('keydown', inputEscPressHandler);
 
+  // Валидация хештегов
+
   var validateHashtags = function () {
-    var hashtags = hashtagInput.value.split(' ');
-    var hashtag = '';
+    var text = hashtagInput.value;
 
-    if (hashtags.length > HASHTAGS_LIMIT) {
-      hashtagInput.setCustomValidity = 'Нельзя указать больше пяти хэш-тегов';
-    }
+    if (text) {
+      var hashtags = text.split(' ');
+      var hashtag = '';
 
-    for (var i = 0; i < hashtags.length; i++) {
-      hashtag = hashtags[i].toLowerCase(); // теги нечувствительны к регистру
+      for (var i = 0; i < hashtags.length; i++) {
+        hashtag = hashtags[i].toLowerCase(); // теги нечувствительны к регистру
+        if (hashtag.indexOf('#') !== 0) {
+          hashtagInput.setCustomValidity('Хэш-тег должен начинаться с символа #');
+        } else if (hashtag.length < MIN_HASHTAG_LENGTH) {
+          hashtagInput.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+        } else if (hashtag.length > MAX_HASHTAG_LENGTH) {
+          hashtagInput.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
+        } else {
+          hashtagInput.setCustomValidity('');
+        }
+      }
+
+      if (hashtags.length > HASHTAGS_LIMIT) {
+        hashtagInput.setCustomValidity('Нельзя указывать больше пяти хэш-тегов');
+      }
+
+    } else {
+      hashtagInput.setCustomValidity('');
     }
   };
 
+  hashtagInput.addEventListener('input', validateHashtags);
+
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    validateHashtags();
+    uploadForm.submit();
   });
 
   // Находим в разметке шаблон для оформления фотографий пользователей
