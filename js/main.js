@@ -2,7 +2,10 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+  var MIN_SCALE = 0; // минимальный масштаб фотографии
+  var MAX_SCALE = 100; // максимальный масштаб фотогрфии
   var DEFAULT_SCALE = 100; // масштаб фотографии по умолчанию
+  var SCALE_STEP = 25; // шаг изменения масштаба
   var DEFAULT_EFFECT_LEVEL = 100; // уровень эффекта при переключении фильтра
   var MAX_BLUR = 3; // максимальный эффект размытия в пикселях
   var MAX_BRIGHTNESS = 3; // максимальная яркость фотографии
@@ -85,27 +88,27 @@
   // Устанавливаем масштаб
 
   var setScale = function () {
-    if (currentScale >= 0 && currentScale <= 100) {
+    if (currentScale >= MIN_SCALE && currentScale <= MAX_SCALE) {
       scaleValue.value = String(currentScale) + '%';
       photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
-    } else if (currentScale < 0) {
-      currentScale = 0;
+    } else if (currentScale < MIN_SCALE) {
+      currentScale = MIN_SCALE;
     } else {
-      currentScale = 100;
+      currentScale = MAX_SCALE;
     }
   };
 
   // Уменьшаем масштаб
 
   scaleSmallerButton.addEventListener('click', function () {
-    currentScale -= 25;
+    currentScale -= SCALE_STEP;
     setScale();
   });
 
   // Увеличиваем масштаб
 
   scaleBiggerButton.addEventListener('click', function () {
-    currentScale += 25;
+    currentScale += SCALE_STEP;
     setScale();
   });
 
@@ -165,7 +168,7 @@
   var toggleFilterHandler = function () {
     toggleEffectController(getCurrentFilter());
     setEffectLevel(DEFAULT_EFFECT_LEVEL);
-    tuneEffect(getCurrentFilter(), 100);
+    tuneEffect(getCurrentFilter(), DEFAULT_EFFECT_LEVEL);
   };
 
   // Добавляем обработчики на каждый фильтр
