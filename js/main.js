@@ -219,6 +219,7 @@
 
   var validateHashtags = function () {
     var text = hashtagInput.value;
+    var errorMessage = '';
 
     if (text) {
       var hashtags = text.split(' ');
@@ -226,28 +227,31 @@
       var symbols = [];
 
       if (hashtags.length > HASHTAGS_LIMIT) {
-        hashtagInput.setCustomValidity('Нельзя указывать больше пяти хэш-тегов');
+        errorMessage = 'Нельзя указывать больше пяти хэш-тегов';
       } else {
         for (var i = 0; i < hashtags.length; i++) {
           hashtag = hashtags[i].toLowerCase(); // теги нечувствительны к регистру
           symbols = hashtag.split('#');
 
           if (symbols.length > 2) {
-            hashtagInput.setCustomValidity('Хэш-теги должны разделяться пробелами');
+            errorMessage = 'Хэш-теги должны разделяться пробелами';
           } else if (hashtag.indexOf('#') !== 0) {
-            hashtagInput.setCustomValidity('Хэш-тег должен начинаться с символа #');
+            errorMessage = 'Хэш-тег должен начинаться с символа #';
           } else if (hashtag.length < MIN_HASHTAG_LENGTH) {
-            hashtagInput.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+            errorMessage = 'Хеш-тег не может состоять только из одной решётки';
           } else if (hashtag.length > MAX_HASHTAG_LENGTH) {
-            hashtagInput.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
+            errorMessage = 'Максимальная длина одного хэш-тега 20 символов, включая решётку';
           } else {
-            hashtagInput.setCustomValidity('');
+            for (var j = i + 1; j < hashtags.length; j++) {
+              if (hashtags[j] === hashtags[i]) {
+                errorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
+              }
+            }
           }
         }
       }
-    } else {
-      hashtagInput.setCustomValidity('');
     }
+    hashtagInput.setCustomValidity(errorMessage);
   };
 
   hashtagInput.addEventListener('input', validateHashtags);
