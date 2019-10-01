@@ -173,8 +173,8 @@
 
   // Добавляем обработчики на каждый фильтр
 
-  for (var i = 0; i < filters.length; i++) {
-    filters[i].addEventListener('input', toggleFilterHandler);
+  for (var filterIndex = 0; filterIndex < filters.length; filterIndex++) {
+    filters[filterIndex].addEventListener('input', toggleFilterHandler);
   }
 
   // Применяем эффект после установки ползунка
