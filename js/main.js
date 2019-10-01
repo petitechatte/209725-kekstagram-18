@@ -224,16 +224,29 @@
     if (text) {
       var hashtags = text.split(' ');
       var hashtag = '';
-      var symbols = [];
+      var hashtagSymbols = [];
+
+      // Удаляем лишние пробелы для адекватного подсчета тегов
+
+      var removeExtraSpaces = function (words) {
+        for (var k = 0; k < words.length; k++) {
+          if (words[k] === '') {
+            words.splice(k, 1);
+            removeExtraSpaces(words);
+          }
+        }
+      };
+
+      removeExtraSpaces(hashtags);
 
       if (hashtags.length > HASHTAGS_LIMIT) {
         errorMessage = 'Нельзя указывать больше пяти хэш-тегов';
       } else {
         for (var i = 0; i < hashtags.length; i++) {
           hashtag = hashtags[i].toLowerCase(); // теги нечувствительны к регистру
-          symbols = hashtag.split('#');
+          hashtagSymbols = hashtag.split('#');
 
-          if (symbols.length > 2) {
+          if (hashtagSymbols.length > 2) {
             errorMessage = 'Хэш-теги должны разделяться пробелами';
           } else if (hashtag.indexOf('#') !== 0) {
             errorMessage = 'Хэш-тег должен начинаться с символа #';
