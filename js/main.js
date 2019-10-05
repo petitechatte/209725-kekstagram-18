@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
+  var ESC_KEY_CODE = 27;
 
   // Параметры настройки фотографии
   var MIN_SCALE = 0; // минимальный масштаб фотографии
@@ -57,7 +57,7 @@
 
   var fileUploadHandler = function () {
     imageEditForm.classList.remove('hidden');
-    document.addEventListener('keydown', escPressHandler);
+    document.addEventListener('keydown', escKeydownHandler);
     // Прячем ползунок эффекта по умолчанию (отсутствие фильтра)
     effectController.classList.add('hidden');
     // Устанавливаем масштаб по умолчанию
@@ -68,13 +68,13 @@
 
   var closeButtonClickHandler = function () {
     imageEditForm.classList.add('hidden');
-    document.removeEventListener('keydown', escPressHandler);
+    document.removeEventListener('keydown', escKeydownHandler);
   };
 
   // Закрытие формы нажатием ESC
 
-  var escPressHandler = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+  var escKeydownHandler = function (evt) {
+    if (evt.keyCode === ESC_KEY_CODE) {
       closeButtonClickHandler();
       // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
       fileUpload.value = '';
@@ -205,7 +205,7 @@
   // Потеря фокуса полем при нажатии ESC
 
   var inputEscPressHandler = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEY_CODE) {
       evt.stopPropagation();
       var target = evt.target;
       target.blur();
