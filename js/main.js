@@ -266,11 +266,6 @@
 
   hashtagInput.addEventListener('input', validateHashtags);
 
-  uploadForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    uploadForm.submit();
-  });
-
   // Находим в разметке шаблон для оформления фотографий пользователей
 
   var template = document.querySelector('#picture').content;
