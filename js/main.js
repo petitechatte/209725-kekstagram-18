@@ -70,13 +70,20 @@
     document.removeEventListener('keydown', escKeydownHandler);
   };
 
-  // Закрытие формы нажатием ESC
+  // Обработка нажатия ESC
 
   var escKeydownHandler = function (evt) {
     if (evt.keyCode === ESC_KEY_CODE) {
-      closeButtonClickHandler();
-      // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
-      fileUpload.value = '';
+      if (evt.target.classList.contains('text__hashtags') || evt.target.tagName === 'TEXTAREA') {
+        // Потеря фокуса текстовым полем при нажатии ESC
+        evt.stopPropagation();
+        evt.target.blur();
+      } else {
+        // Закрытие формы
+        closeButtonClickHandler();
+        // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
+        fileUpload.value = '';
+      }
     }
   };
 
@@ -200,17 +207,10 @@
   var hashtagInput = imageEditForm.querySelector('.text__hashtags');
   var descriptionInput = imageEditForm.querySelector('.text__description');
 
-  // Потеря фокуса полем при нажатии ESC
+  // Потеря фокуса текстовым полем при нажатии ESC
 
-  var inputEscPressHandler = function (evt) {
-    if (evt.keyCode === ESC_KEY_CODE) {
-      evt.stopPropagation();
-      evt.target.blur();
-    }
-  };
-
-  hashtagInput.addEventListener('keydown', inputEscPressHandler);
-  descriptionInput.addEventListener('keydown', inputEscPressHandler);
+  hashtagInput.addEventListener('keydown', escKeydownHandler);
+  descriptionInput.addEventListener('keydown', escKeydownHandler);
 
   // Валидация хештегов
 
