@@ -51,7 +51,6 @@
   var photoPreview = imageEditForm.querySelector('.img-upload__preview');
   var effectController = imageEditForm.querySelector('.img-upload__effect-level');
   var filters = imageEditForm.querySelectorAll('.effects__radio');
-  var checkedFilter;
 
   // Открытие формы обработки фотографии
 
@@ -190,9 +189,8 @@
   var effectPinMouseUpHandler = function () {
     // Рассчитываем положение ползунка в процентах
     var effectLevel = Math.round((effectLevelPin.offsetLeft / effectLevelLine.offsetWidth) * 100);
-    checkedFilter = imageEditForm.querySelector('.effects__radio:checked');
     setEffectLevel(effectLevel);
-    tuneEffect(checkedFilter, effectLevel);
+    tuneEffect(getCurrentFilter(), effectLevel);
   };
 
   effectLevelPin.addEventListener('mouseup', effectPinMouseUpHandler);
@@ -207,8 +205,7 @@
   var inputEscPressHandler = function (evt) {
     if (evt.keyCode === ESC_KEY_CODE) {
       evt.stopPropagation();
-      var target = evt.target;
-      target.blur();
+      evt.target.blur();
     }
   };
 
