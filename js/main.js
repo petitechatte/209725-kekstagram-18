@@ -215,7 +215,7 @@
   // Валидация хештегов
 
   var validateHashtags = function () {
-    var text = hashtagInput.value;
+    var text = hashtagInput.value.toLowerCase(); // теги нечувствительны к регистру
     var errorMessage = '';
 
     if (text) {
@@ -240,7 +240,7 @@
         errorMessage = 'Нельзя указывать больше пяти хэш-тегов';
       } else {
         for (var i = 0; i < hashtags.length; i++) {
-          hashtag = hashtags[i].toLowerCase(); // теги нечувствительны к регистру
+          hashtag = hashtags[i];
           hashtagSymbols = hashtag.split('#');
 
           if (hashtagSymbols.length > 2) {
