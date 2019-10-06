@@ -212,28 +212,30 @@
   hashtagInput.addEventListener('keydown', escKeydownHandler);
   descriptionInput.addEventListener('keydown', escKeydownHandler);
 
-  // Валидация хештегов
+  // Удаление пустых строк из массива
+
+  var removeExtraSpaces = function (words) {
+    for (var k = 0; k < words.length; k++) {
+      if (words[k] === '') {
+        words.splice(k, 1);
+        removeExtraSpaces(words);
+      }
+    }
+  };
+
+  // Валидация хэш-тегов
 
   var validateHashtags = function () {
-    var text = hashtagInput.value.toLowerCase(); // теги нечувствительны к регистру
+    // Получаем значение поля
+    var text = hashtagInput.value.toLowerCase(); // хэш-теги нечувствительны к регистру
+    var hashtag = '';
+    var hashtagSymbols = [];
     var errorMessage = '';
 
     if (text) {
+      // Превращаем введенный текст в массив хэш-тегов
       var hashtags = text.split(' ');
-      var hashtag = '';
-      var hashtagSymbols = [];
-
-      // Удаляем лишние пробелы для адекватного подсчета тегов
-
-      var removeExtraSpaces = function (words) {
-        for (var k = 0; k < words.length; k++) {
-          if (words[k] === '') {
-            words.splice(k, 1);
-            removeExtraSpaces(words);
-          }
-        }
-      };
-
+      // Удаляем лишние пробелы для адекватного подсчета хэш-тегов
       removeExtraSpaces(hashtags);
 
       if (hashtags.length > HASHTAGS_LIMIT) {
@@ -261,10 +263,13 @@
         }
       }
     }
+
     hashtagInput.setCustomValidity(errorMessage);
   };
 
-  hashtagInput.addEventListener('input', validateHashtags);
+  hashtagInput.addEventListener('input', function () {
+    validateHashtags();
+  });
 
   // Находим в разметке шаблон для оформления фотографий пользователей
 
