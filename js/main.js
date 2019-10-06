@@ -159,7 +159,7 @@
     return imageEditForm.querySelector('.effects__radio:checked');
   };
 
-  // Настраиваем интенсивность фильтра в соответсвии с выбранным уровнем
+  // Настраиваем интенсивность фильтра в соответствии с выбранным уровнем
 
   var tuneEffect = function (filter, level) {
     if (filter.value === 'chrome') {
