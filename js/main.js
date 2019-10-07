@@ -162,19 +162,34 @@
   // Настраиваем интенсивность фильтра в соответствии с выбранным уровнем
 
   var tuneEffect = function (filter, level) {
-    if (filter.value === 'chrome') {
-      photoPreview.style.filter = 'grayscale(' + String(level / 100) + ')';
-    } else if (filter.value === 'sepia') {
-      photoPreview.style.filter = 'sepia(' + String(level / 100) + ')';
-    } else if (filter.value === 'marvin') {
-      photoPreview.style.filter = 'invert(' + String(level) + '%)';
-    } else if (filter.value === 'phobos') {
-      photoPreview.style.filter = 'blur(' + String(level / 100 * MAX_BLUR) + 'px)';
-    } else if (filter.value === 'heat') {
-      photoPreview.style.filter = 'brightness(' + String(MIN_BRIGHTNESS + level / 100 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS)) + ')';
-    } else {
-      photoPreview.style.filter = 'none';
+    var filterEffect = '';
+
+    switch (filter.value) {
+      case 'chrome':
+        filterEffect = 'grayscale(' + String(level / 100) + ')';
+        break;
+
+      case 'sepia':
+        filterEffect = 'sepia(' + String(level / 100) + ')';
+        break;
+
+      case 'marvin':
+        filterEffect = 'invert(' + String(level) + '%)';
+        break;
+
+      case 'phobos':
+        filterEffect = 'blur(' + String(level / 100 * MAX_BLUR) + 'px)';
+        break;
+
+      case 'heat':
+        filterEffect = 'brightness(' + String(MIN_BRIGHTNESS + level / 100 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS)) + ')';
+        break;
+
+      default:
+        filterEffect = 'none';
     }
+
+    photoPreview.style.filter = filterEffect;
   };
 
   // Реализуем переключение фильтров по клику
