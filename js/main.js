@@ -18,21 +18,17 @@
   var MAX_HASHTAG_LENGTH = 20; // максимальная длина одного хэш-тега 20 символов, включая решётку
   var HASHTAGS_LIMIT = 5; // нельзя указать больше пяти хэш-тегов
 
-  var uploadForm = document.querySelector('#upload-select-image');
-  var fileUpload = uploadForm.querySelector('#upload-file');
-  var imageEditForm = uploadForm.querySelector('.img-upload__overlay');
-  var uploadCloseButton = imageEditForm.querySelector('.img-upload__cancel');
-  var photoPreview = imageEditForm.querySelector('.img-upload__preview');
-  var effectController = imageEditForm.querySelector('.img-upload__effect-level');
-  var filters = imageEditForm.querySelectorAll('.effects__radio');
+  var fileUpload = window.formElements.uploadForm.querySelector('#upload-file');
+  var uploadCloseButton = window.formElements.imageEditForm.querySelector('.img-upload__cancel');
+  var filters = window.formElements.imageEditForm.querySelectorAll('.effects__radio');
 
   // Открытие формы обработки фотографии
 
   var fileUploadHandler = function () {
-    imageEditForm.classList.remove('hidden');
+    window.formElements.imageEditForm.classList.remove('hidden');
     document.addEventListener('keydown', escKeydownHandler);
     // Прячем ползунок эффекта по умолчанию (отсутствие фильтра)
-    effectController.classList.add('hidden');
+    window.formElements.effectController.classList.add('hidden');
     // Устанавливаем масштаб по умолчанию
     setScale();
   };
@@ -40,7 +36,7 @@
   // Закрытие формы обработки фотографии
 
   var closeButtonClickHandler = function () {
-    imageEditForm.classList.add('hidden');
+    window.formElements.imageEditForm.classList.add('hidden');
     document.removeEventListener('keydown', escKeydownHandler);
   };
 
@@ -68,9 +64,9 @@
 
   // Работа с размерами фотографии
 
-  var scaleValue = imageEditForm.querySelector('.scale__control--value');
-  var scaleSmallerButton = imageEditForm.querySelector('.scale__control--smaller');
-  var scaleBiggerButton = imageEditForm.querySelector('.scale__control--bigger');
+  var scaleValue = window.formElements.imageEditForm.querySelector('.scale__control--value');
+  var scaleSmallerButton = window.formElements.imageEditForm.querySelector('.scale__control--smaller');
+  var scaleBiggerButton = window.formElements.imageEditForm.querySelector('.scale__control--bigger');
   var currentScale = DEFAULT_SCALE;
 
   // Устанавливаем масштаб
@@ -78,7 +74,7 @@
   var setScale = function () {
     if (currentScale >= MIN_SCALE && currentScale <= MAX_SCALE) {
       scaleValue.value = String(currentScale) + '%';
-      photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
+      window.formElements.photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
     } else if (currentScale < MIN_SCALE) {
       currentScale = MIN_SCALE;
     } else {
@@ -105,19 +101,19 @@
   var toggleEffectController = function (filter) {
     if (filter.value === 'none') {
       // Прячем ползунок эффекта при отсутствии фильтра
-      effectController.classList.add('hidden');
+      window.formElements.effectController.classList.add('hidden');
     } else {
       // Показываем ползунок при выборе фильтра
-      effectController.classList.remove('hidden');
+      window.formElements.effectController.classList.remove('hidden');
     }
   };
 
   // Настройка эффектов
 
-  var effectLevelInput = effectController.querySelector('.effect-level__value');
-  var effectLevelLine = effectController.querySelector('.effect-level__line');
-  var effectLevelBar = effectController.querySelector('.effect-level__depth');
-  var effectLevelPin = effectController.querySelector('.effect-level__pin');
+  var effectLevelInput = window.formElements.effectController.querySelector('.effect-level__value');
+  var effectLevelLine = window.formElements.effectController.querySelector('.effect-level__line');
+  var effectLevelBar = window.formElements.effectController.querySelector('.effect-level__depth');
+  var effectLevelPin = window.formElements.effectController.querySelector('.effect-level__pin');
 
   // Устанавливаем уровень эффекта
 
@@ -130,7 +126,7 @@
   // Определяем текущий фильтр
 
   var getCurrentFilter = function () {
-    return imageEditForm.querySelector('.effects__radio:checked');
+    return window.formElements.imageEditForm.querySelector('.effects__radio:checked');
   };
 
   // Настраиваем интенсивность фильтра в соответствии с выбранным уровнем
@@ -163,7 +159,7 @@
         filterEffect = 'none';
     }
 
-    photoPreview.style.filter = filterEffect;
+    window.formElements.photoPreview.style.filter = filterEffect;
   };
 
   // Реализуем переключение фильтров по клику
@@ -193,8 +189,8 @@
 
   // Валидация формы
 
-  var hashtagInput = imageEditForm.querySelector('.text__hashtags');
-  var descriptionInput = imageEditForm.querySelector('.text__description');
+  var hashtagInput = window.formElementsimageEditForm.querySelector('.text__hashtags');
+  var descriptionInput = window.formElementsimageEditForm.querySelector('.text__description');
 
   // Потеря фокуса текстовым полем при нажатии ESC
 
