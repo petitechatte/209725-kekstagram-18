@@ -31,7 +31,7 @@
 
   // Экспортируем данные для модуля gallery.js
 
-  window.data = {
+  window.usersData = {
     photosNumber: MOCK_PHOTOS_NUMBER,
     generatePostsList: generatePostsList
   };
