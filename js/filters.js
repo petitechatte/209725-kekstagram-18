@@ -77,7 +77,7 @@
 
   // Реализуем переключение фильтров по клику
 
-  var toggleFilterHandler = function () {
+  window.toggleFilter = function () {
     toggleEffectController(getCurrentFilter());
     setEffectLevel(DEFAULT_EFFECT_LEVEL);
     tuneEffect(getCurrentFilter(), DEFAULT_EFFECT_LEVEL);
@@ -86,7 +86,9 @@
   // Добавляем обработчики на каждый фильтр
 
   for (var filterIndex = 0; filterIndex < filters.length; filterIndex++) {
-    filters[filterIndex].addEventListener('input', toggleFilterHandler);
+    filters[filterIndex].addEventListener('input', function () {
+      window.toggleFilter();
+    });
   }
 
   // Применяем эффект после установки ползунка

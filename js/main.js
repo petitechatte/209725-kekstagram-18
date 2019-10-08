@@ -10,21 +10,25 @@
 
   var fileUpload = window.formElements.uploadForm.querySelector('#upload-file');
   var uploadCloseButton = window.formElements.imageEditForm.querySelector('.img-upload__cancel');
+  var noEffectInput = window.formElements.imageEditForm.querySelector('#effect-none');
 
   // Открытие формы обработки фотографии
 
-  var fileUploadHandler = function () {
-    window.formElements.imageEditForm.classList.remove('hidden');
+  var openUploadForm = function () {
+    // Добавляем обработчик нажатия Esc
     document.addEventListener('keydown', escKeydownHandler);
-    // Прячем ползунок эффекта по умолчанию (отсутствие фильтра)
-    window.formElements.effectController.classList.add('hidden');
+    // Сбрасываем фильтр по умолчанию
+    noEffectInput.checked = 'checked';
+    window.toggleFilter();
     // Устанавливаем масштаб по умолчанию
     window.resetScale();
+    // Показываем окно
+    window.formElements.imageEditForm.classList.remove('hidden');
   };
 
   // Закрытие формы обработки фотографии
 
-  var closeButtonClickHandler = function () {
+  var closeUploadForm = function () {
     window.formElements.imageEditForm.classList.add('hidden');
     document.removeEventListener('keydown', escKeydownHandler);
   };
@@ -39,7 +43,7 @@
         evt.target.blur();
       } else {
         // Закрытие формы
-        closeButtonClickHandler();
+        closeUploadForm();
         // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
         fileUpload.value = '';
       }
@@ -48,8 +52,13 @@
 
   // Добавляем обработчики для открытия и закрытия формы
 
-  fileUpload.addEventListener('change', fileUploadHandler);
-  uploadCloseButton.addEventListener('click', closeButtonClickHandler);
+  fileUpload.addEventListener('change', function () {
+    openUploadForm();
+  });
+
+  uploadCloseButton.addEventListener('click', function () {
+    closeUploadForm();
+  });
 
   // Валидация формы
 
