@@ -1,3 +1,5 @@
+// Модуль работы окна загрузки фотографии
+
 'use strict';
 
 (function () {
@@ -27,6 +29,8 @@
   var closeUploadForm = function () {
     window.formElements.imageEditForm.classList.add('hidden');
     document.removeEventListener('keydown', escKeydownHandler);
+    // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
+    fileUpload.value = '';
   };
 
   // Обработка нажатия ESC
@@ -40,8 +44,6 @@
       } else {
         // Закрытие формы
         closeUploadForm();
-        // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
-        fileUpload.value = '';
       }
     }
   };
