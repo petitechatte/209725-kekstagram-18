@@ -25,7 +25,7 @@
     // Прячем ползунок эффекта по умолчанию (отсутствие фильтра)
     window.formElements.effectController.classList.add('hidden');
     // Устанавливаем масштаб по умолчанию
-    window.setScale();
+    window.resetScale();
   };
 
   // Закрытие формы обработки фотографии
@@ -150,8 +150,8 @@
 
   // Валидация формы
 
-  var hashtagInput = window.formElementsimageEditForm.querySelector('.text__hashtags');
-  var descriptionInput = window.formElementsimageEditForm.querySelector('.text__description');
+  var hashtagInput = window.formElements.imageEditForm.querySelector('.text__hashtags');
+  var descriptionInput = window.formElements.imageEditForm.querySelector('.text__description');
 
   // Потеря фокуса текстовым полем при нажатии ESC
 

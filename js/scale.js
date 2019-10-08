@@ -15,8 +15,7 @@
   var currentScale = DEFAULT_SCALE;
 
   // Устанавливаем масштаб
-
-  window.setScale = function () {
+  var setScale = function () {
     if (currentScale >= MIN_SCALE && currentScale <= MAX_SCALE) {
       scaleValue.value = String(currentScale) + '%';
       window.formElements.photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
@@ -31,13 +30,19 @@
 
   scaleSmallerButton.addEventListener('click', function () {
     currentScale -= SCALE_STEP;
-    window.setScale();
+    setScale();
   });
 
   // Увеличиваем масштаб
 
   scaleBiggerButton.addEventListener('click', function () {
     currentScale += SCALE_STEP;
-    window.setScale();
+    setScale();
   });
+
+  // Сбрасываем настройку масштаба до значения по умолчанию
+  window.resetScale = function () {
+    currentScale = DEFAULT_SCALE;
+    setScale();
+  };
 })();
