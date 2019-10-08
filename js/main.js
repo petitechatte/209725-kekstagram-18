@@ -3,11 +3,6 @@
 (function () {
   var ESC_KEY_CODE = 27;
 
-  // Параметры настройки фотографии
-  var MIN_SCALE = 0; // минимальный масштаб фотографии
-  var MAX_SCALE = 100; // максимальный масштаб фотогрфии
-  var DEFAULT_SCALE = 100; // масштаб фотографии по умолчанию
-  var SCALE_STEP = 25; // шаг изменения масштаба
   var DEFAULT_EFFECT_LEVEL = 100; // уровень эффекта при переключении фильтра
   var MAX_BLUR = 3; // максимальный эффект размытия в пикселях
   var MAX_BRIGHTNESS = 3; // максимальная яркость фотографии
@@ -30,7 +25,7 @@
     // Прячем ползунок эффекта по умолчанию (отсутствие фильтра)
     window.formElements.effectController.classList.add('hidden');
     // Устанавливаем масштаб по умолчанию
-    setScale();
+    window.setScale();
   };
 
   // Закрытие формы обработки фотографии
@@ -61,40 +56,6 @@
 
   fileUpload.addEventListener('change', fileUploadHandler);
   uploadCloseButton.addEventListener('click', closeButtonClickHandler);
-
-  // Работа с размерами фотографии
-
-  var scaleValue = window.formElements.imageEditForm.querySelector('.scale__control--value');
-  var scaleSmallerButton = window.formElements.imageEditForm.querySelector('.scale__control--smaller');
-  var scaleBiggerButton = window.formElements.imageEditForm.querySelector('.scale__control--bigger');
-  var currentScale = DEFAULT_SCALE;
-
-  // Устанавливаем масштаб
-
-  var setScale = function () {
-    if (currentScale >= MIN_SCALE && currentScale <= MAX_SCALE) {
-      scaleValue.value = String(currentScale) + '%';
-      window.formElements.photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
-    } else if (currentScale < MIN_SCALE) {
-      currentScale = MIN_SCALE;
-    } else {
-      currentScale = MAX_SCALE;
-    }
-  };
-
-  // Уменьшаем масштаб
-
-  scaleSmallerButton.addEventListener('click', function () {
-    currentScale -= SCALE_STEP;
-    setScale();
-  });
-
-  // Увеличиваем масштаб
-
-  scaleBiggerButton.addEventListener('click', function () {
-    currentScale += SCALE_STEP;
-    setScale();
-  });
 
   // Отображение ползунка для регуляции эффекта
 
