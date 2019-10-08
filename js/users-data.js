@@ -33,7 +33,17 @@
 
   window.usersData = {
     photosNumber: MOCK_PHOTOS_NUMBER,
-    generatePostsList: generatePostsList
+
+    // Собираем массив постов
+    generatePostsList: function () {
+      var posts = [];
+
+      for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
+        posts.push(generatePost(i));
+      }
+
+      return posts;
+    }
   };
 
   // Выбираем случайное значение из массива
@@ -105,17 +115,5 @@
     };
 
     return post;
-  };
-
-  // Собираем массив постов
-
-  var generatePostsList = function () {
-    var posts = [];
-
-    for (var i = 0; i < MOCK_PHOTOS_NUMBER; i++) {
-      posts.push(generatePost(i));
-    }
-
-    return posts;
   };
 })();
