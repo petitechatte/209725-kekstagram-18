@@ -16,6 +16,9 @@
   var effectLevelPin = window.formElements.effectController.querySelector('.effect-level__pin');
   var filters = window.formElements.imageEditForm.querySelectorAll('.effects__radio');
 
+  // Переменная для хранения имени фильтра в момент переключения
+  var currentFilter;
+
   // Отображение ползунка для регуляции эффекта
 
   var toggleEffectController = function (filter) {
@@ -41,6 +44,14 @@
   var getCurrentFilter = function () {
     return window.formElements.imageEditForm.querySelector('.effects__radio:checked').value;
   };
+
+  // Применяем выбранный фильтр
+
+  var applyFilter = function (filter) {
+    window.formElements.photoPreview.classList.add('effects__preview--' + filter);
+  };
+
+  // Настраиваем интенсивность фильтра в соответствии с выбранным уровнем эффекта
 
   var tuneEffect = function (filter, level) {
     var filterEffect = '';
@@ -73,12 +84,24 @@
     window.formElements.photoPreview.style.filter = filterEffect;
   };
 
+  // Сбрасываем эффект по умолчанию
+
+  var resetFilter = function () {
+    // window.formElements.photoPreview.style.filter = 'none';
+    window.formElements.photoPreview.classList.remove('effects__preview--' + currentFilter);
+  };
+
   // Реализуем переключение фильтров по клику
 
   window.toggleFilter = function () {
-    toggleEffectController(getCurrentFilter());
+    // Сбрасываем старый фильтр
+    resetFilter();
+    // Обновляем значение текущего фильтра
+    currentFilter = getCurrentFilter();
+    toggleEffectController(currentFilter);
+    applyFilter(currentFilter);
     setEffectLevel(DEFAULT_EFFECT_LEVEL);
-    tuneEffect(getCurrentFilter(), DEFAULT_EFFECT_LEVEL);
+    // tuneEffect(getCurrentFilter(), DEFAULT_EFFECT_LEVEL);
   };
 
   // Добавляем обработчики на каждый фильтр
