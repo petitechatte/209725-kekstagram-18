@@ -105,13 +105,11 @@
   // Собираем пост со случайными комментариями
 
   var generatePost = function (index) {
-    var post = {
+    return {
       url: userPhotos[index],
       description: getRandomValue(MOCK_PICTURE_TITLES),
       likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
       comments: generateCommentsList()
     };
-
-    return post;
   };
 })();
