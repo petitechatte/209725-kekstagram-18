@@ -91,14 +91,16 @@
     });
   }
 
-  // Применяем эффект после установки ползунка
+  // Рассчитываем положение ползунка в процентах
 
-  var effectPinMouseUpHandler = function () {
-    // Рассчитываем положение ползунка в процентах
-    var effectLevel = Math.round((effectLevelPin.offsetLeft / effectLevelLine.offsetWidth) * 100);
-    setEffectLevel(effectLevel);
-    tuneEffect(getCurrentFilter(), effectLevel);
+  var getEffectLevelPinPosition = function () {
+    return Math.round((effectLevelPin.offsetLeft / effectLevelLine.offsetWidth) * 100);
   };
 
-  effectLevelPin.addEventListener('mouseup', effectPinMouseUpHandler);
+  // Применяем эффект после установки ползунка
+
+  effectLevelPin.addEventListener('mouseup', function () {
+    setEffectLevel(getEffectLevelPinPosition());
+    tuneEffect(getCurrentFilter(), getEffectLevelPinPosition());
+  });
 })();
