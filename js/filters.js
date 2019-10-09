@@ -19,7 +19,7 @@
   // Отображение ползунка для регуляции эффекта
 
   var toggleEffectController = function (filter) {
-    if (filter.value === 'none') {
+    if (filter === 'none') {
       // Прячем ползунок эффекта при отсутствии фильтра
       window.formElements.effectController.classList.add('hidden');
     } else {
@@ -39,15 +39,13 @@
   // Определяем текущий фильтр
 
   var getCurrentFilter = function () {
-    return window.formElements.imageEditForm.querySelector('.effects__radio:checked');
+    return window.formElements.imageEditForm.querySelector('.effects__radio:checked').value;
   };
-
-  // Настраиваем интенсивность фильтра в соответствии с выбранным уровнем
 
   var tuneEffect = function (filter, level) {
     var filterEffect = '';
 
-    switch (filter.value) {
+    switch (filter) {
       case 'chrome':
         filterEffect = 'grayscale(' + String(level / 100) + ')';
         break;
