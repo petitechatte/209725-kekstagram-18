@@ -82,13 +82,11 @@
   // Создаем случайный моковый комментарий
 
   var generateComment = function () {
-    var randomComment = {
+    return {
       avatar: getRandomValue(avatars),
       message: getRandomValue(MOCK_COMMENTS),
       name: getRandomValue(COMMENTATORS)
     };
-
-    return randomComment;
   };
 
   // Создаем список комментариев к посту
