@@ -87,8 +87,10 @@
   // Сбрасываем эффект по умолчанию
 
   var resetFilter = function () {
-    // window.formElements.photoPreview.style.filter = 'none';
+    // Удаляем класс предыдущего эффекта
     window.formElements.photoPreview.classList.remove('effects__preview--' + currentFilter);
+    // Убираем инлайновые стили, если пользователь успел потрогать слайдер
+    window.formElements.photoPreview.style = '';
   };
 
   // Реализуем переключение фильтров по клику
@@ -99,9 +101,8 @@
     // Обновляем значение текущего фильтра
     currentFilter = getCurrentFilter();
     toggleEffectController(currentFilter);
-    applyFilter(currentFilter);
     setEffectLevel(DEFAULT_EFFECT_LEVEL);
-    // tuneEffect(getCurrentFilter(), DEFAULT_EFFECT_LEVEL);
+    applyFilter(currentFilter);
   };
 
   // Добавляем обработчики на каждый фильтр
