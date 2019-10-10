@@ -714,8 +714,8 @@ main {
 }
 
 .effects__preview--phobos {
-  -webkit-filter: blur(5px);
-          filter: blur(5px);
+  -webkit-filter: blur(3px); /* Исправлено в соответствии с ТЗ */
+          filter: blur(3px); /* Исправлено в соответствии с ТЗ */
 }
 
 .effects__preview--heat {
