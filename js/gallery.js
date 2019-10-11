@@ -6,12 +6,9 @@
   // Находим в разметке шаблон для оформления фотографий пользователей
   var template = document.querySelector('#picture').content;
 
-  // Получаем данные для поста
-  var photoPosts = window.usersData.generatePostsList();
-
   // Создаем разметку для поста с фотографией
 
-  var createPhotoCard = function (index) {
+  var createPhotoCard = function (photoPosts, index) {
     var currentPost = photoPosts[index];
     var photoCard = template.cloneNode(true);
     var picture = photoCard.querySelector('.picture__img');
@@ -28,16 +25,17 @@
 
   // Добавляем фотографии на страницу
 
-  var renderPhotos = function () {
+  var renderPhotos = function (data) {
     var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.usersData.photosNumber; i++) {
-      fragment.appendChild(createPhotoCard(i));
+    for (var i = 0; i < data.length; i++) {
+      fragment.appendChild(createPhotoCard(data, i));
     }
 
     picturesBlock.appendChild(fragment);
   };
 
-  renderPhotos();
+  // Получаем c сервера данные для фотопостов
+  window.load(renderPhotos);
 })();
