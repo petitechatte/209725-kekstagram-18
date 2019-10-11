@@ -15,8 +15,18 @@
   var NOT_FOUND_STATUS = 404;
   var SERVER_ERROR_STATUS = 500;
 
-  window.load = function (onLoad, onError) {
-    createRequest(onLoad, onError, 'GET', URL_DATA);
+  window.backend = {
+    // Загружаем данные с сервера
+    load: function (onLoad, onError) {
+      createRequest(onLoad, onError, 'GET', URL_DATA);
+    },
+    // Создаем сообщение об ошибке загрузки
+    showErrorMessage: function () {
+      var errorTemplate = document.querySelector('#error').content;
+      var mainElement = document.querySelector('main');
+      var errorMessagePopup = errorTemplate.cloneNode(true);
+      mainElement.appendChild(errorMessagePopup);
+    }
   };
 
   // Создаем запрос на сервер

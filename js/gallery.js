@@ -3,14 +3,14 @@
 'use strict';
 
 (function () {
-  // Находим в разметке шаблон для оформления фотографий пользователей
-  var template = document.querySelector('#picture').content;
+  // Находим в разметке шаблон фотографий для галереи
+  var photoTemplate = document.querySelector('#picture').content;
 
   // Создаем разметку для поста с фотографией
 
   var createPhotoCard = function (photoPosts, index) {
     var currentPost = photoPosts[index];
-    var photoCard = template.cloneNode(true);
+    var photoCard = photoTemplate.cloneNode(true);
     var picture = photoCard.querySelector('.picture__img');
     var pictureLikesNumber = photoCard.querySelector('.picture__likes');
     var pictureCommentsNumber = photoCard.querySelector('.picture__comments');
@@ -36,6 +36,17 @@
     picturesBlock.appendChild(fragment);
   };
 
+  // Создаем сообщение об ошибке загрузки данных
+
+  var showAdaptedErrorMessage = function (response) {
+    window.backend.showErrorMessage();
+    var popup = document.querySelector('.error');
+    var errorTitle = popup.querySelector('.error__title');
+    var errorContent = popup.querySelector('.error__buttons');
+    errorTitle.textContent = 'Ошибка загрузки данных';
+    errorContent.innerHTML = response;
+  };
+
   // Получаем c сервера данные для фотопостов
-  window.load(renderPhotos);
+  window.backend.load(renderPhotos, showAdaptedErrorMessage);
 })();
