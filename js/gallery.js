@@ -40,11 +40,14 @@
 
   var showAdaptedErrorMessage = function (response) {
     window.backend.showErrorMessage();
-    var popup = document.querySelector('.error');
-    var errorTitle = popup.querySelector('.error__title');
-    var errorContent = popup.querySelector('.error__buttons');
+    var errorWrapper = document.querySelector('.error__inner');
+    var errorTitle = errorWrapper.querySelector('.error__title');
+    var errorButtons = errorWrapper.querySelector('.error__buttons');
+    var errorText = document.createElement('p');
     errorTitle.textContent = 'Ошибка загрузки данных';
-    errorContent.innerHTML = response;
+    errorButtons.innerHTML = '';
+    errorText.innerHTML = response;
+    errorWrapper.insertBefore(errorText, errorButtons);
   };
 
   // Получаем c сервера данные для фотопостов
