@@ -3,17 +3,14 @@
 'use strict';
 
 (function () {
-  // Находим в разметке шаблон для оформления фотографий пользователей
-  var template = document.querySelector('#picture').content;
-
-  // Получаем данные для поста
-  var photoPosts = window.usersData.generatePostsList();
+  // Находим в разметке шаблон фотографий для галереи
+  var photoTemplate = document.querySelector('#picture').content;
 
   // Создаем разметку для поста с фотографией
 
-  var createPhotoCard = function (index) {
+  var createPhotoCard = function (photoPosts, index) {
     var currentPost = photoPosts[index];
-    var photoCard = template.cloneNode(true);
+    var photoCard = photoTemplate.cloneNode(true);
     var picture = photoCard.querySelector('.picture__img');
     var pictureLikesNumber = photoCard.querySelector('.picture__likes');
     var pictureCommentsNumber = photoCard.querySelector('.picture__comments');
@@ -28,16 +25,31 @@
 
   // Добавляем фотографии на страницу
 
-  var renderPhotos = function () {
+  var renderPhotos = function (data) {
     var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.usersData.photosNumber; i++) {
-      fragment.appendChild(createPhotoCard(i));
+    for (var i = 0; i < data.length; i++) {
+      fragment.appendChild(createPhotoCard(data, i));
     }
 
     picturesBlock.appendChild(fragment);
   };
 
-  renderPhotos();
+  // Создаем сообщение об ошибке загрузки данных
+
+  var showAdaptedErrorMessage = function (response) {
+    window.backend.showErrorMessage();
+    var errorWrapper = document.querySelector('.error__inner');
+    var errorTitle = errorWrapper.querySelector('.error__title');
+    var errorButtons = errorWrapper.querySelector('.error__buttons');
+    var errorText = document.createElement('p');
+    errorTitle.textContent = 'Ошибка загрузки данных';
+    errorButtons.innerHTML = '';
+    errorText.innerHTML = response;
+    errorWrapper.insertBefore(errorText, errorButtons);
+  };
+
+  // Получаем c сервера данные для фотопостов
+  window.backend.load(renderPhotos, showAdaptedErrorMessage);
 })();
