@@ -3,8 +3,13 @@
 'use strict';
 
 (function () {
+  // Находим контейнер для размещения фотографий
+  var picturesBlock = document.querySelector('.pictures');
   // Находим в разметке шаблон фотографий для галереи
   var photoTemplate = document.querySelector('#picture').content;
+  // Заводим переменные для хранения данных
+  var loadedData = [];
+  var renderedPhotos = [];
 
   // Создаем разметку для поста с фотографией
 
@@ -26,7 +31,6 @@
   // Добавляем фотографии на страницу
 
   var renderPhotos = function (data) {
-    var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
     // Создаем фотографии для галлереи
@@ -34,8 +38,32 @@
       fragment.appendChild(createPhotoCard(data, i));
     }
 
-    // Добавляем фотографии в разметку страницы
     picturesBlock.appendChild(fragment);
+  };
+
+  // Удаляем фотографии
+  var removePhotos = function () {
+    // Собираем список текущих фотографий
+    renderedPhotos = picturesBlock.querySelectorAll('.picture__img');
+    if (renderedPhotos !== []) {
+      renderedPhotos.forEach(function (photo) {
+        photo.remove();
+      });
+    }
+  };
+
+  // Обновляем отрисовку фотографий
+  window.updatePhotos = function (selectedPhotos) {
+    removePhotos();
+    renderPhotos(selectedPhotos);
+  };
+
+  // Получаем фотографии с сервера
+
+  var getPhotos = function (response) {
+    // Сохраняем исходный массив данных
+    loadedData = response;
+    renderPhotos(loadedData);
     // Показываем фильтры для сортировки
     window.showFilters();
   };
@@ -54,6 +82,6 @@
     errorWrapper.insertBefore(errorText, errorButtons);
   };
 
-  // Получаем c сервера данные для фотопостов
-  window.backend.load(renderPhotos, showAdaptedErrorMessage);
+  // Посылаем запрос на сервер
+  window.backend.load(getPhotos, showAdaptedErrorMessage);
 })();
