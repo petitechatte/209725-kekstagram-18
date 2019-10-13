@@ -29,11 +29,15 @@
     var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
+    // Создаем фотографии для галлереи
     for (var i = 0; i < data.length; i++) {
       fragment.appendChild(createPhotoCard(data, i));
     }
 
+    // Добавляем фотографии в разметку страницы
     picturesBlock.appendChild(fragment);
+    // Показываем фильтры для сортировки
+    window.showFilters();
   };
 
   // Создаем сообщение об ошибке загрузки данных
