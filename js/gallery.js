@@ -7,9 +7,6 @@
   var picturesBlock = document.querySelector('.pictures');
   // Находим в разметке шаблон фотографий для галереи
   var photoTemplate = document.querySelector('#picture').content;
-  // Заводим переменные для хранения данных
-  var loadedData = [];
-  var renderedPhotos = [];
 
   // Создаем разметку для поста с фотографией
 
@@ -44,7 +41,7 @@
   // Удаляем фотографии
   var removePhotos = function () {
     // Собираем список текущих фотографий
-    renderedPhotos = picturesBlock.querySelectorAll('.picture__img');
+    var renderedPhotos = picturesBlock.querySelectorAll('.picture');
     if (renderedPhotos !== []) {
       renderedPhotos.forEach(function (photo) {
         photo.remove();
@@ -52,20 +49,22 @@
     }
   };
 
-  // Обновляем отрисовку фотографий
-  window.updatePhotos = function (selectedPhotos) {
-    removePhotos();
-    renderPhotos(selectedPhotos);
-  };
-
   // Получаем фотографии с сервера
 
   var getPhotos = function (response) {
-    // Сохраняем исходный массив данных
-    loadedData = response;
-    renderPhotos(loadedData);
+    renderPhotos(response);
     // Показываем фильтры для сортировки
     window.showFilters();
+    // Экспортируем данные для сортировки
+    window.gallery = {
+      // Сохраняем исходный массив данных
+      initialData: response,
+      // Обновляем фотогаллерею
+      updatePhotos: function (data) {
+        removePhotos();
+        renderPhotos(data);
+      }
+    };
   };
 
   // Создаем сообщение об ошибке загрузки данных
