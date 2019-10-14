@@ -57,7 +57,7 @@
     window.showFilters();
     // Экспортируем данные для сортировки
     window.gallery = {
-      // Сохраняем исходный массив данных
+      // Сохраняем исходный массив данных после загрузки
       initialData: response,
       // Обновляем фотогаллерею
       updatePhotos: function (data) {
