@@ -82,14 +82,14 @@
     // Показываем кнопки-фильтры
     filtersBlock.classList.remove('img-filters--inactive');
     // Добвляем кнопкам обработчики
-    filterPopular.addEventListener('click', function () {
+    filterPopular.addEventListener('click', window.debounce(function () {
       window.gallery.updatePhotos(window.gallery.initialData);
-    });
-    filterRandom.addEventListener('click', function () {
+    }));
+    filterRandom.addEventListener('click', window.debounce(function () {
       showRandomPhotos();
-    });
-    filterDiscussed.addEventListener('click', function () {
+    }));
+    filterDiscussed.addEventListener('click', window.debounce(function () {
       showDiscussedPhotos();
-    });
+    }));
   };
 })();
