@@ -13,6 +13,7 @@
   var filterDiscussed = document.querySelector('#filter-discussed');
 
   var randomPhotos = [];
+  var copiedPhotos = [];
 
   // Получаем случайное значение из массива
 
@@ -37,11 +38,44 @@
     return selectedElements;
   };
 
-  // Подбираем случайные фотографии
+  // Выбираем случайные фотографии
 
-  var getRandomPhotos = function () {
+  var showRandomPhotos = function () {
     randomPhotos = selectData(window.gallery.initialData, SELECTED_PHOTOS_NUMBER);
     window.gallery.updatePhotos(randomPhotos);
+  };
+
+  // Дополнительная сортировка по количеству лайков
+
+  var compareLikes = function (a, b) {
+    if (a < b) {
+      return 1;
+    } else if (a > b) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
+  // Сортируем фотографии по убыванию количества комментариев
+
+  var sortPhotos = function () {
+    copiedPhotos = window.gallery.initialData.slice();
+    copiedPhotos.sort(function (a, b) {
+      // Проверяем рейтинг сходства
+      var commentsDiff = b.comments.length - a.comments.length;
+      if (commentsDiff === 0) {
+        // При одинаковом количестве комментариев сортируем по количеству лайков
+        commentsDiff = compareLikes(a.likes, b.likes);
+      }
+      return commentsDiff;
+    });
+    return copiedPhotos;
+  };
+
+  var showDiscussedPhotos = function () {
+    var discussedPhotos = sortPhotos();
+    window.gallery.updatePhotos(discussedPhotos);
   };
 
   window.activateFilters = function () {
@@ -52,7 +86,10 @@
       window.gallery.updatePhotos(window.gallery.initialData);
     });
     filterRandom.addEventListener('click', function () {
-      getRandomPhotos();
+      showRandomPhotos();
+    });
+    filterDiscussed.addEventListener('click', function () {
+      showDiscussedPhotos();
     });
   };
 })();
