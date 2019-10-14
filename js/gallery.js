@@ -42,7 +42,7 @@
   var removePhotos = function () {
     // Собираем список текущих фотографий
     var renderedPhotos = picturesBlock.querySelectorAll('.picture');
-    if (renderedPhotos !== []) {
+    if (renderedPhotos.length > 0) {
       renderedPhotos.forEach(function (photo) {
         photo.remove();
       });
