@@ -101,12 +101,16 @@
   // Реализуем переключение фильтров по клику
 
   window.toggleFilter = function () {
-    // Сбрасываем старый фильтр
+    // Сбрасываем старый фильтр (удаляются все инлайновые стили, в том числе и настройки масштаба)
     resetFilter();
+    // Возвращаем настройки масштаба, установленные на предыдущем фильтре
+    window.scale.setScale();
     // Обновляем значение текущего фильтра
     currentFilter = getCurrentFilter();
+    // Настраиваем слайдер
     toggleEffectController(currentFilter);
     setEffectLevel(DEFAULT_EFFECT_LEVEL);
+    // Применяем эффект
     applyFilter(currentFilter);
   };
 

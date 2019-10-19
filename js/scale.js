@@ -48,8 +48,14 @@
   });
 
   // Сбрасываем настройку масштаба до значения по умолчанию
-  window.resetScale = function () {
+  var resetScale = function () {
     currentScale = DEFAULT_SCALE;
     setScale();
+  };
+
+  // Экспортируем функции настройки масштаба и возврата к настройкам по умолчанию
+  window.scale = {
+    setScale: setScale,
+    resetScale: resetScale
   };
 })();

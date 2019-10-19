@@ -25,7 +25,7 @@
     noEffectInput.checked = 'checked';
     window.toggleFilter();
     // Устанавливаем масштаб по умолчанию
-    window.resetScale();
+    window.scale.resetScale();
     // Показываем окно
     imageEditForm.classList.remove('hidden');
   };
