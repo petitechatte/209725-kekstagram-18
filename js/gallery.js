@@ -30,12 +30,16 @@
   var renderPhotos = function (data) {
     var fragment = document.createDocumentFragment();
 
-    // Создаем фотографии для галлереи
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(createPhotoCard(data, i));
+    // Страхуемся от неправильного формата данных с сервера
+    try {
+      // Создаем фотографии для галлереи
+      for (var i = 0; i < data.length; i++) {
+        fragment.appendChild(createPhotoCard(data, i));
+      }
+      picturesBlock.appendChild(fragment);
+    } catch (err) {
+      showAdaptedErrorMessage(err.message);
     }
-
-    picturesBlock.appendChild(fragment);
   };
 
   // Удаляем фотографии
