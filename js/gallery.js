@@ -3,6 +3,8 @@
 'use strict';
 
 (function () {
+  // Находим контейнер для размещения фотографий
+  var picturesBlock = document.querySelector('.pictures');
   // Находим в разметке шаблон фотографий для галереи
   var photoTemplate = document.querySelector('#picture').content;
 
@@ -26,14 +28,47 @@
   // Добавляем фотографии на страницу
 
   var renderPhotos = function (data) {
-    var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(createPhotoCard(data, i));
+    // Страхуемся от неправильного формата данных с сервера
+    try {
+      // Создаем фотографии для галлереи
+      for (var i = 0; i < data.length; i++) {
+        fragment.appendChild(createPhotoCard(data, i));
+      }
+      picturesBlock.appendChild(fragment);
+    } catch (err) {
+      showAdaptedErrorMessage(err.message);
     }
+  };
 
-    picturesBlock.appendChild(fragment);
+  // Удаляем фотографии
+  var removePhotos = function () {
+    // Собираем список текущих фотографий
+    var galleryPhotos = picturesBlock.querySelectorAll('.picture');
+    if (galleryPhotos.length > 0) {
+      galleryPhotos.forEach(function (photo) {
+        photo.remove();
+      });
+    }
+  };
+
+  // Получаем фотографии с сервера
+
+  var getPhotos = function (response) {
+    renderPhotos(response);
+    // Показываем фильтры для сортировки
+    window.activateSortingFilters();
+    // Экспортируем данные для сортировки
+    window.gallery = {
+      // Сохраняем исходный массив данных после загрузки
+      initialData: response,
+      // Обновляем фотогаллерею
+      updatePhotos: function (data) {
+        removePhotos();
+        renderPhotos(data);
+      }
+    };
   };
 
   // Создаем сообщение об ошибке загрузки данных
@@ -50,6 +85,6 @@
     errorWrapper.insertBefore(errorText, errorButtons);
   };
 
-  // Получаем c сервера данные для фотопостов
-  window.backend.load(renderPhotos, showAdaptedErrorMessage);
+  // Посылаем запрос на сервер
+  window.backend.load(getPhotos, showAdaptedErrorMessage);
 })();

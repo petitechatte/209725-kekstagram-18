@@ -9,12 +9,17 @@
   var MAX_BRIGHTNESS = 3; // максимальная яркость фотографии
   var MIN_BRIGHTNESS = 1; // минимальная яркость фотографии
 
+  // Сохранение глобальных переменных в локальные для упрощения кода
+  var imageEditForm = window.formElements.imageEditForm;
+  var photoPreview = window.formElements.photoPreview;
+  var effectController = window.formElements.effectController;
+
   // Элементы управления эффектами
-  var effectLevelInput = window.formElements.effectController.querySelector('.effect-level__value');
-  var effectLevelLine = window.formElements.effectController.querySelector('.effect-level__line');
-  var effectLevelBar = window.formElements.effectController.querySelector('.effect-level__depth');
-  var effectLevelPin = window.formElements.effectController.querySelector('.effect-level__pin');
-  var filters = window.formElements.imageEditForm.querySelectorAll('.effects__radio');
+  var effectLevelInput = effectController.querySelector('.effect-level__value');
+  var effectLevelLine = effectController.querySelector('.effect-level__line');
+  var effectLevelBar = effectController.querySelector('.effect-level__depth');
+  var effectLevelPin = effectController.querySelector('.effect-level__pin');
+  var filters = imageEditForm.querySelectorAll('.effects__radio');
 
   // Переменная для хранения имени фильтра в момент переключения
   var currentFilter;
@@ -24,10 +29,10 @@
   var toggleEffectController = function (filter) {
     if (filter === 'none') {
       // Прячем ползунок эффекта при отсутствии фильтра
-      window.formElements.effectController.classList.add('hidden');
+      effectController.classList.add('hidden');
     } else {
       // Показываем ползунок при выборе фильтра
-      window.formElements.effectController.classList.remove('hidden');
+      effectController.classList.remove('hidden');
     }
   };
 
@@ -42,13 +47,13 @@
   // Определяем текущий фильтр
 
   var getCurrentFilter = function () {
-    return window.formElements.imageEditForm.querySelector('.effects__radio:checked').value;
+    return imageEditForm.querySelector('.effects__radio:checked').value;
   };
 
   // Применяем выбранный фильтр
 
   var applyFilter = function (filter) {
-    window.formElements.photoPreview.classList.add('effects__preview--' + filter);
+    photoPreview.classList.add('effects__preview--' + filter);
   };
 
   // Настраиваем интенсивность фильтра в соответствии с выбранным уровнем эффекта
@@ -81,27 +86,31 @@
         filterEffect = 'none';
     }
 
-    window.formElements.photoPreview.style.filter = filterEffect;
+    photoPreview.style.filter = filterEffect;
   };
 
   // Сбрасываем эффект по умолчанию
 
   var resetFilter = function () {
     // Удаляем класс предыдущего эффекта
-    window.formElements.photoPreview.classList.remove('effects__preview--' + currentFilter);
+    photoPreview.classList.remove('effects__preview--' + currentFilter);
     // Убираем инлайновые стили, если пользователь успел потрогать слайдер
-    window.formElements.photoPreview.style = '';
+    photoPreview.style = '';
   };
 
   // Реализуем переключение фильтров по клику
 
   window.toggleFilter = function () {
-    // Сбрасываем старый фильтр
+    // Сбрасываем старый фильтр (удаляются все инлайновые стили, в том числе и настройки масштаба)
     resetFilter();
+    // Возвращаем настройки масштаба, установленные на предыдущем фильтре
+    window.scale.setScale();
     // Обновляем значение текущего фильтра
     currentFilter = getCurrentFilter();
+    // Настраиваем слайдер
     toggleEffectController(currentFilter);
     setEffectLevel(DEFAULT_EFFECT_LEVEL);
+    // Применяем эффект
     applyFilter(currentFilter);
   };
 
