@@ -9,16 +9,23 @@
   var DEFAULT_SCALE = 100; // масштаб фотографии по умолчанию
   var SCALE_STEP = 25; // шаг изменения масштаба
 
-  var scaleValue = window.formElements.imageEditForm.querySelector('.scale__control--value');
-  var scaleSmallerButton = window.formElements.imageEditForm.querySelector('.scale__control--smaller');
-  var scaleBiggerButton = window.formElements.imageEditForm.querySelector('.scale__control--bigger');
+  // Сохранение глобальных переменных в локальные для упрощения кода
+  var imageEditForm = window.formElements.imageEditForm;
+  var photoPreview = window.formElements.photoPreview;
+
+  // Элементы управления масштабом
+  var scaleValue = imageEditForm.querySelector('.scale__control--value');
+  var scaleSmallerButton = imageEditForm.querySelector('.scale__control--smaller');
+  var scaleBiggerButton = imageEditForm.querySelector('.scale__control--bigger');
+
+  // Текущий масштаб фотографии
   var currentScale = DEFAULT_SCALE;
 
   // Устанавливаем масштаб
   var setScale = function () {
     if (currentScale >= MIN_SCALE && currentScale <= MAX_SCALE) {
       scaleValue.value = String(currentScale) + '%';
-      window.formElements.photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
+      photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
     } else if (currentScale < MIN_SCALE) {
       currentScale = MIN_SCALE;
     } else {

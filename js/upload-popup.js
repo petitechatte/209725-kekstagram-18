@@ -5,10 +5,16 @@
 (function () {
   var ESC_KEY_CODE = 27;
 
-  var fileUpload = window.formElements.uploadForm.querySelector('#upload-file');
-  var uploadCloseButton = window.formElements.imageEditForm.querySelector('.img-upload__cancel');
-  var noEffectInput = window.formElements.imageEditForm.querySelector('#effect-none');
-  var descriptionInput = window.formElements.imageEditForm.querySelector('.text__description');
+  // Сохранение глобальных переменных в локальные для упрощения кода
+  var uploadForm = window.formElements.uploadForm;
+  var imageEditForm = window.formElements.imageEditForm;
+  var hashtagInput = window.formElements.hashtagInput;
+
+  // Элементы окна формы
+  var fileUpload = uploadForm.querySelector('#upload-file');
+  var uploadCloseButton = imageEditForm.querySelector('.img-upload__cancel');
+  var noEffectInput = imageEditForm.querySelector('#effect-none');
+  var descriptionInput = imageEditForm.querySelector('.text__description');
 
   // Открытие формы обработки фотографии
 
@@ -21,13 +27,13 @@
     // Устанавливаем масштаб по умолчанию
     window.resetScale();
     // Показываем окно
-    window.formElements.imageEditForm.classList.remove('hidden');
+    imageEditForm.classList.remove('hidden');
   };
 
   // Закрытие формы обработки фотографии
 
   var closeUploadForm = function () {
-    window.formElements.imageEditForm.classList.add('hidden');
+    imageEditForm.classList.add('hidden');
     document.removeEventListener('keydown', escKeydownHandler);
     // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
     fileUpload.value = '';
@@ -60,6 +66,6 @@
 
   // Потеря фокуса текстовыми полями при нажатии ESC
 
-  window.formElements.hashtagInput.addEventListener('keydown', escKeydownHandler);
+  hashtagInput.addEventListener('keydown', escKeydownHandler);
   descriptionInput.addEventListener('keydown', escKeydownHandler);
 })();
