@@ -9,33 +9,10 @@
   var randomPhotos = [];
   var copiedPhotos = [];
 
-  // Получаем случайное значение из массива
-
-  var getRandomValue = function (data) {
-    return data[Math.floor(Math.random() * (data.length))];
-  };
-
-  // Выбираем элементы для массива заданной длины из другого массива
-
-  var selectData = function (data, elementsNumber) {
-    var selectedElements = [];
-    var element;
-
-    while (selectedElements.length < elementsNumber) {
-      element = getRandomValue(data);
-
-      if (selectedElements.indexOf(element) === -1) {
-        selectedElements.push(element);
-      }
-    }
-
-    return selectedElements;
-  };
-
   // Выбираем случайные фотографии
 
   var showRandomPhotos = function () {
-    randomPhotos = selectData(window.gallery.initialData, SELECTED_PHOTOS_NUMBER);
+    randomPhotos = window.utils.selectData(window.gallery.initialData, SELECTED_PHOTOS_NUMBER);
     window.gallery.updatePhotos(randomPhotos);
   };
 
