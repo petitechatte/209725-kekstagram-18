@@ -4,15 +4,12 @@
 
 (function () {
   // Сохранение глобальных переменных в локальные для упрощения кода
-  var uploadForm = window.formElements.uploadForm;
+  var fileUpload = window.formElements.fileUpload;
   var imageEditForm = window.formElements.imageEditForm;
+  var uploadCloseButton = window.formElements.uploadCloseButton;
+  var noEffectInput = window.formElements.noEffectInput;
   var hashtagInput = window.formElements.hashtagInput;
-
-  // Элементы окна формы
-  var fileUpload = uploadForm.querySelector('#upload-file');
-  var uploadCloseButton = imageEditForm.querySelector('.img-upload__cancel');
-  var noEffectInput = imageEditForm.querySelector('#effect-none');
-  var descriptionInput = imageEditForm.querySelector('.text__description');
+  var descriptionInput = window.formElements.descriptionInput;
 
   // Открытие формы обработки фотографии
 
