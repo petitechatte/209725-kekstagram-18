@@ -54,7 +54,7 @@
   var getPhotos = function (response) {
     renderPhotos(response);
     // Показываем фильтры для сортировки
-    window.activateFilters();
+    window.activateSortingFilters();
     // Экспортируем данные для сортировки
     window.gallery = {
       // Сохраняем исходный массив данных после загрузки

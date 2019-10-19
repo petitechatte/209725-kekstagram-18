@@ -6,12 +6,6 @@
   // Количество случайных фотографий
   var SELECTED_PHOTOS_NUMBER = 10;
 
-  // Элементы DOM
-  var filtersBlock = document.querySelector('.img-filters');
-  var filterPopular = document.querySelector('#filter-popular');
-  var filterRandom = document.querySelector('#filter-random');
-  var filterDiscussed = document.querySelector('#filter-discussed');
-
   var randomPhotos = [];
   var copiedPhotos = [];
 
@@ -78,18 +72,9 @@
     window.gallery.updatePhotos(discussedPhotos);
   };
 
-  window.activateFilters = function () {
-    // Показываем кнопки-фильтры
-    filtersBlock.classList.remove('img-filters--inactive');
-    // Добвляем кнопкам обработчики
-    filterPopular.addEventListener('click', window.debounce(function () {
-      window.gallery.updatePhotos(window.gallery.initialData);
-    }));
-    filterRandom.addEventListener('click', window.debounce(function () {
-      showRandomPhotos();
-    }));
-    filterDiscussed.addEventListener('click', window.debounce(function () {
-      showDiscussedPhotos();
-    }));
+  // Экспортируем функции сортировки
+  window.sorting = {
+    showRandomPhotos: showRandomPhotos,
+    showDiscussedPhotos: showDiscussedPhotos
   };
 })();
