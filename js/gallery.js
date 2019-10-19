@@ -41,9 +41,9 @@
   // Удаляем фотографии
   var removePhotos = function () {
     // Собираем список текущих фотографий
-    var renderedPhotos = picturesBlock.querySelectorAll('.picture');
-    if (renderedPhotos.length > 0) {
-      renderedPhotos.forEach(function (photo) {
+    var galleryPhotos = picturesBlock.querySelectorAll('.picture');
+    if (galleryPhotos.length > 0) {
+      galleryPhotos.forEach(function (photo) {
         photo.remove();
       });
     }
