@@ -59,6 +59,9 @@
     updateFullViewPopup(currentPost);
     // Создаем список комментариев
     createComments(currentPost.comments);
+    // Прячем счетчик  и загрузчик комментариев
+    fullViewCommentsCounter.classList.add('visually-hidden');
+    fullViewCommentsLoader.classList.add('visually-hidden');
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
   };
