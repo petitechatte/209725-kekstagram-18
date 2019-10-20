@@ -37,6 +37,11 @@
         fragment.appendChild(createPhotoCard(data, i));
       }
       picturesBlock.appendChild(fragment);
+      // Добавляем обработчики на фотографии в галерее
+      var photoPreview = picturesBlock.querySelector('.picture');
+      photoPreview.addEventListener('click', function () {
+        window.showFullViewPopup(data);
+      });
     } catch (err) {
       showAdaptedErrorMessage(err.message);
     }
@@ -59,13 +64,16 @@
     renderPhotos(response);
     // Показываем фильтры для сортировки
     window.activateSortingFilters();
+
     // Экспортируем данные для сортировки
     window.gallery = {
       // Сохраняем исходный массив данных после загрузки
       initialData: response,
       // Обновляем фотогаллерею
       updatePhotos: function (data) {
+        // Удаляем старые фотографии из галереи
         removePhotos();
+        // Добавляем в галерею новые фотографии из массива данных
         renderPhotos(data);
       }
     };
