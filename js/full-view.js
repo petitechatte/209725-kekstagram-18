@@ -8,9 +8,21 @@
   var fullViewPhoto = fullViewPopup.querySelector('.big-picture__img img');
   var fullViewHeading = fullViewPopup.querySelector('.social__caption');
   var fullViewLikes = fullViewPopup.querySelector('.likes-count');
-  var fullViewCommentsNumber = fullViewPopup.querySelector('.comments-count');
+  var fullViewCommentsCounter = fullViewPopup.querySelector('.social__comment-count');
+  var fullViewCommentsNumber = fullViewCommentsCounter.querySelector('.comments-count');
   var fullViewCommentsList = fullViewPopup.querySelector('.social__comments');
   var fullViewComment = fullViewCommentsList.querySelector('.social__comment');
+  var fullViewCommentsLoader = fullViewPopup.querySelector('.comments-loader');
+
+  // Обновляем данные в окне просмотра фотографии
+
+  var updateFullViewPopup = function (post) {
+    fullViewPhoto.src = post.url;
+    fullViewPhoto.alt = post.description;
+    fullViewHeading.textContent = post.description;
+    fullViewLikes.textContent = post.likes;
+    fullViewCommentsNumber.textContent = post.comments.length;
+  };
 
   // Создаем комментарии к посту
 
@@ -42,13 +54,12 @@
   // Показываем пост с полноразмерной фотографией
 
   window.showFullViewPopup = function (currentData) {
-    var post = currentData[0];
+    // Подставляем данные в разметку поста
+    var currentPost = currentData[0];
+    updateFullViewPopup(currentPost);
+    // Создаем список комментариев
+    createComments(currentPost.comments);
+    // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
-    fullViewPhoto.src = post.url;
-    fullViewPhoto.alt = post.description;
-    fullViewHeading.textContent = post.description;
-    fullViewLikes.textContent = post.likes;
-    fullViewCommentsNumber.textContent = post.comments.length;
-    createComments(post.comments);
   };
 })();
