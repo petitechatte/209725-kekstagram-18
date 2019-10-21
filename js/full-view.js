@@ -16,12 +16,12 @@
 
   // Обновляем данные в окне просмотра фотографии
 
-  var updateFullViewPopup = function (post) {
-    fullViewPhoto.src = post.url;
-    fullViewPhoto.alt = post.description;
-    fullViewHeading.textContent = post.description;
-    fullViewLikes.textContent = post.likes;
-    fullViewCommentsNumber.textContent = post.comments.length;
+  var updateFullViewPopup = function (currentPost) {
+    fullViewPhoto.src = currentPost.url;
+    fullViewPhoto.alt = currentPost.description;
+    fullViewHeading.textContent = currentPost.description;
+    fullViewLikes.textContent = currentPost.likes;
+    fullViewCommentsNumber.textContent = String(currentPost.comments.length);
   };
 
   // Создаем комментарии к посту
@@ -53,9 +53,8 @@
 
   // Показываем пост с полноразмерной фотографией
 
-  window.showFullViewPopup = function (currentData) {
+  window.showFullViewPopup = function (currentPost) {
     // Подставляем данные в разметку поста
-    var currentPost = currentData[0];
     updateFullViewPopup(currentPost);
     // Создаем список комментариев
     createComments(currentPost.comments);
