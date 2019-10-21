@@ -25,9 +25,19 @@
     return photoCard;
   };
 
+  // Добавляем фотографии на страницу
+
+  var renderPhotos = function (data) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < data.length; i++) {
+      fragment.appendChild(createPhotoCard(data, i));
+    }
+    picturesBlock.appendChild(fragment);
+  };
+
   // Создаем обработчик по клику
 
-  var activatePhoto = function (link, currentPost) {
+  var createClickListener = function (link, currentPost) {
     var previewClickHandler = function () {
       window.showFullViewPopup(currentPost);
     };
@@ -35,32 +45,32 @@
     link.addEventListener('click', previewClickHandler);
   };
 
-  // Добавляем фотографии на страницу
+  // Добавляем обработчики на все фотографии галереи
 
-  var renderPhotos = function (data) {
-    var fragment = document.createDocumentFragment();
+  var activateGallery = function (data) {
+    var photoPreviews = picturesBlock.querySelectorAll('.picture');
 
+    for (var j = 0; j < photoPreviews.length; j++) {
+      createClickListener(photoPreviews[j], data[j]);
+    }
+  };
+
+  // Заполняем галерею
+
+  var createGallery = function (data) {
     // Страхуемся от неправильного формата данных с сервера
     try {
       // Создаем фотографии для галлереи
-      for (var i = 0; i < data.length; i++) {
-        fragment.appendChild(createPhotoCard(data, i));
-      }
-      picturesBlock.appendChild(fragment);
-
+      renderPhotos(data);
       // Добавляем обработчики на фотографии в галерее
-      var photoPreviews = picturesBlock.querySelectorAll('.picture');
-
-      for (var j = 0; j < photoPreviews.length; j++) {
-        activatePhoto(photoPreviews[j], data[j]);
-      }
+      activateGallery(data);
     } catch (err) {
       showAdaptedErrorMessage(err.message);
     }
   };
 
   // Удаляем фотографии
-  var removePhotos = function () {
+  var clearGallery = function () {
     // Собираем список текущих фотографий
     var galleryPhotos = picturesBlock.querySelectorAll('.picture');
     if (galleryPhotos.length > 0) {
@@ -73,7 +83,8 @@
   // Получаем фотографии с сервера
 
   var getPhotos = function (response) {
-    renderPhotos(response);
+    // Заполняем галерею
+    createGallery(response);
     // Показываем фильтры для сортировки
     window.activateSortingFilters();
 
@@ -82,11 +93,11 @@
       // Сохраняем исходный массив данных после загрузки
       initialData: response,
       // Обновляем фотогаллерею
-      updatePhotos: function (data) {
+      updateGallery: function (data) {
         // Удаляем старые фотографии из галереи
-        removePhotos();
+        clearGallery();
         // Добавляем в галерею новые фотографии из массива данных
-        renderPhotos(data);
+        createGallery(data);
       }
     };
   };
