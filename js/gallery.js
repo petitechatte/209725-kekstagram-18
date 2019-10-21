@@ -7,6 +7,8 @@
   var picturesBlock = document.querySelector('.pictures');
   // Находим в разметке шаблон фотографий для галереи
   var photoTemplate = document.querySelector('#picture').content;
+  // Создаем переменную для хранения обработчика в области видимости модуля (для последующего удаления)
+  var previewClickHandler;
 
   // Создаем разметку для поста с фотографией
 
@@ -38,7 +40,7 @@
   // Создаем обработчик по клику
 
   var createClickListener = function (link, currentPost) {
-    var previewClickHandler = function () {
+    previewClickHandler = function () {
       window.showFullViewPopup(currentPost);
     };
 
@@ -75,6 +77,7 @@
     var galleryPhotos = picturesBlock.querySelectorAll('.picture');
     if (galleryPhotos.length > 0) {
       galleryPhotos.forEach(function (photo) {
+        photo.removeEventListener('click', previewClickHandler);
         photo.remove();
       });
     }
