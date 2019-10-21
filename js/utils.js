@@ -26,23 +26,16 @@
     return selectedElements;
   };
 
-  // Обработка нажатия ESC
-  var escKeydownHandler = function (evt) {
+  // Проверка нажатия нажатия ESC
+  var isEscEvent = function (evt, action) {
     if (evt.keyCode === ESC_KEY_CODE) {
-      if (evt.target.classList.contains('text__hashtags') || evt.target.tagName === 'TEXTAREA') {
-        // Потеря фокуса текстовым полем при нажатии ESC
-        evt.stopPropagation();
-        evt.target.blur();
-      } else {
-        // Закрытие формы
-        window.closeUploadForm();
-      }
+      action();
     }
   };
 
   window.utils = {
     getRandomValue: getRandomValue,
     selectData: selectData,
-    escKeydownHandler: escKeydownHandler
+    isEscEvent: isEscEvent
   };
 })();
