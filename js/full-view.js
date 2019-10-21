@@ -13,6 +13,7 @@
   var fullViewCommentsList = fullViewPopup.querySelector('.social__comments');
   var fullViewComment = fullViewCommentsList.querySelector('.social__comment');
   var fullViewCommentsLoader = fullViewPopup.querySelector('.comments-loader');
+  var fullViewCloseButton = fullViewPopup.querySelector('#picture-cancel');
 
   // Обновляем данные в окне просмотра фотографии
 
@@ -64,4 +65,11 @@
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
   };
+
+  // Закрываем окно просмотра фотографии
+  var closeFullViewPopup = function () {
+    fullViewPopup.classList.add('hidden');
+  };
+
+  fullViewCloseButton.addEventListener('click', closeFullViewPopup);
 })();
