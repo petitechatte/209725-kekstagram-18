@@ -46,6 +46,15 @@
 
   // Потеря фокуса текстовыми полями при нажатии ESC
 
-  hashtagInput.addEventListener('keydown', window.utils.escKeydownHandler);
-  descriptionInput.addEventListener('keydown', window.utils.escKeydownHandler);
+  var createEscListener = function (field) {
+    field.addEventListener('keydown', function (evt) {
+      window.utils.isEscEvent(evt, function () {
+        evt.stopPropagation();
+        evt.target.blur();
+      });
+    });
+  };
+
+  createEscListener(hashtagInput);
+  createEscListener(descriptionInput);
 })();
