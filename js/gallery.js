@@ -25,6 +25,16 @@
     return photoCard;
   };
 
+  // Создаем обработчик по клику
+
+  var activatePhoto = function (link, currentPost) {
+    var previewClickHandler = function () {
+      window.showFullViewPopup(currentPost);
+    };
+
+    link.addEventListener('click', previewClickHandler);
+  };
+
   // Добавляем фотографии на страницу
 
   var renderPhotos = function (data) {
@@ -37,11 +47,13 @@
         fragment.appendChild(createPhotoCard(data, i));
       }
       picturesBlock.appendChild(fragment);
+
       // Добавляем обработчики на фотографии в галерее
-      var photoPreview = picturesBlock.querySelector('.picture');
-      photoPreview.addEventListener('click', function () {
-        window.showFullViewPopup(data);
-      });
+      var photoPreviews = picturesBlock.querySelectorAll('.picture');
+
+      for (var j = 0; j < photoPreviews.length; j++) {
+        activatePhoto(photoPreviews[j], data[j]);
+      }
     } catch (err) {
       showAdaptedErrorMessage(err.message);
     }
