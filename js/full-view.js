@@ -52,6 +52,12 @@
     fullViewCommentsList.appendChild(fragment);
   };
 
+  // Закрытие окна загрузки файла по нажатию Esc
+
+  var fullViewEscKeydownHandler = function (evt) {
+    window.utils.isEscEvent(evt, closeFullViewPopup);
+  };
+
   // Показываем пост с полноразмерной фотографией
 
   window.showFullViewPopup = function (currentPost) {
@@ -62,6 +68,8 @@
     // Прячем счетчик  и загрузчик комментариев
     fullViewCommentsCounter.classList.add('visually-hidden');
     fullViewCommentsLoader.classList.add('visually-hidden');
+    // Добавляем обработчик нажатия Esc
+    document.addEventListener('keydown', fullViewEscKeydownHandler);
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
   };
@@ -69,6 +77,7 @@
   // Закрываем окно просмотра фотографии
   var closeFullViewPopup = function () {
     fullViewPopup.classList.add('hidden');
+    document.removeEventListener('keydown', fullViewEscKeydownHandler);
   };
 
   fullViewCloseButton.addEventListener('click', closeFullViewPopup);
