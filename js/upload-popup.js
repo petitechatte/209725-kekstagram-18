@@ -11,11 +11,31 @@
   var hashtagInput = window.formElements.hashtagInput;
   var descriptionInput = window.formElements.descriptionInput;
 
+  // Закрытие окна загрузки файла по нажатию Esc
+
+  var uploadPopupEscKeydownHandler = function (evt) {
+    window.utils.isEscEvent(evt, window.closeUploadForm);
+  };
+
+  // Потеря фокуса текстовыми полями при нажатии ESC
+
+  var createFieldEscListener = function (field) {
+    field.addEventListener('keydown', function (evt) {
+      window.utils.isEscEvent(evt, function () {
+        evt.stopPropagation();
+        evt.target.blur();
+      });
+    });
+  };
+
+  createFieldEscListener(hashtagInput);
+  createFieldEscListener(descriptionInput);
+
   // Открытие формы обработки фотографии
 
   var openUploadForm = function () {
     // Добавляем обработчик нажатия Esc
-    document.addEventListener('keydown', window.utils.escKeydownHandler);
+    document.addEventListener('keydown', uploadPopupEscKeydownHandler);
     // Сбрасываем фильтр по умолчанию
     noEffectInput.checked = 'checked';
     window.toggleFilter();
@@ -29,7 +49,7 @@
 
   window.closeUploadForm = function () {
     imageEditForm.classList.add('hidden');
-    document.removeEventListener('keydown', window.utils.escKeydownHandler);
+    document.removeEventListener('keydown', uploadPopupEscKeydownHandler);
     // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
     fileUpload.value = '';
   };
@@ -43,18 +63,4 @@
   uploadCloseButton.addEventListener('click', function () {
     window.closeUploadForm();
   });
-
-  // Потеря фокуса текстовыми полями при нажатии ESC
-
-  var createEscListener = function (field) {
-    field.addEventListener('keydown', function (evt) {
-      window.utils.isEscEvent(evt, function () {
-        evt.stopPropagation();
-        evt.target.blur();
-      });
-    });
-  };
-
-  createEscListener(hashtagInput);
-  createEscListener(descriptionInput);
 })();
