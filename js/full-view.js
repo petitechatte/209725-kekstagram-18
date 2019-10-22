@@ -13,15 +13,16 @@
   var fullViewCommentsList = fullViewPopup.querySelector('.social__comments');
   var fullViewComment = fullViewCommentsList.querySelector('.social__comment');
   var fullViewCommentsLoader = fullViewPopup.querySelector('.comments-loader');
+  var fullViewCloseButton = fullViewPopup.querySelector('#picture-cancel');
 
   // Обновляем данные в окне просмотра фотографии
 
-  var updateFullViewPopup = function (post) {
-    fullViewPhoto.src = post.url;
-    fullViewPhoto.alt = post.description;
-    fullViewHeading.textContent = post.description;
-    fullViewLikes.textContent = post.likes;
-    fullViewCommentsNumber.textContent = post.comments.length;
+  var updateFullViewPopup = function (currentPost) {
+    fullViewPhoto.src = currentPost.url;
+    fullViewPhoto.alt = currentPost.description;
+    fullViewHeading.textContent = currentPost.description;
+    fullViewLikes.textContent = currentPost.likes;
+    fullViewCommentsNumber.textContent = String(currentPost.comments.length);
   };
 
   // Создаем комментарии к посту
@@ -51,18 +52,33 @@
     fullViewCommentsList.appendChild(fragment);
   };
 
+  // Закрытие окна загрузки файла по нажатию Esc
+
+  var fullViewEscKeydownHandler = function (evt) {
+    window.utils.isEscEvent(evt, closeFullViewPopup);
+  };
+
   // Показываем пост с полноразмерной фотографией
 
-  window.showFullViewPopup = function (currentData) {
+  window.showFullViewPopup = function (currentPost) {
     // Подставляем данные в разметку поста
-    var currentPost = currentData[0];
     updateFullViewPopup(currentPost);
     // Создаем список комментариев
     createComments(currentPost.comments);
     // Прячем счетчик  и загрузчик комментариев
     fullViewCommentsCounter.classList.add('visually-hidden');
     fullViewCommentsLoader.classList.add('visually-hidden');
+    // Добавляем обработчик нажатия Esc
+    document.addEventListener('keydown', fullViewEscKeydownHandler);
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
   };
+
+  // Закрываем окно просмотра фотографии
+  var closeFullViewPopup = function () {
+    fullViewPopup.classList.add('hidden');
+    document.removeEventListener('keydown', fullViewEscKeydownHandler);
+  };
+
+  fullViewCloseButton.addEventListener('click', closeFullViewPopup);
 })();

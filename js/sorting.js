@@ -13,7 +13,7 @@
 
   var showRandomPhotos = function () {
     randomPhotos = window.utils.selectData(window.gallery.initialData, SELECTED_PHOTOS_NUMBER);
-    window.gallery.updatePhotos(randomPhotos);
+    window.gallery.updateGallery(randomPhotos);
   };
 
   // Дополнительная сортировка по количеству лайков
@@ -46,7 +46,7 @@
 
   var showDiscussedPhotos = function () {
     var discussedPhotos = sortPhotos();
-    window.gallery.updatePhotos(discussedPhotos);
+    window.gallery.updateGallery(discussedPhotos);
   };
 
   // Экспортируем функции сортировки
