@@ -75,11 +75,9 @@
   var clearGallery = function () {
     // Собираем список текущих фотографий
     var galleryPhotos = picturesBlock.querySelectorAll('.picture');
-    if (galleryPhotos.length > 0) {
-      galleryPhotos.forEach(function (photo) {
-        photo.removeEventListener('click', previewClickHandler);
-        photo.remove();
-      });
+    for (var i = 0; i < galleryPhotos.length; i++) {
+      galleryPhotos[i].removeEventListener('click', previewClickHandler);
+      galleryPhotos[i].remove();
     }
   };
 
