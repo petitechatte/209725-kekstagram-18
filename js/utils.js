@@ -33,9 +33,21 @@
     }
   };
 
+  // Потеря фокуса текстовыми полями при нажатии ESC
+
+  var createFieldEscListener = function (field) {
+    field.addEventListener('keydown', function (evt) {
+      window.utils.isEscEvent(evt, function () {
+        evt.stopPropagation();
+        evt.target.blur();
+      });
+    });
+  };
+
   window.utils = {
     getRandomValue: getRandomValue,
     selectData: selectData,
-    isEscEvent: isEscEvent
+    isEscEvent: isEscEvent,
+    createFieldEscListener: createFieldEscListener
   };
 })();

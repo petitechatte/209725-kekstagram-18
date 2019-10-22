@@ -17,19 +17,10 @@
     window.utils.isEscEvent(evt, window.closeUploadForm);
   };
 
-  // Потеря фокуса текстовыми полями при нажатии ESC
+  // Потеря фокуса полями ввода по нажатию Esc
 
-  var createFieldEscListener = function (field) {
-    field.addEventListener('keydown', function (evt) {
-      window.utils.isEscEvent(evt, function () {
-        evt.stopPropagation();
-        evt.target.blur();
-      });
-    });
-  };
-
-  createFieldEscListener(hashtagInput);
-  createFieldEscListener(descriptionInput);
+  window.utils.createFieldEscListener(hashtagInput);
+  window.utils.createFieldEscListener(descriptionInput);
 
   // Открытие формы обработки фотографии
 
