@@ -138,17 +138,22 @@
     // Обновляем значение координаты
     effectLevelPinX = evt.clientX;
     effectLevel = getEffectLevelPinPosition();
-    console.log(effectLevel);
-    // Применяем эффект при изменении координаты ползунка
-    setEffectLevel(effectLevel);
-    tuneEffect(getCurrentFilter(), effectLevel);
+    // Устанавливаем ограничения передвижения ползунка
+    if (effectLevel < 0) {
+      effectLevel = 0;
+    } else if (effectLevel > 100) {
+      effectLevel = 100;
+    } else {
+      // Применяем эффект при изменении координаты ползунка
+      setEffectLevel(effectLevel);
+      tuneEffect(getCurrentFilter(), effectLevel);
+    }
   };
 
   var pinMouseupHandler = function () {
     // Удаляем обработчики событий мыши
     document.removeEventListener('mousemove', pinMousemoveHandler);
     document.removeEventListener('mouseup', pinMouseupHandler);
-    console.log('Обработчики сняты');
   };
 
   var pinMousedownHandler = function (evt) {
