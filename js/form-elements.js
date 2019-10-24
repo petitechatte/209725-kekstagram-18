@@ -7,7 +7,7 @@
   var fileUpload = uploadForm.querySelector('#upload-file');
   var imageEditForm = uploadForm.querySelector('.img-upload__overlay');
   var uploadCloseButton = imageEditForm.querySelector('.img-upload__cancel');
-  var photoPreview = imageEditForm.querySelector('.img-upload__preview');
+  var photoPreview = imageEditForm.querySelector('.img-upload__preview img');
   var effectController = imageEditForm.querySelector('.img-upload__effect-level');
   var noEffectInput = imageEditForm.querySelector('#effect-none');
   var hashtagInput = imageEditForm.querySelector('.text__hashtags');
