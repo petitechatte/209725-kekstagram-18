@@ -21,6 +21,9 @@
   var effectLevelPin = effectController.querySelector('.effect-level__pin');
   var filters = imageEditForm.querySelectorAll('.effects__radio');
 
+  var shift = 0; // смещение ползунка
+  var effectLevel; // уровень эффекта
+  var effectLevelPinX; // координата пина слайдера
   var currentFilter; // переменная для хранения имени фильтра в момент переключения
 
   // Отображение ползунка для регуляции эффекта
@@ -121,30 +124,40 @@
     });
   }
 
+  // Рассчитываем положение ползунка в процентах
+
+  var getEffectLevelPinPosition = function () {
+    return Math.round(((effectLevelPin.offsetLeft - shift) / effectLevelLine.offsetWidth) * 100);
+  };
+
   // Перемещение ползунка
 
-  var pinMousemoveHandler = function () {
-    // Применяем эффект после установки ползунка
-    setEffectLevel(getEffectLevelPinPosition());
-    tuneEffect(getCurrentFilter(), getEffectLevelPinPosition());
+  var pinMousemoveHandler = function (evt) {
+    // Определяем смещение ползунка
+    shift = effectLevelPinX - evt.clientX;
+    // Обновляем значение координаты
+    effectLevelPinX = evt.clientX;
+    effectLevel = getEffectLevelPinPosition();
+    console.log(effectLevel);
+    // Применяем эффект при изменении координаты ползунка
+    setEffectLevel(effectLevel);
+    tuneEffect(getCurrentFilter(), effectLevel);
   };
 
   var pinMouseupHandler = function () {
     // Удаляем обработчики событий мыши
-    effectLevelPin.removeEventListener('mousemove', pinMousemoveHandler);
-    effectLevelPin.removeEventListener('mouseup', pinMouseupHandler);
+    document.removeEventListener('mousemove', pinMousemoveHandler);
+    document.removeEventListener('mouseup', pinMouseupHandler);
+    console.log('Обработчики сняты');
   };
 
-  var pinMousedownHandler = function () {
+  var pinMousedownHandler = function (evt) {
+    // Определяем начальную координату
+    effectLevelPinX = evt.clientX;
+
     // Добавляем обработчики событий мыши
-    effectLevelPin.addEventListener('mousemove', pinMousemoveHandler);
-    effectLevelPin.addEventListener('mouseup', pinMouseupHandler);
-  };
-
-  // Рассчитываем положение ползунка в процентах
-
-  var getEffectLevelPinPosition = function () {
-    return Math.round((effectLevelPin.offsetLeft / effectLevelLine.offsetWidth) * 100);
+    document.addEventListener('mousemove', pinMousemoveHandler);
+    document.addEventListener('mouseup', pinMouseupHandler);
   };
 
   effectLevelPin.addEventListener('mousedown', pinMousedownHandler);
