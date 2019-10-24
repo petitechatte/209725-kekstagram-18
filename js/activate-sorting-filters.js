@@ -14,7 +14,7 @@
     filtersBlock.classList.remove('img-filters--inactive');
     // Добвляем кнопкам обработчики
     filterPopular.addEventListener('click', window.debounce(function () {
-      window.gallery.updatePhotos(window.gallery.initialData);
+      window.gallery.updateGallery(window.gallery.initialData);
     }));
     filterRandom.addEventListener('click', window.debounce(function () {
       window.sorting.showRandomPhotos();
