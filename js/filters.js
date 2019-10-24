@@ -21,8 +21,7 @@
   var effectLevelPin = effectController.querySelector('.effect-level__pin');
   var filters = imageEditForm.querySelectorAll('.effects__radio');
 
-  // Переменная для хранения имени фильтра в момент переключения
-  var currentFilter;
+  var currentFilter; // переменная для хранения имени фильтра в момент переключения
 
   // Отображение ползунка для регуляции эффекта
 
@@ -122,16 +121,31 @@
     });
   }
 
+  // Перемещение ползунка
+
+  var pinMousemoveHandler = function () {
+    // Применяем эффект после установки ползунка
+    setEffectLevel(getEffectLevelPinPosition());
+    tuneEffect(getCurrentFilter(), getEffectLevelPinPosition());
+  };
+
+  var pinMouseupHandler = function () {
+    // Удаляем обработчики событий мыши
+    effectLevelPin.removeEventListener('mousemove', pinMousemoveHandler);
+    effectLevelPin.removeEventListener('mouseup', pinMouseupHandler);
+  };
+
+  var pinMousedownHandler = function () {
+    // Добавляем обработчики событий мыши
+    effectLevelPin.addEventListener('mousemove', pinMousemoveHandler);
+    effectLevelPin.addEventListener('mouseup', pinMouseupHandler);
+  };
+
   // Рассчитываем положение ползунка в процентах
 
   var getEffectLevelPinPosition = function () {
     return Math.round((effectLevelPin.offsetLeft / effectLevelLine.offsetWidth) * 100);
   };
 
-  // Применяем эффект после установки ползунка
-
-  effectLevelPin.addEventListener('mouseup', function () {
-    setEffectLevel(getEffectLevelPinPosition());
-    tuneEffect(getCurrentFilter(), getEffectLevelPinPosition());
-  });
+  effectLevelPin.addEventListener('mousedown', pinMousedownHandler);
 })();
