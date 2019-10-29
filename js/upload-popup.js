@@ -13,7 +13,7 @@
 
   // Закрытие окна загрузки файла по нажатию Esc
 
-  var uploadPopupEscKeydownHandler = function (evt) {
+  var windowEscKeydownHandler = function (evt) {
     window.utils.isEscEvent(evt, window.closeUploadForm);
   };
 
@@ -26,7 +26,7 @@
 
   var openUploadForm = function () {
     // Добавляем обработчик нажатия Esc
-    document.addEventListener('keydown', uploadPopupEscKeydownHandler);
+    document.addEventListener('keydown', windowEscKeydownHandler);
     // Сбрасываем фильтр по умолчанию
     noEffectInput.checked = 'checked';
     window.toggleFilter();
@@ -40,7 +40,7 @@
 
   window.closeUploadForm = function () {
     imageEditForm.classList.add('hidden');
-    document.removeEventListener('keydown', uploadPopupEscKeydownHandler);
+    document.removeEventListener('keydown', windowEscKeydownHandler);
     // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
     fileUpload.value = '';
   };

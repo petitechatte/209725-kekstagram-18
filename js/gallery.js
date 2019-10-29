@@ -8,7 +8,7 @@
   // Находим в разметке шаблон фотографий для галереи
   var photoTemplate = document.querySelector('#picture').content;
   // Создаем переменную для хранения обработчика в области видимости модуля (для последующего удаления)
-  var previewClickHandler;
+  var galleryPhotoClickHandler;
 
   // Создаем разметку для поста с фотографией
 
@@ -40,11 +40,11 @@
   // Создаем обработчик по клику
 
   var createClickListener = function (link, currentPost) {
-    previewClickHandler = function () {
+    galleryPhotoClickHandler = function () {
       window.showFullViewPopup(currentPost);
     };
 
-    link.addEventListener('click', previewClickHandler);
+    link.addEventListener('click', galleryPhotoClickHandler);
   };
 
   // Добавляем обработчики на все фотографии галереи
@@ -76,7 +76,7 @@
     // Собираем список текущих фотографий
     var galleryPhotos = picturesBlock.querySelectorAll('.picture');
     for (var i = 0; i < galleryPhotos.length; i++) {
-      galleryPhotos[i].removeEventListener('click', previewClickHandler);
+      galleryPhotos[i].removeEventListener('click', galleryPhotoClickHandler);
       galleryPhotos[i].remove();
     }
   };
