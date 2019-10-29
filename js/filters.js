@@ -132,26 +132,28 @@
 
   // Рассчитываем положение ползунка в процентах
 
-  var getEffectLevelPinPosition = function () {
-    return Math.round((cursorRelativeX / effectControllerWidth) * 100);
-  };
-
-  // Перемещение ползунка
-
-  var pinMousemoveHandler = function (evt) {
-    // Получаем значение координаты курсора относительно слайдера
+  var getEffectLevelPinPosition = function (evt) {
+    // Получаем значение координаты курсора относительно левого конца слайдера
     cursorRelativeX = evt.clientX - effectControllerMinX;
-    effectLevel = getEffectLevelPinPosition();
+    // Получаем значение уровня эффекта в процентах
+    effectLevel = Math.round((cursorRelativeX / effectControllerWidth) * 100);
     // Устанавливаем ограничения передвижения ползунка
     if (effectLevel < 0) {
       effectLevel = 0;
     } else if (effectLevel > 100) {
       effectLevel = 100;
-    } else {
-      // Применяем эффект при изменении координаты ползунка
-      setEffectLevel(effectLevel);
-      tuneEffect(getCurrentFilter(), effectLevel);
     }
+  };
+
+  // Перемещение ползунка
+
+  var pinMousemoveHandler = function (evt) {
+    // Определяем будущее положение ползунка
+    getEffectLevelPinPosition(evt);
+    // Устанавливаем соответствующий уровень эффекта и положение ползунка
+    setEffectLevel(effectLevel);
+    // Применяем выбранный уровень эффекта к превью фото
+    tuneEffect(getCurrentFilter(), effectLevel);
   };
 
   var pinMouseupHandler = function () {
