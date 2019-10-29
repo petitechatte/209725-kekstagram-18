@@ -53,7 +53,7 @@
 
   // Закрытие окна загрузки файла по нажатию Esc
 
-  var fullViewEscKeydownHandler = function (evt) {
+  var documentEscKeydownHandler = function (evt) {
     window.utils.isEscEvent(evt, closeFullViewPopup);
   };
 
@@ -68,7 +68,7 @@
     fullViewCommentsCounter.classList.add('visually-hidden');
     fullViewCommentsLoader.classList.add('visually-hidden');
     // Добавляем обработчик нажатия Esc
-    document.addEventListener('keydown', fullViewEscKeydownHandler);
+    document.addEventListener('keydown', documentEscKeydownHandler);
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
   };
@@ -76,7 +76,7 @@
   // Закрываем окно просмотра фотографии
   var closeFullViewPopup = function () {
     fullViewPopup.classList.add('hidden');
-    document.removeEventListener('keydown', fullViewEscKeydownHandler);
+    document.removeEventListener('keydown', documentEscKeydownHandler);
   };
 
   fullViewCloseButton.addEventListener('click', closeFullViewPopup);
