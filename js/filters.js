@@ -21,10 +21,12 @@
   var effectLevelPin = effectController.querySelector('.effect-level__pin');
   var filters = imageEditForm.querySelectorAll('.effects__radio');
 
-  var shift = 0; // смещение ползунка
-  var effectLevel; // уровень эффекта
-  var effectLevelPinX; // координата пина слайдера
   var currentFilter; // переменная для хранения имени фильтра в момент переключения
+  var effectLevel; // уровень эффекта
+  var effectControllerCoordinates; // параметры слайдера
+  var effectControllerMinX; // левый конец слайдера
+  var effectControllerWidth; // правый конец слайдера
+  var cursorRelativeX; // координата курсора относительно левого конца слайдера
 
   // Отображение ползунка для регуляции эффекта
 
@@ -35,6 +37,10 @@
     } else {
       // Показываем ползунок при выборе фильтра
       effectController.classList.remove('hidden');
+      // Находим параметры слайдера после его отрисовки на странице
+      effectControllerCoordinates = effectLevelLine.getBoundingClientRect();
+      effectControllerMinX = effectControllerCoordinates.x;
+      effectControllerWidth = effectControllerCoordinates.width;
     }
   };
 
@@ -127,16 +133,14 @@
   // Рассчитываем положение ползунка в процентах
 
   var getEffectLevelPinPosition = function () {
-    return Math.round(((effectLevelPin.offsetLeft - shift) / effectLevelLine.offsetWidth) * 100);
+    return Math.round((cursorRelativeX / effectControllerWidth) * 100);
   };
 
   // Перемещение ползунка
 
   var pinMousemoveHandler = function (evt) {
-    // Определяем смещение ползунка
-    shift = effectLevelPinX - evt.clientX;
-    // Обновляем значение координаты
-    effectLevelPinX = evt.clientX;
+    // Получаем значение координаты курсора относительно слайдера
+    cursorRelativeX = evt.clientX - effectControllerMinX;
     effectLevel = getEffectLevelPinPosition();
     // Устанавливаем ограничения передвижения ползунка
     if (effectLevel < 0) {
@@ -158,7 +162,7 @@
 
   var pinMousedownHandler = function (evt) {
     // Определяем начальную координату
-    effectLevelPinX = evt.clientX;
+    cursorRelativeX = evt.clientX;
 
     // Добавляем обработчики событий мыши
     document.addEventListener('mousemove', pinMousemoveHandler);
