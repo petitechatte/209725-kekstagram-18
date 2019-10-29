@@ -36,7 +36,6 @@
     for (var i = 0; i < comments.length; i++) {
       // Копируем разметку комментария
       commentBlock = fullViewComment.cloneNode(true);
-      fullViewCommentsList.appendChild(commentBlock);
       commentatorAvatar = commentBlock.querySelector('.social__picture');
       commentText = commentBlock.querySelector('.social__text');
       // Заполняем шаблон комментария данными
