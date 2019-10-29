@@ -147,7 +147,7 @@
 
   // Перемещение ползунка
 
-  var pinMousemoveHandler = function (evt) {
+  var documentMousemoveHandler = function (evt) {
     // Определяем будущее положение ползунка
     getEffectLevelPinPosition(evt);
     // Устанавливаем соответствующий уровень эффекта и положение ползунка
@@ -156,20 +156,17 @@
     tuneEffect(getCurrentFilter(), effectLevel);
   };
 
-  var pinMouseupHandler = function () {
+  var documentMouseupHandler = function () {
     // Удаляем обработчики событий мыши
-    document.removeEventListener('mousemove', pinMousemoveHandler);
-    document.removeEventListener('mouseup', pinMouseupHandler);
+    document.removeEventListener('mousemove', documentMousemoveHandler);
+    document.removeEventListener('mouseup', documentMouseupHandler);
   };
 
-  var pinMousedownHandler = function (evt) {
-    // Определяем начальную координату
-    cursorRelativeX = evt.clientX;
-
+  var effectLevelPinMousedownHandler = function () {
     // Добавляем обработчики событий мыши
-    document.addEventListener('mousemove', pinMousemoveHandler);
-    document.addEventListener('mouseup', pinMouseupHandler);
+    document.addEventListener('mousemove', documentMousemoveHandler);
+    document.addEventListener('mouseup', documentMouseupHandler);
   };
 
-  effectLevelPin.addEventListener('mousedown', pinMousedownHandler);
+  effectLevelPin.addEventListener('mousedown', effectLevelPinMousedownHandler);
 })();
