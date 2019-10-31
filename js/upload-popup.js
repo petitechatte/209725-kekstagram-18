@@ -42,8 +42,10 @@
   window.closeUploadForm = function () {
     imageEditForm.classList.add('hidden');
     document.removeEventListener('keydown', windowEscKeydownHandler);
-    // сбрасываем значение поля для срабатывания change при повторной загрузке того же файла
+    // Сбрасываем значения полей формы
     fileUpload.value = '';
+    hashtagInput.value = '';
+    descriptionInput.value = '';
   };
 
   // Добавляем обработчики для открытия и закрытия формы
