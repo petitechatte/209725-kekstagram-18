@@ -4,10 +4,14 @@
 
 (function () {
   // Адрес сервера данных
-  var URL_DATA = 'https://js.dump.academy/kekstagram/data';
+  var Url = {
+    DATA: 'https://js.dump.academy/kekstagram/data',
+    UPLOAD: 'https://js.dump.academy/kekstagram'
+  };
 
   // Ожидаемое время загрузки данных
   var TIMEOUT_LIMIT = 4000;
+
   // Ожидаемые статусы HTTP-ответа
   var Status = {
     OK: 200,
@@ -20,7 +24,11 @@
   window.backend = {
     // Загружаем данные с сервера
     load: function (onLoad, onError) {
-      createRequest(onLoad, onError, 'GET', URL_DATA);
+      createRequest(onLoad, onError, 'GET', Url.DATA);
+    },
+    // Отправляем данные на сервер
+    save: function (data, onLoad, onError) {
+      createRequest(onLoad, onError, 'POST', Url.UPLOAD, data);
     },
     // Создаем сообщение об ошибке загрузки
     showErrorMessage: function () {

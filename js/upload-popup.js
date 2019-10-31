@@ -4,6 +4,7 @@
 
 (function () {
   // Сохранение глобальных переменных в локальные для упрощения кода
+  var uploadForm = window.formElements.uploadForm;
   var fileUpload = window.formElements.fileUpload;
   var imageEditForm = window.formElements.imageEditForm;
   var uploadCloseButton = window.formElements.uploadCloseButton;
@@ -53,5 +54,12 @@
 
   uploadCloseButton.addEventListener('click', function () {
     window.closeUploadForm();
+  });
+
+  // Отправляем форму асинхронно на сервер
+
+  uploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(uploadForm));
   });
 })();
