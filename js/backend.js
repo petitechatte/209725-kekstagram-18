@@ -9,11 +9,13 @@
   // Ожидаемое время загрузки данных
   var TIMEOUT_LIMIT = 4000;
   // Ожидаемые статусы HTTP-ответа
-  var OK_STATUS = 200;
-  var WRONG_REQUEST_STATUS = 400;
-  var UNAUTHORIZED_STATUS = 401;
-  var NOT_FOUND_STATUS = 404;
-  var SERVER_ERROR_STATUS = 500;
+  var Status = {
+    OK: 200,
+    WRONG_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    NOT_FOUND: 404,
+    SERVER_ERROR: 500
+  };
 
   window.backend = {
     // Загружаем данные с сервера
@@ -37,19 +39,19 @@
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case OK_STATUS:
+        case Status.OK:
           onLoad(xhr.response);
           break;
-        case WRONG_REQUEST_STATUS:
+        case Status.WRONG_REQUEST:
           onError('Неверный запрос.');
           break;
-        case UNAUTHORIZED_STATUS:
+        case Status.UNAUTHORIZED:
           onError('Пользователь не авторизован.');
           break;
-        case NOT_FOUND_STATUS:
+        case Status.NOT_FOUND:
           onError('Ничего не найдено.');
           break;
-        case SERVER_ERROR_STATUS:
+        case Status.SERVER_ERROR:
           onError('Сервер недоступен.');
           break;
         default:
