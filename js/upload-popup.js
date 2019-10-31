@@ -60,6 +60,6 @@
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm));
+    window.backend.save(new FormData(uploadForm), window.closeUploadForm);
   });
 })();
