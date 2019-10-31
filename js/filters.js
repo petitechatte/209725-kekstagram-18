@@ -21,8 +21,12 @@
   var effectLevelPin = effectController.querySelector('.effect-level__pin');
   var filters = imageEditForm.querySelectorAll('.effects__radio');
 
-  // Переменная для хранения имени фильтра в момент переключения
-  var currentFilter;
+  var currentFilter; // переменная для хранения имени фильтра в момент переключения
+  var effectLevel; // уровень эффекта
+  var effectControllerCoordinates; // параметры слайдера
+  var effectControllerMinX; // левый конец слайдера
+  var effectControllerWidth; // правый конец слайдера
+  var cursorRelativeX; // координата курсора относительно левого конца слайдера
 
   // Отображение ползунка для регуляции эффекта
 
@@ -33,6 +37,10 @@
     } else {
       // Показываем ползунок при выборе фильтра
       effectController.classList.remove('hidden');
+      // Находим параметры слайдера после его отрисовки на странице
+      effectControllerCoordinates = effectLevelLine.getBoundingClientRect();
+      effectControllerMinX = effectControllerCoordinates.x;
+      effectControllerWidth = effectControllerCoordinates.width;
     }
   };
 
@@ -124,14 +132,41 @@
 
   // Рассчитываем положение ползунка в процентах
 
-  var getEffectLevelPinPosition = function () {
-    return Math.round((effectLevelPin.offsetLeft / effectLevelLine.offsetWidth) * 100);
+  var getEffectLevelPinPosition = function (evt) {
+    // Получаем значение координаты курсора относительно левого конца слайдера
+    cursorRelativeX = evt.clientX - effectControllerMinX;
+    // Получаем значение уровня эффекта в процентах
+    effectLevel = Math.round((cursorRelativeX / effectControllerWidth) * 100);
+    // Устанавливаем ограничения передвижения ползунка
+    if (effectLevel < 0) {
+      effectLevel = 0;
+    } else if (effectLevel > 100) {
+      effectLevel = 100;
+    }
   };
 
-  // Применяем эффект после установки ползунка
+  // Перемещение ползунка
 
-  effectLevelPin.addEventListener('mouseup', function () {
-    setEffectLevel(getEffectLevelPinPosition());
-    tuneEffect(getCurrentFilter(), getEffectLevelPinPosition());
-  });
+  var documentMousemoveHandler = function (evt) {
+    // Определяем будущее положение ползунка
+    getEffectLevelPinPosition(evt);
+    // Устанавливаем соответствующий уровень эффекта и положение ползунка
+    setEffectLevel(effectLevel);
+    // Применяем выбранный уровень эффекта к превью фото
+    tuneEffect(getCurrentFilter(), effectLevel);
+  };
+
+  var documentMouseupHandler = function () {
+    // Удаляем обработчики событий мыши
+    document.removeEventListener('mousemove', documentMousemoveHandler);
+    document.removeEventListener('mouseup', documentMouseupHandler);
+  };
+
+  var effectLevelPinMousedownHandler = function () {
+    // Добавляем обработчики событий мыши
+    document.addEventListener('mousemove', documentMousemoveHandler);
+    document.addEventListener('mouseup', documentMouseupHandler);
+  };
+
+  effectLevelPin.addEventListener('mousedown', effectLevelPinMousedownHandler);
 })();
