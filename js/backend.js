@@ -33,9 +33,8 @@
     // Создаем сообщение об ошибке загрузки
     showErrorMessage: function () {
       var errorTemplate = document.querySelector('#error').content;
-      var mainElement = document.querySelector('main');
       var errorMessagePopup = errorTemplate.cloneNode(true);
-      mainElement.appendChild(errorMessagePopup);
+      window.utils.mainElement.appendChild(errorMessagePopup);
     }
   };
 

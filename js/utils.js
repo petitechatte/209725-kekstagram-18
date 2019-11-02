@@ -4,6 +4,7 @@
 
 (function () {
   var ESC_KEY_CODE = 27;
+  var mainElement = document.querySelector('main');
 
   // Получаем случайное значение из массива
   var getRandomValue = function (data) {
@@ -45,6 +46,7 @@
   };
 
   window.utils = {
+    mainElement: mainElement,
     getRandomValue: getRandomValue,
     selectData: selectData,
     isEscEvent: isEscEvent,
