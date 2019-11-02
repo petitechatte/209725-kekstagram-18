@@ -4,6 +4,7 @@
 
 (function () {
   // Сохранение глобальных переменных в локальные для упрощения кода
+  var mainElement = window.utils.mainElement;
   var uploadForm = window.formElements.uploadForm;
   var fileUpload = window.formElements.fileUpload;
   var imageEditForm = window.formElements.imageEditForm;
@@ -11,6 +12,14 @@
   var noEffectInput = window.formElements.noEffectInput;
   var hashtagInput = window.formElements.hashtagInput;
   var descriptionInput = window.formElements.descriptionInput;
+
+  // Создаем окно сообщения об успешной загрузке
+
+  var creatSuccessPopup = function () {
+    var successTemplate = document.querySelector('#success').content;
+    var fragment = successTemplate.cloneNode(true);
+    mainElement.appendChild(fragment);
+  };
 
   // Закрытие окна загрузки файла по нажатию Esc
 
@@ -48,6 +57,15 @@
     descriptionInput.value = '';
   };
 
+  // Подтверждаем отправку формы
+
+  var confirmFormSubmit = function () {
+    // Закрываем окно с формой
+    window.closeUploadForm();
+    // Показываем окно с сообщением об успешной загрузке
+    creatSuccessPopup();
+  };
+
   // Добавляем обработчики для открытия и закрытия формы
 
   fileUpload.addEventListener('change', function () {
@@ -62,6 +80,6 @@
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm), window.closeUploadForm);
+    window.backend.save(new FormData(uploadForm), confirmFormSubmit);
   });
 })();
