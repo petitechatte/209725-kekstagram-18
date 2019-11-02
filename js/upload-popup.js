@@ -19,6 +19,7 @@
 
   // Создаем переменные для хранения элементов модального окна
   var successPopup;
+  var successPopupContainer;
   var successPopupCloseButton;
 
   // Создаем окно сообщения об успешной загрузке
@@ -35,9 +36,20 @@
 
   // Удаляем окно
   var removeSuccessPopup = function () {
+    // Удаляем обработчики
     successPopupCloseButton.removeEventListener('click', successPopupCloseButtonClickHandler);
+    successPopup.removeEventListener('click', successPopupClickHandler);
+    document.removeEventListener('keydown', documentEscKeydownHandler);
+    // Удаляем окно
     successPopup.remove();
+    // Переключаем флаг
     isSuccessPopupOpen = false;
+  };
+
+  var successPopupClickHandler = function (evt) {
+    if (evt.target !== successPopupContainer) {
+      removeSuccessPopup();
+    }
   };
 
   var successPopupCloseButtonClickHandler = function () {
@@ -48,6 +60,7 @@
 
   var provideClosure = function () {
     successPopup = mainElement.querySelector('section.success');
+    successPopupContainer = successPopup.querySelector('.success__inner');
     successPopupCloseButton = successPopup.querySelector('.success__button');
 
     // Добавляем фокус кнопке закрытия
@@ -55,6 +68,7 @@
 
     // Добавляем обработчики событий
     successPopupCloseButton.addEventListener('click', successPopupCloseButtonClickHandler);
+    successPopup.addEventListener('click', successPopupClickHandler);
     document.addEventListener('keydown', documentEscKeydownHandler);
   };
 
