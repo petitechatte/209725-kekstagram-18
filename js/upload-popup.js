@@ -16,25 +16,30 @@
   // Создаем флаги открытия модальных окон
   var isUploadPopupOpen = false;
   var isSuccessPopupOpen = false;
+  var isErrorPopupOpen = false;
 
   // Создаем переменные для хранения элементов модального окна
   var successPopup;
   var successPopupContainer;
   var successPopupCloseButton;
+  var errorPopup;
+  var errorPopupContainer;
+  var errorPupupCloseButtons;
 
   // Создаем окно сообщения об успешной загрузке
 
-  var creatSuccessPopup = function () {
+  var createSuccessPopup = function () {
     var successTemplate = document.querySelector('#success').content;
     var fragment = successTemplate.cloneNode(true);
     mainElement.appendChild(fragment);
     // Переключаем флаг
     isSuccessPopupOpen = true;
     // Добавляем возможность закрыть окно разными способами
-    provideClosure();
+    provideSuccessPopupClosure();
   };
 
-  // Удаляем окно
+  // Удаляем окно сообщения об успешной загрузке
+
   var removeSuccessPopup = function () {
     // Удаляем обработчики
     successPopupCloseButton.removeEventListener('click', successPopupCloseButtonClickHandler);
@@ -56,9 +61,34 @@
     removeSuccessPopup();
   };
 
+  // Удаляем окно сообщения об ошибке загрузки
+
+  var removeErrorPopup = function () {
+    // Удаляем обработчики
+    for (var i = 0; i < errorPupupCloseButtons.length; i++) {
+      errorPupupCloseButtons[i].removeEventListener('click', errorPopupCloseButtonClickHandler);
+    }
+    errorPopup.removeEventListener('click', errorPopupClickHandler);
+    document.removeEventListener('keydown', documentEscKeydownHandler);
+    // Удаляем окно
+    errorPopup.remove();
+    // Переключаем флаг
+    isErrorPopupOpen = false;
+  };
+
+  var errorPopupClickHandler = function (evt) {
+    if (evt.target !== errorPopupContainer) {
+      removeErrorPopup();
+    }
+  };
+
+  var errorPopupCloseButtonClickHandler = function () {
+    removeErrorPopup();
+  };
+
   // Обеспечиваем закрытие по клику окна сообщения об успешной загрузке
 
-  var provideClosure = function () {
+  var provideSuccessPopupClosure = function () {
     successPopup = mainElement.querySelector('section.success');
     successPopupContainer = successPopup.querySelector('.success__inner');
     successPopupCloseButton = successPopup.querySelector('.success__button');
@@ -72,13 +102,30 @@
     document.addEventListener('keydown', documentEscKeydownHandler);
   };
 
-  // Закрытие модального окна по нажатию Esc
+  // Обеспечиваем закрытие по клику окна сообщения об ошибке загрузки
+
+  var provideErrorPopupClosure = function () {
+    errorPopup = mainElement.querySelector('section.error');
+    errorPopupContainer = errorPopup.querySelector('.error__inner');
+    errorPupupCloseButtons = errorPopup.querySelectorAll('.error__button');
+
+    // Добавляем обработчики событий
+    for (var i = 0; i < errorPupupCloseButtons.length; i++) {
+      errorPupupCloseButtons[i].addEventListener('click', errorPopupCloseButtonClickHandler);
+    }
+    errorPopup.addEventListener('click', errorPopupClickHandler);
+    document.addEventListener('keydown', documentEscKeydownHandler);
+  };
+
+  // Закрытие модальных окон по нажатию Esc
 
   var documentEscKeydownHandler = function (evt) {
     if (isUploadPopupOpen) {
       window.utils.isEscEvent(evt, window.closeUploadForm);
     } else if (isSuccessPopupOpen) {
       window.utils.isEscEvent(evt, removeSuccessPopup);
+    } else if (isErrorPopupOpen) {
+      window.utils.isEscEvent(evt, removeErrorPopup);
     }
   };
 
@@ -132,7 +179,7 @@
     // Закрываем окно с формой
     window.closeUploadForm();
     // Показываем окно с сообщением об успешной загрузке
-    creatSuccessPopup();
+    createSuccessPopup();
   };
 
   // Реагируем на ошибку загрузки
@@ -141,6 +188,10 @@
     window.closeUploadForm();
     // Показываем сообщение об ошибке
     window.backend.showErrorMessage();
+    // Переключаем флаг
+    isErrorPopupOpen = true;
+    // Обеспечиваем закрытие окна с ошибкой
+    provideErrorPopupClosure();
   };
 
   // Отправляем форму асинхронно на сервер
