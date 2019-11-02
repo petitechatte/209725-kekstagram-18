@@ -67,7 +67,7 @@
       // Добавляем обработчики на фотографии в галерее
       activateGallery(data);
     } catch (err) {
-      showAdaptedErrorMessage(err.message);
+      showAdaptedErrorMessageCallback(err.message);
     }
   };
 
@@ -83,7 +83,7 @@
 
   // Получаем фотографии с сервера
 
-  var getPhotos = function (response) {
+  var getPhotosCallback = function (response) {
     // Заполняем галерею
     createGallery(response);
     // Показываем фильтры для сортировки
@@ -105,7 +105,7 @@
 
   // Создаем сообщение об ошибке загрузки данных
 
-  var showAdaptedErrorMessage = function (response) {
+  var showAdaptedErrorMessageCallback = function (response) {
     window.backend.showErrorMessage();
     var errorWrapper = document.querySelector('.error__inner');
     var errorTitle = errorWrapper.querySelector('.error__title');
@@ -118,5 +118,5 @@
   };
 
   // Посылаем запрос на сервер
-  window.backend.load(getPhotos, showAdaptedErrorMessage);
+  window.backend.load(getPhotosCallback, showAdaptedErrorMessageCallback);
 })();

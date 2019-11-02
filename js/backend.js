@@ -23,12 +23,12 @@
 
   window.backend = {
     // Загружаем данные с сервера
-    load: function (onLoad, onError) {
-      createRequest(onLoad, onError, 'GET', Url.DATA);
+    load: function (onLoadCallback, onErrorCallback) {
+      createRequest(onLoadCallback, onErrorCallback, 'GET', Url.DATA);
     },
     // Отправляем данные на сервер
-    save: function (data, onLoad, onError) {
-      createRequest(onLoad, onError, 'POST', Url.UPLOAD, data);
+    save: function (data, onLoadCallback, onErrorCallback) {
+      createRequest(onLoadCallback, onErrorCallback, 'POST', Url.UPLOAD, data);
     },
     // Создаем сообщение об ошибке загрузки
     showErrorMessage: function () {
@@ -39,7 +39,7 @@
   };
 
   // Создаем запрос на сервер
-  var createRequest = function (onLoad, onError, method, url, content) {
+  var createRequest = function (onLoadCallback, onErrorCallback, method, url, content) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open(method, url);
@@ -47,31 +47,31 @@
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
         case Status.OK:
-          onLoad(xhr.response);
+          onLoadCallback(xhr.response);
           break;
         case Status.WRONG_REQUEST:
-          onError('Неверный запрос.');
+          onErrorCallback('Неверный запрос.');
           break;
         case Status.UNAUTHORIZED:
-          onError('Пользователь не авторизован.');
+          onErrorCallback('Пользователь не авторизован.');
           break;
         case Status.NOT_FOUND:
-          onError('Ничего не найдено.');
+          onErrorCallback('Ничего не найдено.');
           break;
         case Status.SERVER_ERROR:
-          onError('Сервер недоступен.');
+          onErrorCallback('Сервер недоступен.');
           break;
         default:
-          onError('Статус ответа: ' + String(xhr.status) + ' ' + xhr.statusText);
+          onErrorCallback('Статус ответа: ' + String(xhr.status) + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onErrorCallback('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + String(xhr.timeout) + ' мс');
+      onErrorCallback('Запрос не успел выполниться за ' + String(xhr.timeout) + ' мс');
     });
 
     xhr.timeout = TIMEOUT_LIMIT;

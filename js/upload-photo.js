@@ -156,7 +156,7 @@
 
   // Подтверждаем отправку формы
 
-  var confirmFormSubmit = function () {
+  var confirmFormSubmitCallback = function () {
     // Закрываем окно с формой
     window.closeUploadForm();
     // Показываем окно с сообщением об успешной загрузке
@@ -179,6 +179,6 @@
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm), confirmFormSubmit, onSubmitErrorCallback);
+    window.backend.save(new FormData(uploadForm), confirmFormSubmitCallback, onSubmitErrorCallback);
   });
 })();
