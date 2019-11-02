@@ -19,6 +19,29 @@
     var successTemplate = document.querySelector('#success').content;
     var fragment = successTemplate.cloneNode(true);
     mainElement.appendChild(fragment);
+    // Добавляем возможность закрыть окно разными способами
+    provideClosure();
+  };
+
+  // Обеспечиваем закрытие окна сообщения об успешной загрузке
+
+  var provideClosure = function () {
+    var successPopup = mainElement.querySelector('section.success');
+    var successPopupCloseButton = successPopup.querySelector('.success__button');
+
+    // Удаляем окно
+    var removeSuccessPopup = function () {
+      successPopupCloseButton.removeEventListener('click', successPopupCloseButtonClickHandler);
+      successPopup.remove();
+    };
+
+    // Добавляем обработчики, закрывающие окно
+
+    var successPopupCloseButtonClickHandler = function () {
+      removeSuccessPopup();
+    };
+
+    successPopupCloseButton.addEventListener('click', successPopupCloseButtonClickHandler);
   };
 
   // Закрытие окна загрузки файла по нажатию Esc
