@@ -116,15 +116,6 @@
     descriptionInput.value = '';
   };
 
-  // Подтверждаем отправку формы
-
-  var confirmFormSubmit = function () {
-    // Закрываем окно с формой
-    window.closeUploadForm();
-    // Показываем окно с сообщением об успешной загрузке
-    creatSuccessPopup();
-  };
-
   // Добавляем обработчики для открытия и закрытия формы
 
   fileUpload.addEventListener('change', function () {
@@ -135,10 +126,27 @@
     window.closeUploadForm();
   });
 
+  // Подтверждаем отправку формы
+
+  var confirmFormSubmit = function () {
+    // Закрываем окно с формой
+    window.closeUploadForm();
+    // Показываем окно с сообщением об успешной загрузке
+    creatSuccessPopup();
+  };
+
+  // Реагируем на ошибку загрузки
+  var onSubmitErrorCallback = function () {
+    // Закрываем окно с формой
+    window.closeUploadForm();
+    // Показываем сообщение об ошибке
+    window.backend.showErrorMessage();
+  };
+
   // Отправляем форму асинхронно на сервер
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm), confirmFormSubmit);
+    window.backend.save(new FormData(uploadForm), confirmFormSubmit, onSubmitErrorCallback);
   });
 })();
