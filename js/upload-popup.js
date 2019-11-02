@@ -13,41 +13,59 @@
   var hashtagInput = window.formElements.hashtagInput;
   var descriptionInput = window.formElements.descriptionInput;
 
+  // Создаем флаги открытия модальных окон
+  var isUploadPopupOpen = false;
+  var isSuccessPopupOpen = false;
+
+  // Создаем переменные для хранения элементов модального окна
+  var successPopup;
+  var successPopupCloseButton;
+
   // Создаем окно сообщения об успешной загрузке
 
   var creatSuccessPopup = function () {
     var successTemplate = document.querySelector('#success').content;
     var fragment = successTemplate.cloneNode(true);
     mainElement.appendChild(fragment);
+    // Переключаем флаг
+    isSuccessPopupOpen = true;
     // Добавляем возможность закрыть окно разными способами
     provideClosure();
   };
 
-  // Обеспечиваем закрытие окна сообщения об успешной загрузке
-
-  var provideClosure = function () {
-    var successPopup = mainElement.querySelector('section.success');
-    var successPopupCloseButton = successPopup.querySelector('.success__button');
-
-    // Удаляем окно
-    var removeSuccessPopup = function () {
-      successPopupCloseButton.removeEventListener('click', successPopupCloseButtonClickHandler);
-      successPopup.remove();
-    };
-
-    // Добавляем обработчики, закрывающие окно
-
-    var successPopupCloseButtonClickHandler = function () {
-      removeSuccessPopup();
-    };
-
-    successPopupCloseButton.addEventListener('click', successPopupCloseButtonClickHandler);
+  // Удаляем окно
+  var removeSuccessPopup = function () {
+    successPopupCloseButton.removeEventListener('click', successPopupCloseButtonClickHandler);
+    successPopup.remove();
+    isSuccessPopupOpen = false;
   };
 
-  // Закрытие окна загрузки файла по нажатию Esc
+  var successPopupCloseButtonClickHandler = function () {
+    removeSuccessPopup();
+  };
 
-  var windowEscKeydownHandler = function (evt) {
-    window.utils.isEscEvent(evt, window.closeUploadForm);
+  // Обеспечиваем закрытие по клику окна сообщения об успешной загрузке
+
+  var provideClosure = function () {
+    successPopup = mainElement.querySelector('section.success');
+    successPopupCloseButton = successPopup.querySelector('.success__button');
+
+    // Добавляем фокус кнопке закрытия
+    successPopupCloseButton.focus();
+
+    // Добавляем обработчики событий
+    successPopupCloseButton.addEventListener('click', successPopupCloseButtonClickHandler);
+    document.addEventListener('keydown', documentEscKeydownHandler);
+  };
+
+  // Закрытие модального окна по нажатию Esc
+
+  var documentEscKeydownHandler = function (evt) {
+    if (isUploadPopupOpen) {
+      window.utils.isEscEvent(evt, window.closeUploadForm);
+    } else if (isSuccessPopupOpen) {
+      window.utils.isEscEvent(evt, removeSuccessPopup);
+    }
   };
 
   // Потеря фокуса полями ввода по нажатию Esc
@@ -58,8 +76,10 @@
   // Открытие формы обработки фотографии
 
   var openUploadForm = function () {
+    // Переключаем флаг
+    isUploadPopupOpen = true;
     // Добавляем обработчик нажатия Esc
-    document.addEventListener('keydown', windowEscKeydownHandler);
+    document.addEventListener('keydown', documentEscKeydownHandler);
     // Сбрасываем фильтр по умолчанию
     noEffectInput.checked = 'checked';
     window.toggleFilter();
@@ -72,8 +92,10 @@
   // Закрытие формы обработки фотографии
 
   window.closeUploadForm = function () {
+    // Переключаем флаг
+    isUploadPopupOpen = false;
     imageEditForm.classList.add('hidden');
-    document.removeEventListener('keydown', windowEscKeydownHandler);
+    document.removeEventListener('keydown', documentEscKeydownHandler);
     // Сбрасываем значения полей формы
     fileUpload.value = '';
     hashtagInput.value = '';
