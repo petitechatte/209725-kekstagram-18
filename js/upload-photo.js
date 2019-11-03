@@ -142,6 +142,8 @@
     fileUpload.value = '';
     hashtagInput.value = '';
     descriptionInput.value = '';
+    // Убираем красную рамку
+    hashtagInput.style.border = 'none';
   };
 
   // Добавляем обработчики для открытия и закрытия формы

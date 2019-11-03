@@ -8,8 +8,10 @@
   var MAX_HASHTAG_LENGTH = 20; // максимальная длина одного хэш-тега 20 символов, включая решётку
   var HASHTAGS_LIMIT = 5; // нельзя указать больше пяти хэш-тегов
 
-  // Сохранение глобальной переменной в локальную для упрощения кода
+  // Сохранение глобальных переменных в локальные для упрощения кода
+  var uploadForm = window.formElements.uploadForm;
   var hashtagInput = window.formElements.hashtagInput;
+  var submitFormButton = window.formElements.submitFormButton;
 
   // Удаление пустых строк из массива
 
@@ -25,6 +27,9 @@
   // Валидация формы
 
   var validateHashtags = function () {
+    // Убираем красную рамку
+    hashtagInput.style.border = 'none';
+
     // Получаем значение поля
     var text = hashtagInput.value.toLowerCase(); // хэш-теги нечувствительны к регистру
     var hashtag = '';
@@ -68,5 +73,12 @@
 
   hashtagInput.addEventListener('input', function () {
     validateHashtags();
+  });
+
+  submitFormButton.addEventListener('click', function () {
+    var invalidInput = uploadForm.querySelector('input:invalid');
+    if (invalidInput) {
+      invalidInput.style.border = '2px solid red';
+    }
   });
 })();

@@ -12,6 +12,7 @@
   var noEffectInput = imageEditForm.querySelector('#effect-none');
   var hashtagInput = imageEditForm.querySelector('.text__hashtags');
   var descriptionInput = imageEditForm.querySelector('.text__description');
+  var submitFormButton = uploadForm.querySelector('#upload-submit');
 
   window.formElements = {
     uploadForm: uploadForm,
@@ -22,6 +23,7 @@
     effectController: effectController,
     noEffectInput: noEffectInput,
     hashtagInput: hashtagInput,
-    descriptionInput: descriptionInput
+    descriptionInput: descriptionInput,
+    submitFormButton: submitFormButton
   };
 })();
