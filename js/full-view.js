@@ -71,12 +71,18 @@
     document.addEventListener('keydown', documentEscKeydownHandler);
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
+    // Добавляем класс для body согласно ТЗ
+    document.body.classList.add('modal-open');
   };
 
   // Закрываем окно просмотра фотографии
   var closeFullViewPopup = function () {
+    // Прячем окно
     fullViewPopup.classList.add('hidden');
+    // Удаляем обработчик нажатия Esc
     document.removeEventListener('keydown', documentEscKeydownHandler);
+    // Удаляем класс у body
+    document.body.classList.remove('modal-open');
   };
 
   fullViewCloseButton.addEventListener('click', closeFullViewPopup);
