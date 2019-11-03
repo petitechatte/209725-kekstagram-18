@@ -4,65 +4,74 @@
 
 (function () {
   // Адрес сервера данных
-  var URL_DATA = 'https://js.dump.academy/kekstagram/data';
+  var Url = {
+    DATA: 'https://js.dump.academy/kekstagram/data',
+    UPLOAD: 'https://js.dump.academy/kekstagram'
+  };
 
   // Ожидаемое время загрузки данных
   var TIMEOUT_LIMIT = 4000;
+
   // Ожидаемые статусы HTTP-ответа
-  var OK_STATUS = 200;
-  var WRONG_REQUEST_STATUS = 400;
-  var UNAUTHORIZED_STATUS = 401;
-  var NOT_FOUND_STATUS = 404;
-  var SERVER_ERROR_STATUS = 500;
+  var Status = {
+    OK: 200,
+    WRONG_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    NOT_FOUND: 404,
+    SERVER_ERROR: 500
+  };
 
   window.backend = {
     // Загружаем данные с сервера
-    load: function (onLoad, onError) {
-      createRequest(onLoad, onError, 'GET', URL_DATA);
+    load: function (onLoadCallback, onErrorCallback) {
+      createRequest(onLoadCallback, onErrorCallback, 'GET', Url.DATA);
+    },
+    // Отправляем данные на сервер
+    save: function (data, onLoadCallback, onErrorCallback) {
+      createRequest(onLoadCallback, onErrorCallback, 'POST', Url.UPLOAD, data);
     },
     // Создаем сообщение об ошибке загрузки
     showErrorMessage: function () {
       var errorTemplate = document.querySelector('#error').content;
-      var mainElement = document.querySelector('main');
       var errorMessagePopup = errorTemplate.cloneNode(true);
-      mainElement.appendChild(errorMessagePopup);
+      window.utils.mainElement.appendChild(errorMessagePopup);
     }
   };
 
   // Создаем запрос на сервер
-  var createRequest = function (onLoad, onError, method, url, content) {
+  var createRequest = function (onLoadCallback, onErrorCallback, method, url, content) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open(method, url);
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case OK_STATUS:
-          onLoad(xhr.response);
+        case Status.OK:
+          onLoadCallback(xhr.response);
           break;
-        case WRONG_REQUEST_STATUS:
-          onError('Неверный запрос.');
+        case Status.WRONG_REQUEST:
+          onErrorCallback('Неверный запрос.');
           break;
-        case UNAUTHORIZED_STATUS:
-          onError('Пользователь не авторизован.');
+        case Status.UNAUTHORIZED:
+          onErrorCallback('Пользователь не авторизован.');
           break;
-        case NOT_FOUND_STATUS:
-          onError('Ничего не найдено.');
+        case Status.NOT_FOUND:
+          onErrorCallback('Ничего не найдено.');
           break;
-        case SERVER_ERROR_STATUS:
-          onError('Сервер недоступен.');
+        case Status.SERVER_ERROR:
+          onErrorCallback('Сервер недоступен.');
           break;
         default:
-          onError('Статус ответа: ' + String(xhr.status) + ' ' + xhr.statusText);
+          onErrorCallback('Статус ответа: ' + String(xhr.status) + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onErrorCallback('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + String(xhr.timeout) + ' мс');
+      onErrorCallback('Запрос не успел выполниться за ' + String(xhr.timeout) + ' мс');
     });
 
     xhr.timeout = TIMEOUT_LIMIT;

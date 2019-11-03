@@ -4,6 +4,7 @@
 
 (function () {
   var ESC_KEY_CODE = 27;
+  var mainElement = document.querySelector('main');
 
   // Получаем случайное значение из массива
   var getRandomValue = function (data) {
@@ -27,9 +28,9 @@
   };
 
   // Проверка нажатия нажатия ESC
-  var isEscEvent = function (evt, action) {
+  var isEscEvent = function (evt, callback) {
     if (evt.keyCode === ESC_KEY_CODE) {
-      action();
+      callback();
     }
   };
 
@@ -45,6 +46,7 @@
   };
 
   window.utils = {
+    mainElement: mainElement,
     getRandomValue: getRandomValue,
     selectData: selectData,
     isEscEvent: isEscEvent,
