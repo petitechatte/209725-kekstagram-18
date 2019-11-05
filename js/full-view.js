@@ -65,7 +65,7 @@
 
   // Закрытие окна загрузки файла по нажатию Esc
 
-  var documentEscKeydownHandler = function (evt) {
+  var documentKeydownHandler = function (evt) {
     window.utils.isEscEvent(evt, closeFullViewPopup);
   };
 
@@ -97,7 +97,7 @@
     // Корректируем число комментариев и прячем "загрузчик" (если общее число комментариев <= 5)
     checkCommentsNumber();
     // Добавляем обработчик нажатия Esc
-    document.addEventListener('keydown', documentEscKeydownHandler);
+    document.addEventListener('keydown', documentKeydownHandler);
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
     // Добавляем класс для body согласно ТЗ
@@ -109,7 +109,7 @@
     // Прячем окно
     fullViewPopup.classList.add('hidden');
     // Удаляем обработчик нажатия Esc
-    document.removeEventListener('keydown', documentEscKeydownHandler);
+    document.removeEventListener('keydown', documentKeydownHandler);
     // Удаляем класс у body
     document.body.classList.remove('modal-open');
   };

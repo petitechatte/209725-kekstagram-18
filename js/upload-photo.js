@@ -46,7 +46,7 @@
       popupCloseButtons[i].removeEventListener('click', popupCloseButtonClickHandler);
     }
     popup.removeEventListener('click', popupClickHandler);
-    document.removeEventListener('keydown', documentEscKeydownHandler);
+    document.removeEventListener('keydown', documentKeydownHandler);
 
     // Удаляем окно
     popup.remove();
@@ -97,12 +97,12 @@
       popupCloseButtons[i].addEventListener('click', popupCloseButtonClickHandler);
     }
     popup.addEventListener('click', popupClickHandler);
-    document.addEventListener('keydown', documentEscKeydownHandler);
+    document.addEventListener('keydown', documentKeydownHandler);
   };
 
   // Закрытие модальных окон по нажатию Esc
 
-  var documentEscKeydownHandler = function (evt) {
+  var documentKeydownHandler = function (evt) {
     if (isUploadPopupOpen) {
       window.utils.isEscEvent(evt, window.closeUploadForm);
     } else if (isSuccessPopupOpen || isErrorPopupOpen) {
@@ -121,7 +121,7 @@
     // Переключаем флаг
     isUploadPopupOpen = true;
     // Добавляем обработчик нажатия Esc
-    document.addEventListener('keydown', documentEscKeydownHandler);
+    document.addEventListener('keydown', documentKeydownHandler);
     // Сбрасываем фильтр по умолчанию
     noEffectInput.checked = 'checked';
     window.toggleFilter();
@@ -137,7 +137,7 @@
     // Переключаем флаг
     isUploadPopupOpen = false;
     imageEditForm.classList.add('hidden');
-    document.removeEventListener('keydown', documentEscKeydownHandler);
+    document.removeEventListener('keydown', documentKeydownHandler);
     // Сбрасываем значения полей формы
     fileUpload.value = '';
     hashtagInput.value = '';
