@@ -69,11 +69,9 @@
     window.utils.isEscEvent(evt, closeFullViewPopup);
   };
 
-  // Проверяем, все ли комментарии показаны
+  // Переключаем загрузчик комментариев
 
-  var checkCommentsNumber = function () {
-    hiddenComments = fullViewCommentsList.querySelectorAll('.social__comment.visually-hidden');
-
+  var toggleCommentsLoader = function () {
     if (!hiddenComments.length) {
       // Прячем "загрузчик" комментариев
       fullViewCommentsLoader.classList.add('hidden');
@@ -81,8 +79,12 @@
       // Показываем "загрузчик" комментариев
       fullViewCommentsLoader.classList.remove('hidden');
     }
+  };
 
-    // Обновляем счетчик комментариев
+  // Обновляем счетчик комментариев
+
+  var updateCommentsNumber = function () {
+    hiddenComments = fullViewCommentsList.querySelectorAll('.social__comment.visually-hidden');
     currentCommentsNumber = totalCommentsNumber - hiddenComments.length;
     fullViewVisibleCommentsNumber.textContent = String(currentCommentsNumber);
   };
@@ -94,8 +96,10 @@
     updateFullViewPopup(currentPost);
     // Создаем список комментариев
     createComments(currentPost.comments);
-    // Корректируем число комментариев и прячем "загрузчик" (если общее число комментариев <= 5)
-    checkCommentsNumber();
+    // Корректируем число комментариев (если общее число комментариев < 5)
+    updateCommentsNumber();
+    // Скрываем "загрузчик" комментариев (если общее число комментариев <= 5)
+    toggleCommentsLoader();
     // Добавляем обработчик нажатия Esc
     document.addEventListener('keydown', documentKeydownHandler);
     // Отображаем окно просмотра
@@ -130,6 +134,7 @@
 
   fullViewCommentsLoader.addEventListener('click', function () {
     showMoreComments();
-    checkCommentsNumber();
+    updateCommentsNumber();
+    toggleCommentsLoader();
   });
 })();
