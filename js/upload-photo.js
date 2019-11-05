@@ -166,7 +166,7 @@
   };
 
   // Реагируем на ошибку загрузки
-  var onSubmitErrorCallback = function () {
+  var handleUploadErrorCallback = function () {
     // Закрываем окно с формой
     window.closeUploadForm();
     // Показываем сообщение об ошибке
@@ -181,6 +181,6 @@
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm), confirmFormSubmitCallback, onSubmitErrorCallback);
+    window.backend.save(new FormData(uploadForm), confirmFormSubmitCallback, handleUploadErrorCallback);
   });
 })();
