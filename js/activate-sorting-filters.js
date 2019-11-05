@@ -35,7 +35,7 @@
   window.activateSortingFilters = function () {
     // Показываем кнопки-фильтры
     filtersBlock.classList.remove('img-filters--inactive');
-    // Добвляем кнопкам обработчики
+    // Добавляем кнопкам обработчики
     addFiltersClickListeners();
   };
 })();
