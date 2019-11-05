@@ -35,7 +35,7 @@
     isSuccessPopupOpen = true;
 
     // Добавляем возможность закрыть окно разными способами
-    providePopupClosure();
+    providePopupClosing();
   };
 
   // Удаляем окно с сообщением
@@ -75,7 +75,7 @@
 
   // Обеспечиваем закрытие окна с сообщением
 
-  var providePopupClosure = function () {
+  var providePopupClosing = function () {
     if (isSuccessPopupOpen) {
       popupName = 'success';
     } else if (isErrorPopupOpen) {
@@ -174,7 +174,7 @@
     // Переключаем флаг
     isErrorPopupOpen = true;
     // Обеспечиваем закрытие окна с ошибкой
-    providePopupClosure();
+    providePopupClosing();
   };
 
   // Отправляем форму асинхронно на сервер
