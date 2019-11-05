@@ -74,7 +74,7 @@
   var checkCommentsNumber = function () {
     hiddenComments = fullViewCommentsList.querySelectorAll('.social__comment.visually-hidden');
 
-    if (hiddenComments.length === 0) {
+    if (!hiddenComments.length) {
       // Прячем "загрузчик" комментариев
       fullViewCommentsLoader.classList.add('hidden');
     } else if (fullViewCommentsLoader.classList.contains('hidden')) {
