@@ -114,7 +114,9 @@
     document.body.classList.remove('modal-open');
   };
 
-  fullViewCloseButton.addEventListener('click', closeFullViewPopup);
+  fullViewCloseButton.addEventListener('click', function () {
+    closeFullViewPopup();
+  });
 
   // "Подгружаем" следующие комментарии
 
