@@ -65,24 +65,26 @@
 
   // Закрытие окна загрузки файла по нажатию Esc
 
-  var documentEscKeydownHandler = function (evt) {
+  var documentKeydownHandler = function (evt) {
     window.utils.isEscEvent(evt, closeFullViewPopup);
   };
 
-  // Проверяем, все ли комментарии показаны
+  // Переключаем загрузчик комментариев
 
-  var checkCommentsNumber = function () {
-    hiddenComments = fullViewCommentsList.querySelectorAll('.social__comment.visually-hidden');
-
-    if (hiddenComments.length === 0) {
+  var toggleCommentsLoader = function () {
+    if (!hiddenComments.length) {
       // Прячем "загрузчик" комментариев
       fullViewCommentsLoader.classList.add('hidden');
     } else if (fullViewCommentsLoader.classList.contains('hidden')) {
       // Показываем "загрузчик" комментариев
       fullViewCommentsLoader.classList.remove('hidden');
     }
+  };
 
-    // Обновляем счетчик комментариев
+  // Обновляем счетчик комментариев
+
+  var updateCommentsNumber = function () {
+    hiddenComments = fullViewCommentsList.querySelectorAll('.social__comment.visually-hidden');
     currentCommentsNumber = totalCommentsNumber - hiddenComments.length;
     fullViewVisibleCommentsNumber.textContent = String(currentCommentsNumber);
   };
@@ -94,10 +96,12 @@
     updateFullViewPopup(currentPost);
     // Создаем список комментариев
     createComments(currentPost.comments);
-    // Корректируем число комментариев и прячем "загрузчик" (если общее число комментариев <= 5)
-    checkCommentsNumber();
+    // Корректируем число комментариев (если общее число комментариев < 5)
+    updateCommentsNumber();
+    // Скрываем "загрузчик" комментариев (если общее число комментариев <= 5)
+    toggleCommentsLoader();
     // Добавляем обработчик нажатия Esc
-    document.addEventListener('keydown', documentEscKeydownHandler);
+    document.addEventListener('keydown', documentKeydownHandler);
     // Отображаем окно просмотра
     fullViewPopup.classList.remove('hidden');
     // Добавляем класс для body согласно ТЗ
@@ -109,12 +113,14 @@
     // Прячем окно
     fullViewPopup.classList.add('hidden');
     // Удаляем обработчик нажатия Esc
-    document.removeEventListener('keydown', documentEscKeydownHandler);
+    document.removeEventListener('keydown', documentKeydownHandler);
     // Удаляем класс у body
     document.body.classList.remove('modal-open');
   };
 
-  fullViewCloseButton.addEventListener('click', closeFullViewPopup);
+  fullViewCloseButton.addEventListener('click', function () {
+    closeFullViewPopup();
+  });
 
   // "Подгружаем" следующие комментарии
 
@@ -128,6 +134,7 @@
 
   fullViewCommentsLoader.addEventListener('click', function () {
     showMoreComments();
-    checkCommentsNumber();
+    updateCommentsNumber();
+    toggleCommentsLoader();
   });
 })();

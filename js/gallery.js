@@ -39,7 +39,7 @@
 
   // Создаем обработчик по клику
 
-  var createClickListener = function (link, currentPost) {
+  var createGalleryPhotoClickListener = function (link, currentPost) {
     galleryPhotoClickHandler = function () {
       window.showFullViewPopup(currentPost);
     };
@@ -53,7 +53,7 @@
     var photoPreviews = picturesBlock.querySelectorAll('.picture');
 
     for (var j = 0; j < photoPreviews.length; j++) {
-      createClickListener(photoPreviews[j], data[j]);
+      createGalleryPhotoClickListener(photoPreviews[j], data[j]);
     }
   };
 

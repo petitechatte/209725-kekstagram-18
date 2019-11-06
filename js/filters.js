@@ -148,6 +148,7 @@
   // Перемещение ползунка
 
   var documentMousemoveHandler = function (evt) {
+    evt.preventDefault();
     // Определяем будущее положение ползунка
     getEffectLevelPinPosition(evt);
     // Устанавливаем соответствующий уровень эффекта и положение ползунка
@@ -156,13 +157,15 @@
     tuneEffect(getCurrentFilter(), effectLevel);
   };
 
-  var documentMouseupHandler = function () {
+  var documentMouseupHandler = function (evt) {
+    evt.preventDefault();
     // Удаляем обработчики событий мыши
     document.removeEventListener('mousemove', documentMousemoveHandler);
     document.removeEventListener('mouseup', documentMouseupHandler);
   };
 
-  var effectLevelPinMousedownHandler = function () {
+  var effectLevelPinMousedownHandler = function (evt) {
+    evt.preventDefault();
     // Добавляем обработчики событий мыши
     document.addEventListener('mousemove', documentMousemoveHandler);
     document.addEventListener('mouseup', documentMouseupHandler);

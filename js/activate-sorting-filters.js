@@ -11,7 +11,7 @@
   var filterDiscussed = filtersBlock.querySelector('#filter-discussed');
   var filterActive;
 
-  var addClickListeners = function () {
+  var addFiltersClickListeners = function () {
     // Обработчики, которые меняют вид кнопок
     for (var i = 0; i < filters.length; i++) {
       filters[i].addEventListener('click', function (evt) {
@@ -35,7 +35,7 @@
   window.activateSortingFilters = function () {
     // Показываем кнопки-фильтры
     filtersBlock.classList.remove('img-filters--inactive');
-    // Добвляем кнопкам обработчики
-    addClickListeners();
+    // Добавляем кнопкам обработчики
+    addFiltersClickListeners();
   };
 })();
