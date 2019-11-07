@@ -142,8 +142,9 @@
     fileUpload.value = '';
     hashtagInput.value = '';
     descriptionInput.value = '';
-    // Убираем красную рамку
+    // Убираем красную рамку и сообщение о невалидности поля
     hashtagInput.style.border = 'none';
+    hashtagInput.setCustomValidity('');
   };
 
   // Добавляем обработчики для открытия и закрытия формы
