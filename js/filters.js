@@ -39,7 +39,8 @@
       effectController.classList.remove('hidden');
       // Находим параметры слайдера после его отрисовки на странице
       effectControllerCoordinates = effectLevelLine.getBoundingClientRect();
-      effectControllerMinX = effectControllerCoordinates.x;
+      // Используем свойство 'left', т.к. Edge не поддерживает свойство 'x'
+      effectControllerMinX = effectControllerCoordinates.left;
       effectControllerWidth = effectControllerCoordinates.width;
     }
   };
@@ -125,7 +126,8 @@
   // Добавляем обработчики на каждый фильтр
 
   for (var filterIndex = 0; filterIndex < filters.length; filterIndex++) {
-    filters[filterIndex].addEventListener('input', function () {
+    // Используем событие 'click', т.к. Edge не поддерживает 'input' и 'change' на радиокнопках
+    filters[filterIndex].addEventListener('click', function () {
       window.toggleFilter();
     });
   }
