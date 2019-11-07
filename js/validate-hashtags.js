@@ -15,13 +15,11 @@
 
   // Удаление пустых строк из массива
 
-  var removeExtraSpaces = function (words) {
-    for (var k = 0; k < words.length; k++) {
-      if (words[k] === '') {
-        words.splice(k, 1);
-        removeExtraSpaces(words);
-      }
-    }
+  var removeEmptyStrings = function (words) {
+    var filteredWords = words.filter(function (word) {
+      return word !== '';
+    });
+    return filteredWords;
   };
 
   // Валидация формы
@@ -39,8 +37,8 @@
     if (text) {
       // Превращаем введенный текст в массив хэш-тегов
       var hashtags = text.split(' ');
-      // Удаляем лишние пробелы для адекватного подсчета хэш-тегов
-      removeExtraSpaces(hashtags);
+      // Удаляем пустые строки, возникшие из-за лишних пробелов, для адекватного подсчета хэш-тегов
+      hashtags = removeEmptyStrings(hashtags);
 
       if (hashtags.length > HASHTAGS_LIMIT) {
         errorMessage = 'Нельзя указывать больше пяти хэш-тегов';
