@@ -35,11 +35,7 @@
     copiedPhotos.sort(function (a, b) {
       // Проверяем рейтинг сходства
       var commentsDiff = b.comments.length - a.comments.length;
-      if (commentsDiff === 0) {
-        // При одинаковом количестве комментариев сортируем по количеству лайков
-        commentsDiff = compareLikes(a.likes, b.likes);
-      }
-      return commentsDiff;
+      return (commentsDiff === 0) ? compareLikes(a.likes, b.likes) : commentsDiff;
     });
     return copiedPhotos;
   };
