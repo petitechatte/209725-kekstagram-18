@@ -125,10 +125,8 @@
   // "Подгружаем" следующие комментарии
 
   var showMoreComments = function () {
-    for (var i = 0; i < hiddenComments.length; i++) {
-      if (i < DEFAULT_COMMENTS_NUMBER) {
-        hiddenComments[i].classList.remove('visually-hidden');
-      }
+    for (var i = 0; i < hiddenComments.length && i < DEFAULT_COMMENTS_NUMBER; i++) {
+      hiddenComments[i].classList.remove('visually-hidden');
     }
   };
 
