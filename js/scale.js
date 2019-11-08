@@ -10,8 +10,8 @@
   var SCALE_STEP = 25; // шаг изменения масштаба
 
   // Сохранение глобальных переменных в локальные для упрощения кода
-  var imageEditForm = window.formElements.imageEditForm;
-  var photoPreview = window.formElements.photoPreview;
+  var imageEditForm = window.popupElements.imageEditForm;
+  var photoPreview = window.popupElements.photoPreview;
 
   // Элементы управления масштабом
   var scaleValue = imageEditForm.querySelector('.scale__control--value');
@@ -55,7 +55,7 @@
 
   // Экспортируем функции настройки масштаба и возврата к настройкам по умолчанию
   window.scale = {
-    setScale: setScale,
-    resetScale: resetScale
+    set: setScale,
+    reset: resetScale
   };
 })();

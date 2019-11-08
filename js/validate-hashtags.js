@@ -9,9 +9,9 @@
   var HASHTAGS_LIMIT = 5; // нельзя указать больше пяти хэш-тегов
 
   // Сохранение глобальных переменных в локальные для упрощения кода
-  var uploadForm = window.formElements.uploadForm;
-  var hashtagInput = window.formElements.hashtagInput;
-  var submitFormButton = window.formElements.submitFormButton;
+  var uploadForm = window.popupElements.uploadForm;
+  var hashtagInput = window.popupElements.hashtagInput;
+  var submitFormButton = window.popupElements.submitFormButton;
 
   // Удаление пустых строк из массива
 

@@ -10,9 +10,9 @@
   var MIN_BRIGHTNESS = 1; // минимальная яркость фотографии
 
   // Сохранение глобальных переменных в локальные для упрощения кода
-  var imageEditForm = window.formElements.imageEditForm;
-  var photoPreview = window.formElements.photoPreview;
-  var effectController = window.formElements.effectController;
+  var imageEditForm = window.popupElements.imageEditForm;
+  var photoPreview = window.popupElements.photoPreview;
+  var effectController = window.popupElements.effectController;
 
   // Элементы управления эффектами
   var effectLevelInput = effectController.querySelector('.effect-level__value');
@@ -113,7 +113,7 @@
     // Сбрасываем старый фильтр (удаляются все инлайновые стили, в том числе и настройки масштаба)
     resetFilter();
     // Возвращаем настройки масштаба, установленные на предыдущем фильтре
-    window.scale.setScale();
+    window.scale.set();
     // Обновляем значение текущего фильтра
     currentFilter = getCurrentFilter();
     // Настраиваем слайдер
