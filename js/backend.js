@@ -62,7 +62,7 @@
           errorHandler('Сервер недоступен.');
           break;
         default:
-          errorHandler('Статус ответа: ' + String(xhr.status) + ' ' + xhr.statusText);
+          errorHandler('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
@@ -71,7 +71,7 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      errorHandler('Запрос не успел выполниться за ' + String(xhr.timeout) + ' мс');
+      errorHandler('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
     });
 
     xhr.timeout = TIMEOUT_LIMIT;

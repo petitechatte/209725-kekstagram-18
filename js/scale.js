@@ -24,8 +24,8 @@
   // Устанавливаем масштаб
   var setScale = function () {
     if (currentScale >= MIN_SCALE && currentScale <= MAX_SCALE) {
-      scaleValue.value = String(currentScale) + '%';
-      photoPreview.style.transform = 'scale(' + String(currentScale / 100) + ')';
+      scaleValue.value = currentScale + '%';
+      photoPreview.style.transform = 'scale(' + currentScale / 100 + ')';
     } else if (currentScale < MIN_SCALE) {
       currentScale = MIN_SCALE;
     } else {

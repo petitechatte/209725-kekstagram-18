@@ -49,8 +49,8 @@
 
   var setEffectLevel = function (level) {
     effectLevelInput.value = String(level);
-    effectLevelBar.style.width = String(level) + '%';
-    effectLevelPin.style.left = String(level) + '%';
+    effectLevelBar.style.width = level + '%';
+    effectLevelPin.style.left = level + '%';
   };
 
   // Определяем текущий фильтр
@@ -72,23 +72,23 @@
 
     switch (filter) {
       case 'chrome':
-        filterEffect = 'grayscale(' + String(level / 100) + ')';
+        filterEffect = 'grayscale(' + level / 100 + ')';
         break;
 
       case 'sepia':
-        filterEffect = 'sepia(' + String(level / 100) + ')';
+        filterEffect = 'sepia(' + level / 100 + ')';
         break;
 
       case 'marvin':
-        filterEffect = 'invert(' + String(level) + '%)';
+        filterEffect = 'invert(' + level + '%)';
         break;
 
       case 'phobos':
-        filterEffect = 'blur(' + String(level / 100 * MAX_BLUR) + 'px)';
+        filterEffect = 'blur(' + level / 100 * MAX_BLUR + 'px)';
         break;
 
       case 'heat':
-        filterEffect = 'brightness(' + String(MIN_BRIGHTNESS + level / 100 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS)) + ')';
+        filterEffect = 'brightness(' + (MIN_BRIGHTNESS + level / 100 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS)) + ')';
         break;
 
       default:
