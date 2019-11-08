@@ -75,7 +75,7 @@
     if (!hiddenComments.length) {
       // Прячем "загрузчик" комментариев
       fullViewCommentsLoader.classList.add('hidden');
-    } else if (fullViewCommentsLoader.classList.contains('hidden')) {
+    } else {
       // Показываем "загрузчик" комментариев
       fullViewCommentsLoader.classList.remove('hidden');
     }
