@@ -67,7 +67,7 @@
       // Добавляем обработчики на фотографии в галерее
       activateGallery(data);
     } catch (err) {
-      showAdaptedErrorMessageCallback(err.message);
+      showAdaptedErrorMessage(err.message);
     }
   };
 
@@ -83,7 +83,7 @@
 
   // Получаем фотографии с сервера
 
-  var getPhotosCallback = function (response) {
+  var getPhotos = function (response) {
     // Заполняем галерею
     createGallery(response);
     // Показываем фильтры для сортировки
@@ -103,9 +103,13 @@
     };
   };
 
+  var dataLoadHandler = function (response) {
+    getPhotos(response);
+  };
+
   // Создаем сообщение об ошибке загрузки данных
 
-  var showAdaptedErrorMessageCallback = function (response) {
+  var showAdaptedErrorMessage = function (response) {
     window.backend.showErrorMessage();
     var errorWrapper = document.querySelector('.error__inner');
     var errorTitle = errorWrapper.querySelector('.error__title');
@@ -117,6 +121,10 @@
     errorWrapper.insertBefore(errorText, errorButtons);
   };
 
+  var loadingErrorHandler = function (response) {
+    showAdaptedErrorMessage(response);
+  };
+
   // Посылаем запрос на сервер
-  window.backend.load(getPhotosCallback, showAdaptedErrorMessageCallback);
+  window.backend.load(dataLoadHandler, loadingErrorHandler);
 })();

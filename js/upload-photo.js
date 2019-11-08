@@ -159,7 +159,7 @@
 
   // Подтверждаем отправку формы
 
-  var confirmFormSubmitCallback = function () {
+  var formuUloadHandler = function () {
     // Закрываем окно с формой
     window.closeUploadForm();
     // Показываем окно с сообщением об успешной загрузке
@@ -167,7 +167,7 @@
   };
 
   // Реагируем на ошибку загрузки
-  var handleUploadErrorCallback = function () {
+  var uploadErrorHandler = function () {
     // Закрываем окно с формой
     window.closeUploadForm();
     // Показываем сообщение об ошибке
@@ -182,6 +182,6 @@
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm), confirmFormSubmitCallback, handleUploadErrorCallback);
+    window.backend.save(new FormData(uploadForm), formuUloadHandler, uploadErrorHandler);
   });
 })();

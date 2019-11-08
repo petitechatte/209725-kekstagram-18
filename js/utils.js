@@ -28,9 +28,9 @@
   };
 
   // Проверка нажатия нажатия ESC
-  var isEscEvent = function (evt, callback) {
+  var isEscEvent = function (evt, cb) {
     if (evt.keyCode === ESC_KEY_CODE) {
-      callback();
+      cb();
     }
   };
 
