@@ -5,13 +5,13 @@
 (function () {
   // Сохранение глобальных переменных в локальные для упрощения кода
   var mainElement = window.utils.mainElement;
-  var uploadForm = window.formElements.uploadForm;
-  var fileUpload = window.formElements.fileUpload;
-  var imageEditForm = window.formElements.imageEditForm;
-  var uploadCloseButton = window.formElements.uploadCloseButton;
-  var noEffectInput = window.formElements.noEffectInput;
-  var hashtagInput = window.formElements.hashtagInput;
-  var descriptionInput = window.formElements.descriptionInput;
+  var uploadForm = window.popupElements.uploadForm;
+  var fileUpload = window.popupElements.fileUpload;
+  var imageEditForm = window.popupElements.imageEditForm;
+  var uploadCloseButton = window.popupElements.uploadCloseButton;
+  var noEffectInput = window.popupElements.noEffectInput;
+  var hashtagInput = window.popupElements.hashtagInput;
+  var descriptionInput = window.popupElements.descriptionInput;
 
   // Создаем флаги открытия модальных окон
   var isUploadPopupOpen = false;
@@ -42,9 +42,9 @@
 
   var removePopup = function () {
     // Удаляем обработчики
-    for (var i = 0; i < popupCloseButtons.length; i++) {
-      popupCloseButtons[i].removeEventListener('click', popupCloseButtonClickHandler);
-    }
+    [].forEach.call(popupCloseButtons, function (button) {
+      button.removeEventListener('click', popupCloseButtonClickHandler);
+    });
     popup.removeEventListener('click', popupClickHandler);
     document.removeEventListener('keydown', documentKeydownHandler);
 
@@ -93,9 +93,9 @@
     }
 
     // Добавляем обработчики событий
-    for (var i = 0; i < popupCloseButtons.length; i++) {
-      popupCloseButtons[i].addEventListener('click', popupCloseButtonClickHandler);
-    }
+    [].forEach.call(popupCloseButtons, function (button) {
+      button.addEventListener('click', popupCloseButtonClickHandler);
+    });
     popup.addEventListener('click', popupClickHandler);
     document.addEventListener('keydown', documentKeydownHandler);
   };
@@ -126,7 +126,7 @@
     noEffectInput.checked = 'checked';
     window.toggleFilter();
     // Устанавливаем масштаб по умолчанию
-    window.scale.resetScale();
+    window.scale.reset();
     // Показываем окно
     imageEditForm.classList.remove('hidden');
   };
@@ -142,8 +142,9 @@
     fileUpload.value = '';
     hashtagInput.value = '';
     descriptionInput.value = '';
-    // Убираем красную рамку
+    // Убираем красную рамку и сообщение о невалидности поля
     hashtagInput.style.border = 'none';
+    hashtagInput.setCustomValidity('');
   };
 
   // Добавляем обработчики для открытия и закрытия формы
@@ -158,7 +159,7 @@
 
   // Подтверждаем отправку формы
 
-  var confirmFormSubmitCallback = function () {
+  var formuUloadHandler = function () {
     // Закрываем окно с формой
     window.closeUploadForm();
     // Показываем окно с сообщением об успешной загрузке
@@ -166,7 +167,7 @@
   };
 
   // Реагируем на ошибку загрузки
-  var handleUploadErrorCallback = function () {
+  var uploadErrorHandler = function () {
     // Закрываем окно с формой
     window.closeUploadForm();
     // Показываем сообщение об ошибке
@@ -181,6 +182,6 @@
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm), confirmFormSubmitCallback, handleUploadErrorCallback);
+    window.backend.save(new FormData(uploadForm), formuUloadHandler, uploadErrorHandler);
   });
 })();

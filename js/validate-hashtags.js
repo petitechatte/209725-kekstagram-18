@@ -9,19 +9,17 @@
   var HASHTAGS_LIMIT = 5; // нельзя указать больше пяти хэш-тегов
 
   // Сохранение глобальных переменных в локальные для упрощения кода
-  var uploadForm = window.formElements.uploadForm;
-  var hashtagInput = window.formElements.hashtagInput;
-  var submitFormButton = window.formElements.submitFormButton;
+  var uploadForm = window.popupElements.uploadForm;
+  var hashtagInput = window.popupElements.hashtagInput;
+  var submitFormButton = window.popupElements.submitFormButton;
 
   // Удаление пустых строк из массива
 
-  var removeExtraSpaces = function (words) {
-    for (var k = 0; k < words.length; k++) {
-      if (words[k] === '') {
-        words.splice(k, 1);
-        removeExtraSpaces(words);
-      }
-    }
+  var removeEmptyStrings = function (words) {
+    var filteredWords = words.filter(function (word) {
+      return word !== '';
+    });
+    return filteredWords;
   };
 
   // Валидация формы
@@ -32,21 +30,19 @@
 
     // Получаем значение поля
     var text = hashtagInput.value.toLowerCase(); // хэш-теги нечувствительны к регистру
-    var hashtag = '';
     var hashtagSymbols = [];
     var errorMessage = '';
 
     if (text) {
       // Превращаем введенный текст в массив хэш-тегов
       var hashtags = text.split(' ');
-      // Удаляем лишние пробелы для адекватного подсчета хэш-тегов
-      removeExtraSpaces(hashtags);
+      // Удаляем пустые строки, возникшие из-за лишних пробелов, для адекватного подсчета хэш-тегов
+      hashtags = removeEmptyStrings(hashtags);
 
       if (hashtags.length > HASHTAGS_LIMIT) {
         errorMessage = 'Нельзя указывать больше пяти хэш-тегов';
       } else {
-        for (var i = 0; i < hashtags.length; i++) {
-          hashtag = hashtags[i];
+        hashtags.forEach(function (hashtag, i, words) {
           hashtagSymbols = hashtag.split('#');
 
           if (hashtagSymbols.length > 2) {
@@ -58,13 +54,13 @@
           } else if (hashtag.length > MAX_HASHTAG_LENGTH) {
             errorMessage = 'Максимальная длина одного хэш-тега 20 символов, включая решётку';
           } else {
-            for (var j = i + 1; j < hashtags.length; j++) {
-              if (hashtags[j] === hashtags[i]) {
+            for (var j = i + 1; j < words.length; j++) {
+              if (words[j] === words[i]) {
                 errorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
               }
             }
           }
-        }
+        });
       }
     }
 

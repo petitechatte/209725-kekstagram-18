@@ -10,9 +10,9 @@
   var MIN_BRIGHTNESS = 1; // минимальная яркость фотографии
 
   // Сохранение глобальных переменных в локальные для упрощения кода
-  var imageEditForm = window.formElements.imageEditForm;
-  var photoPreview = window.formElements.photoPreview;
-  var effectController = window.formElements.effectController;
+  var imageEditForm = window.popupElements.imageEditForm;
+  var photoPreview = window.popupElements.photoPreview;
+  var effectController = window.popupElements.effectController;
 
   // Элементы управления эффектами
   var effectLevelInput = effectController.querySelector('.effect-level__value');
@@ -39,7 +39,8 @@
       effectController.classList.remove('hidden');
       // Находим параметры слайдера после его отрисовки на странице
       effectControllerCoordinates = effectLevelLine.getBoundingClientRect();
-      effectControllerMinX = effectControllerCoordinates.x;
+      // Используем свойство 'left', т.к. Edge не поддерживает свойство 'x'
+      effectControllerMinX = effectControllerCoordinates.left;
       effectControllerWidth = effectControllerCoordinates.width;
     }
   };
@@ -48,8 +49,8 @@
 
   var setEffectLevel = function (level) {
     effectLevelInput.value = String(level);
-    effectLevelBar.style.width = String(level) + '%';
-    effectLevelPin.style.left = String(level) + '%';
+    effectLevelBar.style.width = level + '%';
+    effectLevelPin.style.left = level + '%';
   };
 
   // Определяем текущий фильтр
@@ -71,23 +72,23 @@
 
     switch (filter) {
       case 'chrome':
-        filterEffect = 'grayscale(' + String(level / 100) + ')';
+        filterEffect = 'grayscale(' + level / 100 + ')';
         break;
 
       case 'sepia':
-        filterEffect = 'sepia(' + String(level / 100) + ')';
+        filterEffect = 'sepia(' + level / 100 + ')';
         break;
 
       case 'marvin':
-        filterEffect = 'invert(' + String(level) + '%)';
+        filterEffect = 'invert(' + level + '%)';
         break;
 
       case 'phobos':
-        filterEffect = 'blur(' + String(level / 100 * MAX_BLUR) + 'px)';
+        filterEffect = 'blur(' + level / 100 * MAX_BLUR + 'px)';
         break;
 
       case 'heat':
-        filterEffect = 'brightness(' + String(MIN_BRIGHTNESS + level / 100 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS)) + ')';
+        filterEffect = 'brightness(' + (MIN_BRIGHTNESS + level / 100 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS)) + ')';
         break;
 
       default:
@@ -112,7 +113,7 @@
     // Сбрасываем старый фильтр (удаляются все инлайновые стили, в том числе и настройки масштаба)
     resetFilter();
     // Возвращаем настройки масштаба, установленные на предыдущем фильтре
-    window.scale.setScale();
+    window.scale.set();
     // Обновляем значение текущего фильтра
     currentFilter = getCurrentFilter();
     // Настраиваем слайдер
@@ -123,12 +124,11 @@
   };
 
   // Добавляем обработчики на каждый фильтр
-
-  for (var filterIndex = 0; filterIndex < filters.length; filterIndex++) {
-    filters[filterIndex].addEventListener('input', function () {
+  [].forEach.call(filters, function (filter) {
+    filter.addEventListener('click', function () {
       window.toggleFilter();
     });
-  }
+  });
 
   // Рассчитываем положение ползунка в процентах
 

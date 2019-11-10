@@ -12,8 +12,7 @@
 
   // Создаем разметку для поста с фотографией
 
-  var createPhotoCard = function (photoPosts, index) {
-    var currentPost = photoPosts[index];
+  var createPhotoCard = function (currentPost) {
     var photoCard = photoTemplate.cloneNode(true);
     var picture = photoCard.querySelector('.picture__img');
     var pictureLikesNumber = photoCard.querySelector('.picture__likes');
@@ -31,9 +30,11 @@
 
   var renderPhotos = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(createPhotoCard(data, i));
-    }
+
+    data.forEach(function (post) {
+      fragment.appendChild(createPhotoCard(post));
+    });
+
     picturesBlock.appendChild(fragment);
   };
 
@@ -52,9 +53,9 @@
   var activateGallery = function (data) {
     var photoPreviews = picturesBlock.querySelectorAll('.picture');
 
-    for (var j = 0; j < photoPreviews.length; j++) {
-      createGalleryPhotoClickListener(photoPreviews[j], data[j]);
-    }
+    [].forEach.call(photoPreviews, function (preview, i) {
+      createGalleryPhotoClickListener(preview, data[i]);
+    });
   };
 
   // Заполняем галерею
@@ -67,7 +68,7 @@
       // Добавляем обработчики на фотографии в галерее
       activateGallery(data);
     } catch (err) {
-      showAdaptedErrorMessageCallback(err.message);
+      showAdaptedErrorMessage(err.message);
     }
   };
 
@@ -75,15 +76,15 @@
   var clearGallery = function () {
     // Собираем список текущих фотографий
     var galleryPhotos = picturesBlock.querySelectorAll('.picture');
-    for (var i = 0; i < galleryPhotos.length; i++) {
-      galleryPhotos[i].removeEventListener('click', galleryPhotoClickHandler);
-      galleryPhotos[i].remove();
-    }
+    [].forEach.call(galleryPhotos, function (photo) {
+      photo.removeEventListener('click', galleryPhotoClickHandler);
+      photo.remove();
+    });
   };
 
   // Получаем фотографии с сервера
 
-  var getPhotosCallback = function (response) {
+  var getPhotos = function (response) {
     // Заполняем галерею
     createGallery(response);
     // Показываем фильтры для сортировки
@@ -103,9 +104,13 @@
     };
   };
 
+  var dataLoadHandler = function (response) {
+    getPhotos(response);
+  };
+
   // Создаем сообщение об ошибке загрузки данных
 
-  var showAdaptedErrorMessageCallback = function (response) {
+  var showAdaptedErrorMessage = function (response) {
     window.backend.showErrorMessage();
     var errorWrapper = document.querySelector('.error__inner');
     var errorTitle = errorWrapper.querySelector('.error__title');
@@ -117,6 +122,10 @@
     errorWrapper.insertBefore(errorText, errorButtons);
   };
 
+  var loadingErrorHandler = function (response) {
+    showAdaptedErrorMessage(response);
+  };
+
   // Посылаем запрос на сервер
-  window.backend.load(getPhotosCallback, showAdaptedErrorMessageCallback);
+  window.backend.load(dataLoadHandler, loadingErrorHandler);
 })();

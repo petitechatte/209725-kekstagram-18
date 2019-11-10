@@ -7,8 +7,8 @@
   var IMAGE_FILE_TYPES = ['gif', 'png', 'jpg', 'jpeg'];
 
   // Сохраняем глобальные переменные в локальные для удобства чтения
-  var photoPreview = window.formElements.photoPreview;
-  var fileUpload = window.formElements.fileUpload;
+  var photoPreview = window.popupElements.photoPreview;
+  var fileUpload = window.popupElements.fileUpload;
 
   // Получаем файл пользователя
 

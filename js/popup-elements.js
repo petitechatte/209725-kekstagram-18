@@ -14,7 +14,7 @@
   var descriptionInput = imageEditForm.querySelector('.text__description');
   var submitFormButton = uploadForm.querySelector('#upload-submit');
 
-  window.formElements = {
+  window.popupElements = {
     uploadForm: uploadForm,
     fileUpload: fileUpload,
     imageEditForm: imageEditForm,
