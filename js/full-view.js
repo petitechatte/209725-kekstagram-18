@@ -41,22 +41,22 @@
     var commentatorAvatar;
     var commentText;
 
-    for (var i = 0; i < comments.length; i++) {
+    comments.forEach(function (comment, i) {
       // Копируем разметку комментария
       commentBlock = fullViewComment.cloneNode(true);
       commentatorAvatar = commentBlock.querySelector('.social__picture');
       commentText = commentBlock.querySelector('.social__text');
       // Заполняем шаблон комментария данными
-      commentatorAvatar.src = comments[i].avatar;
-      commentatorAvatar.alt = comments[i].name;
-      commentText.textContent = comments[i].message;
+      commentatorAvatar.src = comment.avatar;
+      commentatorAvatar.alt = comment.name;
+      commentText.textContent = comment.message;
       // Делаем скрытыми все комментарии после 5-го
       if (i >= DEFAULT_COMMENTS_NUMBER) {
         commentBlock.classList.add('visually-hidden'); // класс hidden не работает из-за переопределения свойства display в стилях
       }
       // Добавляем комментарий в список
       fragment.appendChild(commentBlock);
-    }
+    });
 
     // Показываем список комментариев
     fullViewCommentsList.innerHTML = '';

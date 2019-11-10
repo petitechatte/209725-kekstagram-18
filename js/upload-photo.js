@@ -42,9 +42,9 @@
 
   var removePopup = function () {
     // Удаляем обработчики
-    for (var i = 0; i < popupCloseButtons.length; i++) {
-      popupCloseButtons[i].removeEventListener('click', popupCloseButtonClickHandler);
-    }
+    [].forEach.call(popupCloseButtons, function (button) {
+      button.removeEventListener('click', popupCloseButtonClickHandler);
+    });
     popup.removeEventListener('click', popupClickHandler);
     document.removeEventListener('keydown', documentKeydownHandler);
 
@@ -93,9 +93,9 @@
     }
 
     // Добавляем обработчики событий
-    for (var i = 0; i < popupCloseButtons.length; i++) {
-      popupCloseButtons[i].addEventListener('click', popupCloseButtonClickHandler);
-    }
+    [].forEach.call(popupCloseButtons, function (button) {
+      button.addEventListener('click', popupCloseButtonClickHandler);
+    });
     popup.addEventListener('click', popupClickHandler);
     document.addEventListener('keydown', documentKeydownHandler);
   };

@@ -124,13 +124,11 @@
   };
 
   // Добавляем обработчики на каждый фильтр
-
-  for (var filterIndex = 0; filterIndex < filters.length; filterIndex++) {
-    // Используем событие 'click', т.к. Edge не поддерживает 'input' и 'change' на радиокнопках
-    filters[filterIndex].addEventListener('click', function () {
+  [].forEach.call(filters, function (filter) {
+    filter.addEventListener('click', function () {
       window.toggleFilter();
     });
-  }
+  });
 
   // Рассчитываем положение ползунка в процентах
 

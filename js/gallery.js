@@ -12,8 +12,7 @@
 
   // Создаем разметку для поста с фотографией
 
-  var createPhotoCard = function (photoPosts, index) {
-    var currentPost = photoPosts[index];
+  var createPhotoCard = function (currentPost) {
     var photoCard = photoTemplate.cloneNode(true);
     var picture = photoCard.querySelector('.picture__img');
     var pictureLikesNumber = photoCard.querySelector('.picture__likes');
@@ -31,9 +30,11 @@
 
   var renderPhotos = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(createPhotoCard(data, i));
-    }
+
+    data.forEach(function (post) {
+      fragment.appendChild(createPhotoCard(post));
+    });
+
     picturesBlock.appendChild(fragment);
   };
 
@@ -52,9 +53,9 @@
   var activateGallery = function (data) {
     var photoPreviews = picturesBlock.querySelectorAll('.picture');
 
-    for (var j = 0; j < photoPreviews.length; j++) {
-      createGalleryPhotoClickListener(photoPreviews[j], data[j]);
-    }
+    [].forEach.call(photoPreviews, function (preview, i) {
+      createGalleryPhotoClickListener(preview, data[i]);
+    });
   };
 
   // Заполняем галерею
@@ -75,10 +76,10 @@
   var clearGallery = function () {
     // Собираем список текущих фотографий
     var galleryPhotos = picturesBlock.querySelectorAll('.picture');
-    for (var i = 0; i < galleryPhotos.length; i++) {
-      galleryPhotos[i].removeEventListener('click', galleryPhotoClickHandler);
-      galleryPhotos[i].remove();
-    }
+    [].forEach.call(galleryPhotos, function (photo) {
+      photo.removeEventListener('click', galleryPhotoClickHandler);
+      photo.remove();
+    });
   };
 
   // Получаем фотографии с сервера

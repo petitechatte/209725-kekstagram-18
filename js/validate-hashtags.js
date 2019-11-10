@@ -30,7 +30,6 @@
 
     // Получаем значение поля
     var text = hashtagInput.value.toLowerCase(); // хэш-теги нечувствительны к регистру
-    var hashtag = '';
     var hashtagSymbols = [];
     var errorMessage = '';
 
@@ -43,8 +42,7 @@
       if (hashtags.length > HASHTAGS_LIMIT) {
         errorMessage = 'Нельзя указывать больше пяти хэш-тегов';
       } else {
-        for (var i = 0; i < hashtags.length; i++) {
-          hashtag = hashtags[i];
+        hashtags.forEach(function (hashtag, i, words) {
           hashtagSymbols = hashtag.split('#');
 
           if (hashtagSymbols.length > 2) {
@@ -56,13 +54,13 @@
           } else if (hashtag.length > MAX_HASHTAG_LENGTH) {
             errorMessage = 'Максимальная длина одного хэш-тега 20 символов, включая решётку';
           } else {
-            for (var j = i + 1; j < hashtags.length; j++) {
-              if (hashtags[j] === hashtags[i]) {
+            for (var j = i + 1; j < words.length; j++) {
+              if (words[j] === words[i]) {
                 errorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
               }
             }
           }
-        }
+        });
       }
     }
 
